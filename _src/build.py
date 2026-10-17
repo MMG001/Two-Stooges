@@ -1496,7 +1496,11 @@ def p_about():
 
 
 def p_gallery():
-    photos = [("photos/billiard-room-rows", "Rows of blue-felt pool tables in the billiard room"), ("photos/player-shooting", "A player taking a shot"),
+    photos = [("photos/sports-bar-game-day", "The sports bar on game day: a long high-top table in front of the center bar, with games on the TVs and Packers on the big screen"),
+              ("photos/sports-bar-center-bar", "The center bar with wood bar top, stools, TVs and a full back bar"),
+              ("photos/pro-shop-counter-wide", "The Pro Shop counter in front of lit racks of pool cues and cue cases"),
+              ("photos/sports-bar-booths", "Booths and high-tops along the bar, overlooking the billiard room"),
+              ("photos/billiard-room-rows", "Rows of blue-felt pool tables in the billiard room"), ("photos/player-shooting", "A player taking a shot"),
               ("photos/dart-room", "The dart area with electronic boards and a big screen"), ("photos/pool-hall-interior", "The billiard room under warm lights"),
               ("photos/player-racking", "Racking up a game"), ("photos/building-exterior", "Outside Two Stooges on University Ave NE, Fridley"),
               ("photos/tournament-table-trophies", "Tournament table and trophies"), ("photos/player-lining-up-shot", "Lining up the shot"),
