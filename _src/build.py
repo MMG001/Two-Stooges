@@ -28,7 +28,7 @@ IMG = ROOT / "assets" / "img"
 # Flip to True on launch day (removes noindex). pages.dev stays noindex via _headers.
 LAUNCH = False
 SITE = "https://twostooges.com"
-ASSET_VER = "20261017f"
+ASSET_VER = "20261017g"
 
 BIZ = {
     "name": "Two Stooges Sports Bar & Grill",
@@ -440,6 +440,7 @@ ICONS = {
     "ball": '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="11" r="3.5"/>',
     "bag": '<path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>',
     "fork": '<path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/>',
+    "sun": '<circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="6.34" y2="17.66"/><line x1="17.66" y1="6.34" x2="19.07" y2="4.93"/>',
     "trophy": '<path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>',
 }
 
@@ -620,7 +621,7 @@ def footer():
 
 PERSONS = [("ty-wilson", "Ty Wilson"), ("greg-asproth", "Greg Asproth")]
 AWARDS_VISIBLE = AWARDS
-AMENITIES = ["43 pool tables", "Electronic dart boards", "30 HD TVs and 4 monster screens", "NFL Sunday Ticket",
+AMENITIES = ["43 pool tables", "6 dart boards", "2 patios", "Pool leagues", "30 HD TVs and 4 monster screens", "NFL Sunday Ticket",
              "16 beers on tap", "Pro shop and cue repair", "Private event space"]
 PAGE_TYPES = {"contact": "ContactPage", "about": "AboutPage", "gallery": "CollectionPage"}
 SERVICE_PAGES = {"billiards": "billiards", "darts": "darts", "leagues": "leagues", "parties": "parties"}
@@ -977,6 +978,14 @@ def p_home():
   </div>
 </section>
 {rail()}
+<section class="badge-strip" aria-label="Two Stooges highlights"><div class="wrap">
+  <ul class="badges">
+    <li><a href="/leagues/">{icon("trophy")}<span>Pool Leagues</span></a></li>
+    <li><span class="badge-static">{icon("sun")}<span>2 Patios</span></span></li>
+    <li><a href="/billiards/">{icon("ball")}<span>43 Pool Tables</span></a></li>
+    <li><a href="/darts/">{icon("target")}<span>6 Dart Boards</span></a></li>
+  </ul>
+</div></section>
 
 <section class="section"><div class="wrap">
   {section_head("Pick your game", "Pool, darts &amp; more at Two Stooges", f"Two Stooges is Fridley's all-in-one sports bar, restaurant and {L('/billiards/', 'billiard room')}. Come for one game and stay for all of them.", center=True)}
