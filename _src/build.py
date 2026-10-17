@@ -277,7 +277,7 @@ META = {
              "photos/pool-hall-interior", "Tables and booths at Two Stooges Sports Bar & Grill in Fridley", "Menu"),
     "specials": ("/specials/", "Happy Hour & Daily Specials | Two Stooges Sports Bar",
                  "Two Stooges Sports Bar happy hour and daily specials in Fridley, MN: $1 wings Wednesday, $2 off burgers Monday, $3.50 domestics. See today's deals now.",
-                 "photos/billiard-balls-felt", "Pool balls on blue felt, daily specials at Two Stooges", "Specials & Happy Hour"),
+                 "photos/beers-on-bar", "Ice-cold pints on the bar, happy hour at Two Stooges", "Specials & Happy Hour"),
     "billiards": ("/billiards/", "Pool Tables & Billiards in Fridley, MN | Two Stooges",
                   "Play pool at Two Stooges Sports Bar in Fridley, MN: 43 Gabriel's and Diamond tables, daily pool specials, leagues, tournaments and a Pro Shop. Rack up today.",
                   "photos/billiard-hall-tables", "The 43-table billiard room at Two Stooges Sports Bar in Fridley", "Billiards"),
@@ -1131,7 +1131,7 @@ def p_specials():
         days.append(f'<article class="day-card" data-weekday="{wd}"><div class="day-card__day"><h3>{e(name)}</h3><span class="today-badge">Today</span></div>{d}</article>')
     body = f'''{page_hero("specials", "Daily deals", "Two Stooges Sports Bar <span class='grad-text'>specials &amp; happy hour</span>",
         f"There's a deal every day at Two Stooges in Fridley, and today's specials are highlighted below. Browse the {L('/menu/', 'full bar and grill menu')} or grab a table with our {L('#pool', 'daily pool specials')}.",
-        "photos/billiard-balls-felt", "Pool balls on blue felt", btn("View the Menu", "/menu/", "gold") + btn("Pool Specials", "#pool", "outline"))}
+        "photos/beers-on-bar", "Three ice-cold pints of beer lined up on the bar", btn("View the Menu", "/menu/", "gold") + btn("Pool Specials", "#pool", "outline"))}
 <section class="section"><div class="wrap">
   {section_head("This week", "Daily food &amp; drink specials in Fridley", "Food specials, happy hour times and drink prices for each day of the week.")}
   <div class="grid grid--4">{"".join(days)}</div>
