@@ -543,3 +543,15 @@ address { font-style: normal; }
 .collage > img:first-child { width: 100%; }
 .collage .collage__inset { position: absolute; left: -1.5rem; bottom: 0; width: 46%; border: 5px solid #fff; border-radius: var(--radius-lg); box-shadow: var(--shadow-3); }
 @media (max-width: 860px) { .collage .collage__inset { left: .75rem; width: 52%; } }
+
+/* Section with a photo background + black overlay */
+.section--photo { position: relative; isolation: isolate; overflow: hidden; background: #000; }
+.section__bg { position: absolute; inset: 0; z-index: -2; }
+.section__bg img { width: 100%; height: 100%; object-fit: cover; object-position: center 35%; }
+.section--photo::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,.35) 50%, rgba(0,0,0,.55) 100%); }
+.section--photo .muted { color: #e9ece9; }
+/* Reset to the light card palette inside dark sections */
+.on-light { --text: #1a1c1b; --text-muted: #46504b; --text-dim: #6b736e; --line: #e2e2dc; --line-strong: #c9cfca; --card: #ffffff; --card-alt: #f4f4f1; --accent-ink: var(--gold-ink); --link: #8a4b0c; color: var(--text); }
+.on-light .card--feature { --text: #fff; --text-muted: #d3e3da; --card: transparent; color: #fff; }
+.on-light .card { box-shadow: 0 10px 30px rgba(0,0,0,.35); }
+.section--photo .section-head h2, .section--photo .muted { text-shadow: 0 2px 14px rgba(0,0,0,.55); }
