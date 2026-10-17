@@ -28,7 +28,7 @@ IMG = ROOT / "assets" / "img"
 # Flip to True on launch day (removes noindex). pages.dev stays noindex via _headers.
 LAUNCH = False
 SITE = "https://twostooges.com"
-ASSET_VER = "20261017l"
+ASSET_VER = "20261017m"
 
 BIZ = {
     "name": "Two Stooges Sports Bar & Grill",
@@ -297,7 +297,7 @@ META = {
                 "photos/pool-hall-interior", "Party space at Two Stooges Sports Bar & Grill in Fridley", "Private Parties"),
     "about": ("/about/", "About Two Stooges Sports Bar | Fridley, MN Since 1988",
               "Two Stooges Sports Bar & Grill opened in Fridley, MN in 1988 as University Billiards. Meet the award-winning billiard room and sports bar. Read our story.",
-              "photos/building-exterior", "The Two Stooges Sports Bar & Grill building on University Ave NE, Fridley", "About"),
+              "photos/storefront-two-stooges", "The Two Stooges Sports Bar & Grill storefront on University Ave NE, Fridley", "About"),
     "gallery": ("/gallery/", "Photos of Two Stooges Sports Bar | Fridley, MN",
                 "Photos of Two Stooges Sports Bar in Fridley, MN: the 43-table billiard room, dart area, sports bar and building on University Ave NE. Take a look inside.",
                 "photos/billiard-room-rows", "Inside the Two Stooges Sports Bar billiard room", "Gallery"),
@@ -1449,7 +1449,7 @@ def p_about():
     aw = "".join(f'<div class="tile"><span class="tile__icon">{icon("award")}</span><h3>{e(a)}</h3><p>{e(b)}</p></div>' for a, b in awards)
     body = f'''{page_hero("about", "Our story", "About Two Stooges Sports Bar: <span class='grad-text'>Fridley since 1988</span>",
         f"{e(ENTITY_DESC)} Almost four decades in, we're still serving the coldest beer and juiciest burgers around.",
-        "photos/building-exterior", "The Two Stooges building on University Ave NE", btn("Visit Us", "/contact/", "gold"))}
+        "photos/storefront-two-stooges", "The Two Stooges Sports Bar & Grill storefront in Fridley: red and yellow signs over green awnings marked Darts, Cafe, Pro Shop and Billiards", btn("Visit Us", "/contact/", "gold"))}
 <section class="section"><div class="wrap">
   <div class="split" style="align-items:start">
     <div>
@@ -1458,7 +1458,7 @@ def p_about():
       <p class="lead">What began as a neighborhood {L("/billiards/", "billiard room")} became one of the best-known pool and darts destinations in Minnesota, with a full sports bar and {L("/menu/", "kitchen")} to match.</p>
       <ol class="timeline mt-2">{tl_html}</ol>
     </div>
-    <div class="split__media">{img("photos/tournament-table-trophies", "Tournament table with trophies above at Two Stooges", sizes="(max-width:860px) 100vw, 50vw")}</div>
+    <div class="split__media">{img("photos/billiard-room-trophies", "Gabriel's tournament tables in the Two Stooges billiard room, with league trophies displayed above the table lights", sizes="(max-width:860px) 100vw, 50vw")}</div>
   </div>
 </div></section>
 <section class="section section--alt"><div class="wrap">
@@ -1467,7 +1467,7 @@ def p_about():
 </div></section>
 <section class="section"><div class="wrap">
   <div class="split split--rev">
-    <div class="split__media">{img("photos/dart-room", "Big screen over the dart area", sizes="(max-width:860px) 100vw, 50vw")}</div>
+    <div class="split__media">{img("photos/sports-bar-center-bar", "The Two Stooges center bar: wood bar top and stools, TVs showing games overhead and a full back bar", sizes="(max-width:860px) 100vw, 50vw")}</div>
     <div>
       <span class="eyebrow">The sports bar</span>
       <h2>A Fridley sports bar with <span class="grad-text">a seat at the center</span></h2>
