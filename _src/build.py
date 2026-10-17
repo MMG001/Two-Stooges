@@ -1149,7 +1149,7 @@ def p_billiards():
 </div></section>
 <section class="section"><div class="wrap">
   {section_head("The room", "Inside the Two Stooges billiard room", f"More photos in the {L('/gallery/', 'Two Stooges photo gallery')}.")}
-  <div class="gallery">{g}</div>
+  <div class="photo-grid">{g}</div>
 </div></section>
 {cta_band("Host your event on the tables", "Birthdays, draft parties, office parties, celebrations of life and banquets. We'll customize the menu and the room for you.", btn("Plan a Private Party", "/private-parties/", "gold"))}'''
     return page("billiards", body)
@@ -1178,6 +1178,17 @@ def p_darts():
     <div class="tile"><span class="tile__icon">{icon("award")}</span><h3>Win cash</h3><p>Compete for prize money and bragging rights all season long.</p></div>
   </div>
   <div class="btn-row mt-2">{btn("Sign Up for a Dart League", "/leagues/#signup", "gold")}{btn("Ask a Team Member", "tel:" + BIZ["tel"], "outline", "phone")}</div>
+</div></section>
+<section class="section section--alt"><div class="wrap">
+  <div class="split split--rev">
+    <div class="split__media">{img("photos/dart-red-black", "A red dart in the bullseye of a dartboard", sizes="(max-width:860px) 100vw, 50vw")}</div>
+    <div>
+      <span class="eyebrow">New to darts?</span>
+      <h2>Easy to start, <span class="grad-text">hard to put down</span></h2>
+      <p class="lead">Never thrown before? Ask a team member and we'll get you set up on a board. The electronic boards keep score for you, so you can focus on the fun.</p>
+      <ul class="check-list"><li>Electronic boards keep score automatically</li><li>Bring your own darts or pick up a set in the {L("/billiards/#pro-shop", "Pro Shop")}</li><li>Ready to compete? {L("/leagues/#signup", "Join a dart league")}</li></ul>
+    </div>
+  </div>
 </div></section>
 {cta_band("Dart night for your group?", f"Birthdays, office outings and team nights. We'll reserve boards and put together food for your group.", btn("Plan a Private Party", "/private-parties/", "gold"))}'''
     return page("darts", body)

@@ -500,3 +500,10 @@ address { font-style: normal; }
   .hero--full::after { background: linear-gradient(180deg, rgba(0,38,27,.35) 0%, rgba(0,38,27,.68) 45%, rgba(0,38,27,.92) 100%); }
   .hero--full .hero__inner { padding-top: 2.5rem; padding-bottom: 2rem; }
 }
+
+/* Equal photo grid (billiards room) */
+.photo-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; }
+.photo-grid .gallery__item { margin: 0; }
+.photo-grid .gallery__item button { aspect-ratio: 4 / 3; }
+.photo-grid .gallery__item img { width: 100%; height: 100%; object-fit: cover; }
+@media (max-width: 900px) { .photo-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
