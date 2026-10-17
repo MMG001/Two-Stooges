@@ -107,6 +107,36 @@
     dlg.querySelector('.lightbox__close').addEventListener('click', function () { dlg.close(); });
   }
 
+  /* ---------- Menu tabs (all panels show without JS) ---------- */
+  var tablist = document.querySelector('.menu-tabs');
+  if (tablist) {
+    var tabs = Array.prototype.slice.call(tablist.querySelectorAll('[role="tab"]'));
+    var select = function (tab, focus, keepHash) {
+      tabs.forEach(function (t) {
+        var on = t === tab;
+        t.setAttribute('aria-selected', String(on));
+        t.tabIndex = on ? 0 : -1;
+        document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+      });
+      if (focus) tab.focus();
+      if (!keepHash && history.replaceState) history.replaceState(null, '', '#' + tab.getAttribute('aria-controls'));
+    };
+    tabs.forEach(function (t, i) {
+      t.addEventListener('click', function () { select(t); });
+      t.addEventListener('keydown', function (e) {
+        var k = e.key, n = null;
+        if (k === 'ArrowRight') n = tabs[(i + 1) % tabs.length];
+        if (k === 'ArrowLeft') n = tabs[(i - 1 + tabs.length) % tabs.length];
+        if (k === 'Home') n = tabs[0];
+        if (k === 'End') n = tabs[tabs.length - 1];
+        if (n) { e.preventDefault(); select(n, true); }
+      });
+    });
+    var fromHash = tabs.filter(function (t) { return '#' + t.getAttribute('aria-controls') === location.hash; })[0];
+    select(fromHash || tabs[0], false, true);
+    if (fromHash) tablist.scrollIntoView();
+  }
+
   /* ---------- Footer year ---------- */
   document.querySelectorAll('[data-year]').forEach(function (el) { el.textContent = now.ymd.slice(0, 4); });
 })();

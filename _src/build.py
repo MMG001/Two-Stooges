@@ -24,7 +24,7 @@ IMG = ROOT / "assets" / "img"
 # Flip to True on launch day (removes noindex). pages.dev stays noindex via _headers.
 LAUNCH = False
 SITE = "https://twostooges.com"
-ASSET_VER = "20261017"
+ASSET_VER = "20261017b"
 
 BIZ = {
     "name": "Two Stooges Sports Bar & Grill",
@@ -153,6 +153,97 @@ REVIEWS = [
     ("We love to go to Two Stooges for a date night! We love to play pool and the food is great too!", "Ashley"),
     ("Great hang out, tucked away in Fridley. Nice staff, good food and drink options. Pool tables are nice. They have multiple dart boards.", "Josh"),
 ]
+
+
+# ---------------------------------------------------------------------------
+# Menu (from twostooges.com/menus, October 2026). Tags: "new", "signature".
+# ---------------------------------------------------------------------------
+SIDES_NOTE = "Served with fries, tater tots, chips & salsa or chips & queso. Substitute waffle fries +$2, or add a side salad or cup of soup +$3."
+BYO_NOTE = ("<strong>Build it your way:</strong> cheese $1 each (American, cheddar, pepper jack, mozzarella, smoked gouda, Swiss) · "
+            "toppings $1 each (onion straws, sautéed or raw onions, sautéed mushrooms, jalapeños, black or green olives, lettuce, tomato, pickles, pico de gallo) · "
+            "bacon, ham or fried egg $2 each.")
+MENU = [
+    {"id": "stoogetizers", "name": "Stoogetizers", "note_top": "Shareable starters for the table, the bar or league night.",
+     "items": [
+         ("Potstickers", "11", "Served with teriyaki sauce.", []),
+         ("Duck Bacon Wontons", "16", "Served with sweet and spicy plum sauce.", []),
+         ("Cheese Curds", "11", "Served with marinara.", []),
+         ("Chicken Tenders", "12", "Hand-breaded and fried, with french fries and your choice of dipping sauce.", []),
+         ("Quesadilla", "14", "Flour tortilla, seasoned chicken or beef, mixed cheese, pico de gallo, sour cream and salsa.", []),
+         ("Nachos", "14", "Corn tortilla chips, seasoned chicken or beef, lettuce, queso, pico de gallo, black olives, jalapeños, salsa and sour cream.", []),
+         ("Baskets", "7", "French fries, tater tots, or chips with salsa or queso. Waffle fries $8.", []),
+     ],
+     "notes": ["Fries and tots come with one dipping sauce. Add cheese &amp; bacon +$3 or Cajun spice +$1."]},
+    {"id": "wings", "name": "Wings", "note_top": "Our bone-in wings are fresh, never frozen.",
+     "items": [
+         ("8 Bone-In Wings", "15", "Fresh, never frozen. Tossed in your choice of sauce or dry seasoning.", ["signature"]),
+         ("9 oz Boneless Wings", "15", "Tossed in your choice of sauce or dry seasoning.", []),
+     ],
+     "notes": ["<strong>Sauces:</strong> Teriyaki · Honey BBQ · Buffalo · Mango Habanero · Garlic Parmesan (signature) · Bourbon · Sweet Thai Chili · Devil's Rejects",
+               "<strong>Dry seasonings:</strong> Lemon Pepper · Dry Rub · Dill Pickle · Cajun",
+               'Wing deals: <a href="/specials/">$1 wings on Wednesdays and $1.50 wings on Sunday Funday</a>.']},
+    {"id": "burgers", "name": "Burgers", "note_top": SIDES_NOTE,
+     "items": [
+         ("Bacon Cheeseburger", "14", "Cheddar and Applewood smoked bacon.", []),
+         ("Triple B", "15", "Pepper jack, three strips of Applewood smoked bacon, BBQ sauce and crispy onion strings.", []),
+         ("Big Stooge", "18", "Two beef patties, pepper jack, American and cheddar, four strips of bacon, crispy onion strings, A-1, BBQ sauce and garlic basil aioli.", ["signature"]),
+         ("Mushroom Swiss", "14", "Swiss cheese and sautéed mushrooms.", []),
+         ("Smash Burger", "15", "Two 5 oz patties smashed thin, American cheese, lettuce, tomato and mustard aioli.", []),
+         ("Bourbon Smokey Burger", "15", "Applewood smoked bacon, honey bourbon BBQ sauce, pickle and smoked gouda.", []),
+         ("Smash Stuffed Curd Burger", "16", "Two 5 oz patties with Wisconsin cheese curds, pepper jack and chipotle ranch.", []),
+         ("Banh Mi Burger", "15", "Vietnamese-inspired, with pickled carrots and daikon, cilantro, English cucumber, jalapeños and sriracha mayo on a ciabatta bun.", ["new"]),
+         ("Hangover Burger", "15", "Bacon, American cheese, hash browns, a fried egg and hot sauce.", ["new"]),
+         ("Build Your Own Burger", "12", "Start with a burger and add your favorites from the list below.", []),
+     ],
+     "notes": [BYO_NOTE, 'Monday special: <a href="/specials/">$2 off any burger</a> (excludes build-your-own and the Big Stooge).']},
+    {"id": "sandwiches", "name": "Sandwiches & Wraps", "note_top": SIDES_NOTE,
+     "items": [
+         ("Grilled Ham & Cheese", "13", "Sliced ham, cheddar, Swiss, caramelized onion and stone-ground mustard on sourdough toast. Add creamy horseradish +$1.50.", []),
+         ("Chicken Tender Melt", "13", "Crispy chicken tenders, bacon, melted cheddar and our signature chicken dippin' sauce on sourdough toast.", []),
+         ("Buffalo Chicken Wrap", "13", "Crispy chicken, lettuce, tomato, celery, shredded cheese, Buffalo sauce and ranch in a flour tortilla.", []),
+         ("Pot Roast French Dip", "15", "Pot roast and Swiss on a toasted hoagie with au jus. Make it Philly style with peppers and onions +$2.", []),
+         ("Crispy Buffalo Chicken Sandwich", "15", "Chicken tenders, Buffalo sauce, pepper jack and bacon on a hoagie roll with blue cheese dressing.", []),
+         ("Grilled Chicken Bacon Ranch", "14", "Grilled chicken, bacon, Swiss and ranch on a bun.", []),
+         ("Walleye Sandwich", "18", "Battered walleye, lettuce, American cheese and tartar or spicy tartar on a toasted hoagie.", ["signature"]),
+         ("Dagwood", "16", "Ham, turkey, roast beef, salami, bacon, cheddar, Swiss, lettuce, tomato, onion, pickles, mustard, mayo, and oil &amp; vinegar.", []),
+         ("Chicken Caesar Wrap", "13", "Grilled chicken, romaine, shredded parmesan and Caesar dressing in a flour tortilla.", []),
+         ("Build Your Own Chicken Sandwich", "12", "Grilled chicken breast or crispy chicken tenders, built your way.", []),
+     ],
+     "notes": [BYO_NOTE]},
+    {"id": "pizza", "name": "Pizza", "note_top": "Specialty pizzas: small 9\" $16 · large 16\" $23 · gluten-free 10\" $23.",
+     "items": [
+         ("Meat Lovers", "16 / 23", "Pepperoni, sausage, ground beef and bacon.", []),
+         ("Crowd Pleaser", "16 / 23", "Pepperoni, sausage, green peppers, mushrooms and black olives.", []),
+         ("Taco Pizza", "16 / 23", "Seasoned chicken or beef, shredded cheese, lettuce, pico de gallo, black olives, sour cream and salsa.", ["new"]),
+         ("Build Your Own — Small 9\"", "11", "Plus $1.50 per topping.", []),
+         ("Build Your Own — Large 16\"", "15", "Plus $2.50 per topping.", []),
+         ("Build Your Own — Gluten-Free 10\"", "15", "Plus $1.50 per topping.", []),
+     ],
+     "notes": ["<strong>Toppings:</strong> pepperoni, sausage, bacon, ham, chicken, ground beef, Canadian bacon, green peppers, red peppers, black olives, green olives, onions, red onions, mushrooms, jalapeños, pineapple, tomatoes, garlic, extra cheese.",
+               'Weekend deal: <a href="/specials/">$3 off large and $2 off small pizzas</a> on Saturday and Sunday.']},
+    {"id": "entrees", "name": "Entrées", "note_top": "Add a side salad or cup of soup to any entrée +$4.",
+     "items": [
+         ("Fish & Chips", "17", "Deep-fried whitefish with creamy coleslaw, fries and tartar sauce.", []),
+         ("Pot Roast", "17", "Pot roast and gravy with mashed potatoes, steamed veggies and a dinner roll.", []),
+         ("Fish Tacos", "15", "Fried whitefish, coleslaw, pico de gallo, mozzarella and chipotle ranch in flour tortillas.", []),
+         ("Chicken Stir Fry", "15", "Grilled chicken, carrots, broccoli, red and green peppers and onion in stir fry sauce over white rice.", []),
+         ("Mario's Spaghetti", "12", "Our signature meat sauce over spaghetti with garlic toast.", ["new"]),
+         ("Meatloaf", "14", "House-recipe meatloaf with mashed potatoes, gravy, steamed veggies and a dinner roll.", ["new"]),
+     ],
+     "notes": ['Tuesday special: <a href="/specials/">$3 off any entrée</a>.']},
+    {"id": "soup-salad", "name": "Soup & Salad", "note_top": "All soups are made from scratch.",
+     "items": [
+         ("House Salad", "6", "Spring mix, Roma tomatoes, red onion, black olives, shredded cheese and croutons.", []),
+         ("Chef Salad", "14", "Heritage blend lettuce, diced ham and turkey, hard-boiled egg, tomatoes, shredded cheese, black olives and garlic bread.", ["new"]),
+         ("Taco Salad", "13", "Seasoned chicken or beef, lettuce, shredded cheese, black olives, pico de gallo and jalapeños in a crispy tortilla shell, with salsa and sour cream.", ["new"]),
+         ("Chicken Caesar Salad", "13", "Grilled chicken, romaine, croutons, shredded parmesan, Caesar dressing and garlic bread.", ["new"]),
+         ("Soup: Chili, Creamy Chicken Wild Rice or Soup of the Day", "4 / 6", "Cup $4 · bowl $6. Ask your server for today's soup.", []),
+     ],
+     "notes": ["<strong>Dressings:</strong> French · ranch · blue cheese · honey mustard · 1000 Island · Italian"]},
+]
+MENU_DISCLAIMER = ("Consuming raw or undercooked meats, poultry, seafood, shellfish or eggs may increase your risk of foodborne illness. "
+                   "Prices don't include tax and may change.")
+
 
 # ---------------------------------------------------------------------------
 # SEO: entity facts, page metadata, silos (CheiRank / internal linking)
@@ -287,7 +378,8 @@ def img(rel, alt, sizes="100vw", cls="", eager=False, srcset=True):
         src = f"/assets/img/{rel}.webp"
         ss = ""
         if srcset and (IMG / f"{rel}-sm.webp").exists():
-            ss = f' srcset="/assets/img/{rel}-sm.webp 800w, {src} {w}w" sizes="{e(sizes)}"'
+            sw, _ = dims(f"{rel}-sm.webp")
+            ss = f' srcset="/assets/img/{rel}-sm.webp {sw}w, {src} {w}w" sizes="{e(sizes)}"'
     wh = f' width="{w}" height="{h}"' if w else ""
     load = ' fetchpriority="high"' if eager else ' loading="lazy" decoding="async"'
     c = f' class="{cls}"' if cls else ""
@@ -421,7 +513,7 @@ def header(path):
     mob.append(f'<div class="mobile-menu__group"><div class="mobile-menu__label">More</div>{"".join(flat)}</div>')
 
     return f'''<a class="skip-link" href="#main">Skip to content</a>
-<div class="topbar">
+<div class="topbar on-dark">
   <div class="wrap">
     <div class="topbar__group">
       <span class="topbar__item open-status" data-open-status>{e(BIZ["hours"])}</span>
@@ -433,7 +525,7 @@ def header(path):
     </div>
   </div>
 </div>
-<header class="site-header">
+<header class="site-header on-dark">
   <div class="wrap header-inner">
     <a class="brand" href="/">{img("brand/two-stooges-logo.webp", "Two Stooges Sports Bar & Grill, Fridley MN – home", eager=True, srcset=False)}</a>
     <nav class="site-nav" aria-label="Main"><ul class="nav">{"".join(items)}</ul></nav>
@@ -458,7 +550,7 @@ def header(path):
 
 def footer():
     updated = dt.date.fromisoformat(TODAY).strftime("%B %-d, %Y")
-    return f'''<footer class="site-footer">
+    return f'''<footer class="site-footer on-dark">
   {rail()}
   <div class="wrap">
     <div class="footer-grid" style="padding-top:3rem">
@@ -530,6 +622,8 @@ def local_business_ld():
         "founder": [{"@type": "Person", "name": n} for n in FOUNDERS],
         "award": AWARDS,
         "hasMap": DIRECTIONS,
+        "hasMenu": SITE + "/menu/",
+        "acceptsReservations": True,
         "areaServed": [{"@type": "City", "name": f"{c}, MN"} for c in AREA_SERVED],
         "address": {"@type": "PostalAddress", "streetAddress": BIZ["street"], "addressLocality": BIZ["city"],
                     "addressRegion": BIZ["region"], "postalCode": BIZ["zip"], "addressCountry": "US"},
@@ -650,7 +744,7 @@ def page(key, body, extra_ld=None, og_type="website"):
 
 def page_hero(key, eyebrow, title, lead, image, alt, actions=""):
     crumb = META[key][5]
-    return f'''<section class="page-hero">
+    return f'''<section class="page-hero on-dark">
   <div class="page-hero__media">{img(image, alt, eager=True)}</div>
   <div class="wrap">
     <nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li aria-current="page">{e(crumb)}</li></ol></nav>
@@ -664,7 +758,7 @@ def page_hero(key, eyebrow, title, lead, image, alt, actions=""):
 
 
 def cta_band(title, text, actions):
-    return f'''<section class="section section--tight"><div class="wrap"><div class="cta-band">
+    return f'''<section class="section section--tight"><div class="wrap"><div class="cta-band on-dark">
   <div><h2>{title}</h2><p>{text}</p></div>
   <div class="btn-row">{actions}</div>
 </div></div></section>'''
@@ -701,7 +795,7 @@ def event_block(ev):
     facts = "".join(f'<div class="fact"><span class="fact__label">{e(k)}</span><span class="fact__value">{e(v)}</span></div>' for k, v in ev["facts"])
     who, num, tel = ev["contact"]
     big = f"/assets/img/{ev['flyer']}"
-    return f'''<article class="event" id="{ev["id"]}" data-event-end="{ev["end"]}" data-past-card="past-{ev["id"]}">
+    return f'''<article class="event event--feature" id="{ev["id"]}" data-event-end="{ev["end"]}" data-past-card="past-{ev["id"]}">
   <button class="event__flyer" type="button" data-lightbox="{big}" data-alt="{e(ev["flyer_alt"])}" data-caption="{e(ev["title"])} · {e(ev["date"])}" aria-label="View full flyer: {e(ev["title"])}">
     {img(ev["flyer"], ev["flyer_alt"], srcset=False)}
   </button>
@@ -724,7 +818,7 @@ def past_card(ev):
     big = f"/assets/img/{ev['flyer']}"
     return f'''<article class="past-card">
   <button type="button" data-lightbox="{big}" data-alt="{e(ev["flyer_alt"])}" data-caption="{e(ev["title"])} · {e(ev["date"])}" aria-label="View flyer: {e(ev["title"])}">{img(ev["flyer"], ev["flyer_alt"], srcset=False)}</button>
-  <div><h3>{e(ev["title"])}</h3><p>{e(ev["dow"])} · {e(ev["date"])}</p></div>
+  <div><span class="chip">Past event</span><h3>{e(ev["title"])}</h3><p>{e(ev["dow"])} · {e(ev["date"])}</p></div>
 </article>'''
 
 
@@ -756,22 +850,38 @@ def faq_ld():
 # ---------------------------------------------------------------------------
 # Pages
 # ---------------------------------------------------------------------------
+def tag_chips(tags):
+    m = {"new": '<span class="chip chip--orange">New</span>', "signature": '<span class="chip chip--gold">Signature</span>'}
+    return "".join(m[t] for t in tags)
+
+
+def menu_ld():
+    def price(p):
+        return p.split(" / ")[0]
+    return {"@context": "https://schema.org", "@type": "Menu", "@id": SITE + "/menu/#menu", "name": "Two Stooges Sports Bar & Grill Menu",
+            "url": SITE + "/menu/", "inLanguage": "en-US",
+            "hasMenuSection": [{"@type": "MenuSection", "name": sec["name"], "url": SITE + "/menu/#" + sec["id"],
+                                "hasMenuItem": [{"@type": "MenuItem", "name": n, "description": html.unescape(d),
+                                                 "offers": {"@type": "Offer", "price": price(p), "priceCurrency": "USD"}}
+                                                for n, p, d, _ in sec["items"]]} for sec in MENU]}
+
+
 def p_home():
     ups = upcoming_events()
     nxt = min(ups, key=lambda x: x["end"]) if ups else None
     next_card = ""
     if nxt:
         next_card = f'''<aside class="next-up" data-next-up="{nxt["end"]}" aria-label="Next event at Two Stooges">
-      <div class="next-up__label">{icon("calendar")}Next up · {e(nxt["short_date"])}</div>
-      <div class="next-up__body">
-        {img(nxt["flyer"], nxt["flyer_alt"], srcset=False)}
-        <div>
-          <p class="next-up__title">{e(nxt["title"])}</p>
-          <p>{e(nxt["facts"][0][1])} · {e(nxt["facts"][3][1])} · starts {e(nxt["facts"][5][1])}</p>
-          <a class="text-link" href="/events/#{nxt["id"]}">Tournament details</a>
+        <div class="next-up__label">{icon("calendar")}Next up · {e(nxt["short_date"])}</div>
+        <div class="next-up__body">
+          {img(nxt["flyer"], nxt["flyer_alt"], srcset=False)}
+          <div>
+            <p class="next-up__title">{e(nxt["title"])}</p>
+            <p>{e(nxt["facts"][0][1])} · {e(nxt["facts"][3][1])} · starts {e(nxt["facts"][5][1])}</p>
+            <a class="text-link" href="/events/#{nxt["id"]}">Tournament details</a>
+          </div>
         </div>
-      </div>
-    </aside>'''
+      </aside>'''
 
     pillars = [
         ("photos/player-shooting", "A player lines up a shot on a blue-felt pool table at Two Stooges in Fridley", "43 tables", "Billiards", "/billiards/",
@@ -788,81 +898,89 @@ def p_home():
       <div class="card__body"><span class="card__kicker">{k}</span><h3>{t}</h3><p>{d}</p><a class="text-link" href="{h}">{l}</a></div>
     </article>''' for i, a, k, t, h, d, l in pillars)
 
-    sched = [("Tuesday · 11 AM", "Straight Pool League", "BCA rules · 3 races to 50"),
-             ("Thursday · 11 AM", "10-Ball League", "3 sets · race to 5"),
-             ("Every day", "Dart Leagues", "All skill levels welcome"),
-             ("Daily · 11 AM–5 PM", "Pool Specials", "Discounted table time")]
-    sched_html = "".join(f'<div class="schedule__item"><div class="schedule__day">{d}</div><h3>{t}</h3><p>{s}</p></div>' for d, t, s in sched)
+    specials = [("Monday", "Burger Night", "$2 off any burger", "Excludes build-your-own and the Big Stooge."),
+                ("Tuesday", "Entrée Night", "$3 off any entrée", "Pot roast, fish & chips, stir fry and more."),
+                ("Wednesday", "Wing Night", "$1 wings", "Minimum 10. Bone-in, fresh, never frozen."),
+                ("Sunday Funday", "Wings & Pizza", "$1.50 wings · $3 off large pizza", "11 AM–7 PM, with weekend happy hour.")]
+    spec_html = "".join(f'''<article class="card{" card--feature on-dark" if i == 3 else ""}"><div class="card__body">
+      <span class="chip {"chip--gold" if i == 3 else "chip--green"}" style="align-self:flex-start;margin-bottom:.9rem">{e(d)}</span>
+      <h3>{e(t)}</h3><p style="font:600 1.15rem/1.3 var(--font-display);color:{"var(--gold)" if i == 3 else "var(--orange-ink)"};margin-bottom:.5rem">{e(deal)}</p><p>{e(n)}</p>
+    </div></article>''' for i, (d, t, deal, n) in enumerate(specials))
 
-    deals = [("Monday", "$2 off any burger"), ("Wednesday", "$1 wings"), ("Sunday Funday", "$1.50 wings"), ("Mon–Thu 2–6 PM", "$3.50 domestics · $4 rails")]
-    deals_html = "".join(f'<div class="tile" style="background:rgba(0,0,0,.35);border-color:rgba(246,194,26,.25)"><div class="schedule__day">{d}</div><h3 class="mb-0">{t}</h3></div>' for d, t in deals)
+    picks = [("Big Stooge", "18", "Two patties, three cheeses, four strips of bacon, onion strings, A-1, BBQ and garlic basil aioli.", ["signature"]),
+             ("Duck Bacon Wontons", "16", "Crispy wontons with sweet and spicy plum sauce.", []),
+             ("8 Bone-In Wings", "15", "Fresh, never frozen. Try the signature Garlic Parmesan.", ["signature"]),
+             ("Walleye Sandwich", "18", "Battered walleye, lettuce, American and tartar on a toasted hoagie.", [])]
+    picks_html = "".join(f'''<li class="menu-item"><h3>{e(n)} {tag_chips(t)}</h3><span class="menu-item__price">${p}</span><p>{e(d)}</p></li>''' for n, p, d, t in picks)
 
-    quotes = "".join(f'<figure class="quote"><blockquote>{e(q)}</blockquote><figcaption>— {e(n)}, Two Stooges guest</figcaption></figure>' for q, n in REVIEWS)
+    quotes = "".join(f'''<figure class="quote"><blockquote>{e(q)}</blockquote><figcaption><span class="quote__avatar">{e(n[0])}</span><span>{e(n)}<small>Two Stooges guest</small></span></figcaption></figure>''' for q, n in REVIEWS)
     faqs = "".join(f'<details class="faq"><summary><h3>{e(q)}</h3></summary><p>{a}</p></details>' for q, a, _ in FAQ)
 
-    body = f'''<section class="hero">
-  <div class="hero__media">{img("photos/billiard-room-rows", "Rows of blue-felt pool tables in the Two Stooges Sports Bar billiard room, Fridley MN", eager=True)}</div>
+    body = f'''<section class="hero on-dark">
   <div class="wrap hero__inner">
     <div>
-      <span class="eyebrow">The most fun you can have under one roof</span>
+      <span class="hero__badge">{icon("pin")}Fridley, MN · Since 1988</span>
       <h1>Two Stooges Sports Bar &amp; Grill in <span class="grad-text">Fridley, MN</span></h1>
-      <p class="lead">{e(ENTITY_DESC)}</p>
-      <div class="btn-row">{btn("Upcoming Events", "/events/", "gold", "calendar")}{btn("Today's Specials", "/specials/", "outline")}</div>
+      <p class="lead">The most fun you can have under one roof. Two Stooges is a locally owned sports bar, restaurant and billiard room on University Ave NE with 43 pool tables, dart boards, 34 TV screens and 16 ice-cold beers on tap.</p>
+      <div class="btn-row">{btn("Upcoming Events", "/events/", "gold", "calendar")}{btn("See the Menu", "/menu/", "outline")}</div>
       <div class="stat-row">
         <div><span class="stat__num">43</span><span class="stat__label">Pool tables</span></div>
         <div><span class="stat__num">34</span><span class="stat__label">Screens</span></div>
         <div><span class="stat__num">16</span><span class="stat__label">Taps</span></div>
-        <div><span class="stat__num">1988</span><span class="stat__label">Established</span></div>
+        <div><span class="stat__num">7</span><span class="stat__label">Days · 11 AM–12 AM</span></div>
       </div>
     </div>
-    {next_card}
+    <div class="hero__visual">
+      <div class="hero__photo">{img("photos/billiard-room-hero", "The Two Stooges billiard room in Fridley: rows of blue-felt Diamond pool tables under wood-trimmed lights, with the bar and dining area behind", sizes="(max-width:960px) 100vw, 55vw", eager=True)}</div>
+      {next_card}
+    </div>
   </div>
 </section>
 {rail()}
+
 <section class="section"><div class="wrap">
   {section_head("Pick your game", "Pool, darts &amp; more at Two Stooges", f"Two Stooges is Fridley's all-in-one sports bar, restaurant and {L('/billiards/', 'billiard room')}. Come for one game and stay for all of them.", center=True)}
   <div class="grid grid--4">{cards}</div>
 </div></section>
 
-<section class="section section--alt section--tight"><div class="wrap">
-  <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:1rem;margin-bottom:1.5rem">
-    <div><span class="eyebrow">Every week</span><h2 class="mb-0">Pool &amp; dart league nights in Fridley</h2></div>
-    <a class="text-link" href="/leagues/">League details &amp; sign-up</a>
+<section class="section section--alt"><div class="wrap">
+  <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:1rem;margin-bottom:2rem">
+    <div class="section-head" style="margin:0"><span class="eyebrow">Nightly traditions</span><h2 class="mb-0">Daily specials at Two Stooges</h2></div>
+    <p class="muted" style="max-width:420px;margin:0">Happy hour runs Mon–Thu 2–6 PM and Fri–Sun 11 AM–7 PM, and there's a food deal almost every day. {L("/specials/", "See every special")}.</p>
   </div>
-  <div class="schedule">{sched_html}</div>
-</div></section>
-
-<section class="section section--felt"><div class="wrap">
-  <div class="split">
-    <div>
-      <span class="eyebrow">Specials &amp; happy hour</span>
-      <h2>Daily specials at <span class="grad-text">Two Stooges</span></h2>
-      <p class="lead" style="color:#d5e6db">Happy hour runs Mon–Thu 2–6 PM and all weekend from 11 AM to 7 PM, and there's a food special every day. Pair it with something from the {L("/menu/", "Two Stooges menu")}.</p>
-      <div class="btn-row mt-2">{btn("See All Specials", "/specials/", "gold")}{btn("View the Menu", "/menu/", "outline")}</div>
-    </div>
-    <div class="grid grid--2">{deals_html}</div>
-  </div>
+  <div class="grid grid--4">{spec_html}</div>
 </div></section>
 
 <section class="section"><div class="wrap">
   <div class="split">
     <div class="split__media">
-      {img("photos/dart-room", "Big-screen TV over the dart area at Two Stooges Sports Bar", sizes="(max-width:860px) 100vw, 50vw")}
-      <div class="split__badge">NFL Sunday Ticket<small>+ the DirecTV sports channels</small></div>
+      {img("photos/pool-hall-interior", "Booths and tables in the Two Stooges dining area, next to the billiard room", sizes="(max-width:860px) 100vw, 50vw")}
+      <div class="split__badge">Kitchen open daily<small>11 AM – midnight</small></div>
     </div>
     <div>
-      <span class="eyebrow">The sports bar</span>
-      <h2>Watch the game in Fridley on <span class="grad-text">34 screens</span></h2>
-      <p class="lead">The elevated bar sits right in the middle of the room, so wherever you sit you're close to the action. It's cherry wood with steel railings, and the tall booths fit your whole crew. Between games, rack up on one of our {L("/billiards/", "43 pool tables")} or {L("/darts/", "throw darts")}.</p>
-      <ul class="check-list check-list--2col">
-        <li>30 HD flat screens</li><li>4 monster screens</li><li>16 taps, poured ice-cold</li><li>Original cocktails</li><li>Scratch-made pub food</li><li>Open 11 AM – midnight</li>
-      </ul>
-      {btn("Read Our Story", "/about/", "outline")}
+      <span class="eyebrow">From the kitchen</span>
+      <h2>Burgers, wings &amp; <span class="grad-text">bar favorites</span></h2>
+      <p class="lead">Classic American bar food with our own twist, plus 16 beers poured ice-cold from our iced cobra taps.</p>
+      <ul class="menu-items" style="grid-template-columns:1fr;list-style:none;padding:0;margin:0 0 1.5rem">{picks_html}</ul>
+      <div class="btn-row">{btn("View the Full Menu", "/menu/", "green")}{btn("Today's Specials", "/specials/", "outline")}</div>
     </div>
   </div>
 </div></section>
 
-<section class="section section--alt"><div class="wrap">
+<section class="section section--felt on-dark"><div class="wrap">
+  <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:1rem;margin-bottom:2rem">
+    <div><span class="eyebrow">Every week</span><h2 class="mb-0">Pool &amp; dart league nights in Fridley</h2></div>
+    <a class="text-link" href="/leagues/">League details &amp; sign-up</a>
+  </div>
+  <div class="grid grid--4">
+    <div class="deal-tile deal-tile--hot"><div class="schedule__day">Tuesday · 11 AM</div><h3>Straight Pool League</h3></div>
+    <div class="deal-tile"><div class="schedule__day">Thursday · 11 AM</div><h3>10-Ball League</h3></div>
+    <div class="deal-tile"><div class="schedule__day">Every day</div><h3>Dart Leagues</h3></div>
+    <div class="deal-tile"><div class="schedule__day">Daily · 11 AM–5 PM</div><h3>Pool Specials</h3></div>
+  </div>
+</div></section>
+
+<section class="section"><div class="wrap">
   <div class="split split--rev">
     <div class="split__media">
       {img("photos/building-exterior", "The Two Stooges Sports Bar & Grill building on University Ave NE in Fridley, with green awnings", sizes="(max-width:860px) 100vw, 50vw")}
@@ -871,18 +989,26 @@ def p_home():
     <div>
       <span class="eyebrow">Award-winning billiards</span>
       <h2>A top ten billiard room in <span class="grad-text">North America</span></h2>
-      <p class="lead">Owners Ty Wilson and Greg Asproth opened University Billiards in 1988 with 17 tables. Almost four decades later, Two Stooges is still serving the coldest beer and juiciest burgers around, and City Pages named it the best place to shoot pool in 2017.</p>
-      <p><a class="text-link" href="/about/">Read the Two Stooges story</a></p>
+      <p class="lead">Owners Ty Wilson and Greg Asproth opened University Billiards in 1988 with 17 tables. Today Two Stooges has 43 tables, a full sports bar with NFL Sunday Ticket on 34 screens, and City Pages named it the best place to shoot pool in 2017.</p>
+      <ul class="check-list check-list--2col"><li>NFL Sunday Ticket</li><li>30 HD TVs + 4 big screens</li><li>Elevated center bar</li><li>Pro Shop &amp; cue repair</li></ul>
+      <a class="text-link" href="/about/">Read the Two Stooges story</a>
     </div>
   </div>
 </div></section>
 
-<section class="section"><div class="wrap">
+<section class="section section--alt"><div class="wrap">
   {section_head("Guest reviews", "What guests say about Two Stooges", center=True)}
   <div class="grid grid--3">{quotes}</div>
 </div></section>
 
-<section class="section section--alt" id="faq"><div class="wrap" style="max-width:900px">
+<section class="section section--tight"><div class="wrap">
+  <div class="cta-band on-dark">
+    <div><span class="eyebrow">Private parties</span><h2>Celebrate at Two Stooges</h2><p>Birthdays, office parties, draft parties and banquets, with custom menus, pool tables and darts for your group.</p></div>
+    <div class="btn-row">{btn("Plan a Party", "/private-parties/", "gold")}{btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone")}</div>
+  </div>
+</div></section>
+
+<section class="section" id="faq"><div class="wrap" style="max-width:900px">
   {section_head("Good to know", "Two Stooges Sports Bar FAQ", center=True)}
   <div class="faq-list">{faqs}</div>
 </div></section>
@@ -891,19 +1017,23 @@ def p_home():
 
 
 def p_menu():
-    cats = [("Stoogetizers", "Shareable starters for the table"), ("Wings", f"Bone-in wings with house sauces, {L('/specials/', '$1 on Wednesdays')}"),
-            ("Burgers", f"Including the Big Stooge, {L('/specials/', '$2 off on Mondays')}"), ("Sandwiches & Wraps", "Hot, hearty and handheld"),
-            ("Pizza", "Small and large, perfect for league night"), ("Entrées", f"Full plates, {L('/specials/', '$3 off on Tuesdays')}"),
-            ("Soup & Salad", "Lighter options")]
-    items = "".join(f'<div class="menu-cat"><span class="menu-cat__num">{i:02d}</span><div><h3>{e(t)}</h3><p>{d}</p></div></div>' for i, (t, d) in enumerate(cats, 1))
+    tabs = "".join(f'<button class="menu-tab" type="button" role="tab" id="tab-{s["id"]}" aria-controls="{s["id"]}" aria-selected="{"true" if i == 0 else "false"}"{"" if i == 0 else " tabindex=\"-1\""}>{e(s["name"])}</button>' for i, s in enumerate(MENU))
+    panels = []
+    for i, s in enumerate(MENU):
+        items = "".join(f'''<li class="menu-item"><h3>{e(n)} {tag_chips(t)}</h3><span class="menu-item__price">${e(p)}</span><p>{d}</p></li>''' for n, p, d, t in s["items"])
+        notes = "".join(f'<p class="menu-note">{n}</p>' for n in s["notes"])
+        panels.append(f'''<section class="menu-panel" id="{s["id"]}" role="tabpanel" aria-labelledby="tab-{s["id"]}" data-menu-panel>
+    <div class="menu-panel__head"><h2>{e(s["name"])}</h2><p>{e(s["note_top"])}</p></div>
+    <ul class="menu-items" style="list-style:none;padding:0;margin:0">{items}</ul>
+    {notes}
+  </section>''')
     body = f'''{page_hero("menu", "Eat &amp; drink", "The Two Stooges Sports Bar <span class='grad-text'>menu</span>",
-        f"Classic American bar and grill food with our own twist, served in Fridley from 11 AM until close. Burgers, wings, pizza and more, plus 16 beers on tap. Check the {L('/specials/', 'daily specials')} before you order.",
-        "photos/billiard-balls-bokeh", "Colorful pool balls on felt at Two Stooges", btn("Today's Specials", "/specials/", "gold") + btn("Call to Order: " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone"))}
+        f"Classic American bar and grill food with our own twist, served in Fridley every day from 11 AM. There are burgers, wings, pizza, sandwiches and entrées, plus 16 beers on tap. Check the {L('/specials/', 'daily specials')} before you order.",
+        "photos/pool-hall-interior", "Tables and booths at Two Stooges Sports Bar & Grill", btn("Today's Specials", "/specials/", "gold") + btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone"))}
 <section class="section"><div class="wrap">
-  <!-- TODO(client): send the current food & drink menu with prices to replace the category list below. -->
-  <div class="notice" style="margin-bottom:2rem">{icon("info")}<p><strong>Our full menu is being updated.</strong> Call <a href="tel:{BIZ["tel"]}">{BIZ["phone"]}</a> for today's menu, or ask your server.</p></div>
-  {section_head("On the menu", "Bar &amp; grill food in Fridley", f"Everything you'd want on {L('/leagues/', 'league night')}, at the bar or during a game of pool.")}
-  <div class="grid grid--2">{items}</div>
+  <div class="menu-tabs" role="tablist" aria-label="Menu categories">{tabs}</div>
+  {"".join(panels)}
+  <p class="small muted mt-2">{e(MENU_DISCLAIMER)} Planning a group meal? We put together {L("/private-parties/", "custom party menus")}.</p>
 </div></section>
 <section class="section section--alt"><div class="wrap">
   <div class="split">
@@ -919,11 +1049,11 @@ def p_menu():
       </ul>
       <p class="small muted mt-1">Happy hour: Mon–Thu 2–6 PM · Fri–Sun 11 AM–7 PM.</p>
     </div>
-    <div class="split__media">{img("photos/pool-hall-interior", "Tables and booths under warm lights at Two Stooges Sports Bar & Grill", sizes="(max-width:860px) 100vw, 50vw")}</div>
+    <div class="split__media">{img("photos/billiard-room-hero", "The bar and billiard room at Two Stooges Sports Bar & Grill", sizes="(max-width:860px) 100vw, 50vw")}</div>
   </div>
 </div></section>
-{cta_band("Feeding a crowd in Fridley?", f"We put together custom menus for birthdays, office parties and banquets.", btn("Plan a Private Party", "/private-parties/", "gold"))}'''
-    return page("menu", body)
+{cta_band("Feeding a crowd in Fridley?", "We put together custom menus for birthdays, office parties and banquets.", btn("Plan a Private Party", "/private-parties/", "gold"))}'''
+    return page("menu", body, extra_ld=[menu_ld()])
 
 
 def p_specials():
@@ -1096,33 +1226,38 @@ def p_leagues():
     return page("leagues", body, og_type="website")
 
 
+def league_block(L_):
+    pts = "".join(f"<li>{e(p)}</li>" for p in L_["points"])
+    return f'''<article class="event">
+  <button class="event__flyer" type="button" data-lightbox="/assets/img/{L_["flyer"]}" data-alt="{e(L_["flyer_alt"])}" data-caption="{e(L_["name"])}" aria-label="View full flyer: {e(L_["name"])}">{img(L_["flyer"], L_["flyer_alt"], srcset=False)}</button>
+  <div>
+    <div class="event__date"><span>{e(L_["day"])}</span><span>{e(L_["time"])}</span></div>
+    <h3>{e(L_["name"])} at Two Stooges</h3>
+    <ul class="check-list">{pts}</ul>
+    <div class="event__contact">{btn("Call to sign up: " + BIZ["phone"], "tel:" + BIZ["tel"], "gold", "phone")}<a class="text-link" href="/leagues/#signup">Sign up for a league online</a></div>
+  </div>
+</article>'''
+
+
 def p_events():
     ups = sorted(upcoming_events(), key=lambda x: x["end"])
     up_html = "".join(event_block(ev) for ev in ups)
     past_html = "".join(past_card(ev) for ev in past_events())
-    weekly = "".join(f'''<div class="schedule__item"><div class="schedule__day">{e(L_["day"])} · {e(L_["time"])}</div><h3>{e(L_["name"])}</h3><p>{e(L_["points"][0])}</p></div>''' for L_ in LEAGUES)
-    weekly += '<div class="schedule__item"><div class="schedule__day">Every day</div><h3>Dart Leagues</h3><p>All skill levels</p></div>'
-    weekly += '<div class="schedule__item"><div class="schedule__day">Daily · 11 AM–5 PM</div><h3>Pool Specials</h3><p>Discounted table time</p></div>'
     body = f'''{page_hero("events", "What's happening", "Events &amp; tournaments at <span class='grad-text'>Two Stooges Sports Bar</span>",
-        f"Pool tournaments, league nights and special events at Two Stooges in Fridley. Click any flyer to see it full size. Want your own event? {L('/private-parties/', 'Book a private party')}.",
-        "photos/tournament-table-trophies", "Tournament table with trophies on the shelf", btn("Host Your Own Event", "/private-parties/", "gold") + btn("League Nights", "#weekly", "outline"))}
-<section class="section"><div class="wrap">
+        f"Pool tournaments, weekly league nights and special events at Two Stooges in Fridley. Click any flyer to see it full size. Want your own event? {L('/private-parties/', 'Book a private party')}.",
+        "photos/billiard-room-hero", "The Two Stooges billiard room", btn("Upcoming Tournament", "#upcoming", "gold") + btn("Weekly Leagues", "#weekly", "outline") + btn("Recent Events", "#recent", "outline"))}
+<section class="section" id="upcoming"><div class="wrap">
   {section_head("Coming up", "Upcoming pool tournaments in Fridley", f"FargoRate events on our {L('/billiards/', 'tournament tables')}. Spots are limited, so call to sign up.")}
   <div data-upcoming>{up_html}</div>
   <div class="empty-note{"" if ups else " is-visible"}" data-empty-note>New events are on the way. Call <a href="tel:{BIZ["tel"]}">{BIZ["phone"]}</a> to find out what's coming up next, or {L("/leagues/", "join a weekly league")}.</div>
 </div></section>
-<section class="section section--alt section--tight" id="weekly"><div class="wrap">
-  <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:1rem;margin-bottom:1.5rem">
-    <div><span class="eyebrow">Every week</span><h2 class="mb-0">Weekly league nights at Two Stooges</h2></div>
-    <a class="text-link" href="/leagues/">Pool &amp; dart league sign-up</a>
-  </div>
-  <div class="schedule">{weekly}</div>
+<section class="section section--alt" id="weekly"><div class="wrap">
+  {section_head("Every week", "Weekly league nights at Two Stooges", f"Our in-house pool leagues on the 9 ft Gabriel's tables. Dart leagues run every day, too. See {L('/leagues/', 'all pool and dart leagues')}.")}
+  {"".join(league_block(L_) for L_ in LEAGUES)}
 </div></section>
-<section class="section"><div class="wrap">
-  <details class="past-events">
-    <summary><h2>Recent events at Two Stooges</h2></summary>
-    <div class="past-grid" data-past-grid>{past_html}</div>
-  </details>
+<section class="section" id="recent"><div class="wrap">
+  {section_head("Recent events", "Recent events at Two Stooges", "Missed one? Here's what we've hosted lately. Most events come back, so watch this page.")}
+  <div class="flyer-grid" data-past-grid>{past_html}</div>
 </div></section>
 {cta_band("Want to host a tournament or party?", "From birthday bashes to banquets and league parties, we'll help you plan it.", btn("Plan Your Event", "/private-parties/", "gold") + btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone"))}'''
     return page("events", body, extra_ld=[event_ld(ev) for ev in ups])
