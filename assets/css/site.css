@@ -446,7 +446,7 @@ address { font-style: normal; }
 .related { border-top: 1px solid var(--line); background: var(--bg-alt); }
 
 /* ---------- Footer ---------- */
-.site-footer { background: var(--charcoal); font-size: .95rem; border-top: 4px solid var(--gold); }
+.site-footer { background: #000; font-size: .95rem; border-top: 4px solid var(--gold); }
 .site-footer.on-dark { --text-muted: #c8c6c5; --text-dim: #9f9d9d; }
 .footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 2.5rem; padding: clamp(3rem, 6vw, 4rem) 0 3rem; }
 .footer-brand img { width: 190px; margin-bottom: 1.25rem; }
