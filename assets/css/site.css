@@ -537,3 +537,9 @@ address { font-style: normal; }
 .league-cta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem 2rem; margin-top: 1.75rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,206,81,.25); }
 .league-cta p { margin: 0; color: var(--text-muted); max-width: 52ch; }
 .league-cta strong { color: #fff; }
+
+/* Photo collage (main photo + inset) */
+.collage { padding-bottom: 3.5rem; padding-left: 0; }
+.collage > img:first-child { width: 100%; }
+.collage .collage__inset { position: absolute; left: -1.5rem; bottom: 0; width: 46%; border: 5px solid #fff; border-radius: var(--radius-lg); box-shadow: var(--shadow-3); }
+@media (max-width: 860px) { .collage .collage__inset { left: .75rem; width: 52%; } }

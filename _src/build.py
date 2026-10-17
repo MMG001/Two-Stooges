@@ -28,7 +28,7 @@ IMG = ROOT / "assets" / "img"
 # Flip to True on launch day (removes noindex). pages.dev stays noindex via _headers.
 LAUNCH = False
 SITE = "https://twostooges.com"
-ASSET_VER = "20261017k"
+ASSET_VER = "20261017l"
 
 BIZ = {
     "name": "Two Stooges Sports Bar & Grill",
@@ -1396,7 +1396,7 @@ def p_parties():
     occ = "".join(f"<li>{e(o)}</li>" for o in occasions)
     body = f'''{page_hero("parties", "Private parties &amp; events", "Private parties at <span class='grad-text'>Two Stooges Sports Bar</span>",
         "Two Stooges is ready for your next birthday, holiday party, office outing or banquet in Fridley. We'll customize the menu and the space for your group.",
-        "photos/pool-hall-interior", "The Two Stooges room set up with tables and booths", btn("Request a Date", "#request", "gold") + btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone"))}
+        "photos/private-party-banquet-wide", "Two Stooges set up for a private party: round tables with white and black linens, roses and place settings, with the bar and dart boards behind", btn("Request a Date", "#request", "gold") + btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone"))}
 <section class="section"><div class="wrap">
   <div class="split">
     <div>
@@ -1405,7 +1405,11 @@ def p_parties():
       <p class="lead">We have spaces for small and large groups, with {L("/billiards/", "pool tables")}, {L("/darts/", "dart boards")} and big screens included.</p>
       <ul class="check-list check-list--2col">{occ}</ul>
     </div>
-    <div class="split__media">{img("photos/billiard-hall-tables", "Tables ready for a group party at Two Stooges", sizes="(max-width:860px) 100vw, 50vw")}</div>
+    <div class="split__media collage">
+      {img("photos/private-party-string-lights", "A Two Stooges banquet setup with string lights and draped fabric overhead, linen-covered round tables and roses", sizes="(max-width:860px) 100vw, 50vw")}
+      {img("photos/private-party-buffet", "A buffet line of chafing dishes with roasted potatoes, vegetables and entrées for a catered event", sizes="(max-width:860px) 60vw, 25vw", cls="collage__inset")}
+      <div class="split__badge">Custom menus<small>Buffets &amp; party packages</small></div>
+    </div>
   </div>
 </div></section>
 <section class="section section--alt"><div class="wrap">
