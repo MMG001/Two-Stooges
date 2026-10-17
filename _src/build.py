@@ -155,9 +155,116 @@ REVIEWS = [
 ]
 
 # ---------------------------------------------------------------------------
+# SEO: entity facts, page metadata, silos (CheiRank / internal linking)
+# ---------------------------------------------------------------------------
+KEYWORD = "Two Stooges Sports Bar"
+LOCATION = "Fridley, Minnesota"
+ENTITY_DESC = ("Two Stooges Sports Bar & Grill is a locally owned sports bar, restaurant and billiard room at "
+               "7178 University Ave NE in Fridley, Minnesota. Open since 1988, it has 43 pool tables, dart boards, "
+               "34 TV screens and 16 beers on tap.")
+FOUNDERS = ["Ty Wilson", "Greg Asproth"]
+AREA_SERVED = ["Fridley", "Columbia Heights", "Spring Lake Park", "New Brighton", "Mounds View", "Coon Rapids", "Blaine", "Minneapolis"]
+AWARDS = ["Top Ten Billiard Room in North America", "Best Place to Shoot Pool – City Pages (2017)",
+          "Business of the Year", "Billiards Digest “Best of” Architectural Design"]
+
+# key: (path, title ≤60, description 150–160, og source photo, og alt, breadcrumb name)
+META = {
+    "home": ("/", "Two Stooges Sports Bar - Fridley, MN | Pool, Darts & Grill",
+             "Two Stooges Sports Bar & Grill in Fridley, MN: 43 pool tables, darts, 34 screens, 16 taps and daily specials since 1988. See events and plan your visit today.",
+             "photos/billiard-room-rows", "Rows of pool tables inside Two Stooges Sports Bar in Fridley, MN", None),
+    "menu": ("/menu/", "Bar & Grill Menu in Fridley, MN | Two Stooges Sports Bar",
+             "See the Two Stooges Sports Bar menu: burgers, wings, pizza, sandwiches and Stoogetizers in Fridley, MN, with 16 ice-cold taps. Call ahead or stop in today.",
+             "photos/pool-hall-interior", "Tables and booths at Two Stooges Sports Bar & Grill in Fridley", "Menu"),
+    "specials": ("/specials/", "Happy Hour & Daily Specials | Two Stooges Sports Bar",
+                 "Two Stooges Sports Bar happy hour and daily specials in Fridley, MN: $1 wings Wednesday, $2 off burgers Monday, $3.50 domestics. See today's deals now.",
+                 "photos/billiard-balls-felt", "Pool balls on blue felt, daily specials at Two Stooges", "Specials & Happy Hour"),
+    "billiards": ("/billiards/", "Pool Tables & Billiards in Fridley, MN | Two Stooges",
+                  "Play pool at Two Stooges Sports Bar in Fridley, MN: 43 Gabriel's and Diamond tables, daily pool specials, leagues, tournaments and a Pro Shop. Rack up today.",
+                  "photos/billiard-hall-tables", "The 43-table billiard room at Two Stooges Sports Bar in Fridley", "Billiards"),
+    "darts": ("/darts/", "Darts & Dart Leagues in Fridley, MN | Two Stooges",
+              "Throw darts at Two Stooges Sports Bar in Fridley, MN. Electronic dart boards, high-tops, a big screen and dart leagues every day of the week. Sign up today.",
+              "photos/dart-room", "Electronic dart boards at Two Stooges Sports Bar in Fridley", "Darts"),
+    "leagues": ("/leagues/", "Pool & Dart Leagues in Fridley, MN | Two Stooges",
+                "Join a pool or dart league at Two Stooges Sports Bar in Fridley, MN: Straight Pool Tuesdays, 10-Ball Thursdays, APA, UPL and daily darts. Sign up online.",
+                "photos/tournament-table-trophies", "League table and trophies at Two Stooges Sports Bar", "Leagues & Tournaments"),
+    "events": ("/events/", "Pool Tournaments & Events in Fridley | Two Stooges",
+               "Upcoming pool tournaments, FargoRate 8-ball shootouts, league nights and special events at Two Stooges Sports Bar in Fridley, MN. See dates and sign up.",
+               "photos/player-shooting", "A tournament player shooting at Two Stooges Sports Bar", "Events"),
+    "parties": ("/private-parties/", "Private Party Venue in Fridley, MN | Two Stooges",
+                "Host a birthday, office party, banquet or draft party at Two Stooges Sports Bar in Fridley, MN, with custom menus, pool tables and darts. Request a date.",
+                "photos/pool-hall-interior", "Party space at Two Stooges Sports Bar & Grill in Fridley", "Private Parties"),
+    "about": ("/about/", "About Two Stooges Sports Bar | Fridley, MN Since 1988",
+              "Two Stooges Sports Bar & Grill opened in Fridley, MN in 1988 as University Billiards. Meet the award-winning billiard room and sports bar. Read our story.",
+              "photos/building-exterior", "The Two Stooges Sports Bar & Grill building on University Ave NE, Fridley", "About"),
+    "gallery": ("/gallery/", "Photos of Two Stooges Sports Bar | Fridley, MN",
+                "Photos of Two Stooges Sports Bar in Fridley, MN: the 43-table billiard room, dart area, sports bar and building on University Ave NE. Take a look inside.",
+                "photos/billiard-room-rows", "Inside the Two Stooges Sports Bar billiard room", "Gallery"),
+    "contact": ("/contact/", "Contact & Directions | Two Stooges Sports Bar, Fridley",
+                "Contact Two Stooges Sports Bar & Grill at 7178 University Ave NE, Fridley, MN 55432. Call (763) 574-1399. Open daily 11 AM to midnight. Get directions.",
+                "photos/building-exterior", "Two Stooges Sports Bar & Grill, 7178 University Ave NE, Fridley MN", "Contact"),
+    "privacy": ("/privacy-policy/", "Privacy Policy | Two Stooges Sports Bar",
+                "Read the Two Stooges Sports Bar & Grill privacy policy: what information our Fridley, MN website collects through forms and maps, and how we use and protect it.",
+                "photos/billiard-room-rows", "Two Stooges Sports Bar & Grill", "Privacy Policy"),
+}
+
+# Related-page cards (descriptive anchors). Silos: Play · Eat & Drink · Plan your visit.
+LINK_INFO = {
+    "/menu/": ("Two Stooges menu", "Burgers, wings, pizza, Stoogetizers and 16 beers on tap."),
+    "/specials/": ("Happy hour & daily specials", "A food or drink deal every day of the week."),
+    "/billiards/": ("Billiards in Fridley", "43 tournament tables, pool specials and the Pro Shop."),
+    "/darts/": ("Darts at Two Stooges", "Electronic boards and dart leagues every night."),
+    "/leagues/": ("Pool & dart leagues", "Straight pool, 10-ball, APA, UPL and darts. Sign up online."),
+    "/events/": ("Tournaments & events", "FargoRate shootouts, league nights and special events."),
+    "/private-parties/": ("Private parties", "Birthdays, office parties and banquets with custom menus."),
+    "/about/": ("Our story since 1988", "From University Billiards to Two Stooges Sports Bar & Grill."),
+    "/gallery/": ("Photo gallery", "Take a look inside the billiard room, dart area and bar."),
+    "/contact/": ("Contact & directions", "Address, hours, phone and a map to 7178 University Ave NE."),
+}
+RELATED = {
+    "menu": ["/specials/", "/private-parties/", "/events/"],
+    "specials": ["/menu/", "/billiards/", "/events/"],
+    "billiards": ["/leagues/", "/events/", "/darts/"],
+    "darts": ["/leagues/", "/billiards/", "/private-parties/"],
+    "leagues": ["/billiards/", "/darts/", "/events/"],
+    "events": ["/leagues/", "/private-parties/", "/billiards/"],
+    "parties": ["/menu/", "/billiards/", "/darts/"],
+    "about": ["/gallery/", "/billiards/", "/contact/"],
+    "gallery": ["/about/", "/billiards/", "/darts/"],
+    "contact": ["/private-parties/", "/leagues/", "/events/"],
+    "privacy": ["/contact/", "/about/", "/events/"],
+}
+
+FAQ = [
+    ("Where is Two Stooges Sports Bar located?",
+     f'Two Stooges Sports Bar &amp; Grill is at 7178 University Ave NE, Fridley, MN 55432, on University Avenue (Highway 47) just north of Minneapolis. <a href="/contact/">Get directions and parking info</a>.',
+     "Two Stooges Sports Bar & Grill is at 7178 University Ave NE, Fridley, MN 55432, on University Avenue (Highway 47) just north of Minneapolis."),
+    ("What are the hours at Two Stooges?",
+     'We\'re open every day from 11 AM to 12 AM (midnight). Happy hour runs Monday to Thursday 2–6 PM and Friday to Sunday 11 AM–7 PM. See <a href="/specials/">today\'s specials</a>.',
+     "Two Stooges is open every day from 11 AM to 12 AM. Happy hour runs Monday to Thursday 2–6 PM and Friday to Sunday 11 AM–7 PM."),
+    ("How many pool tables does Two Stooges have?",
+     'Two Stooges has 43 pool tables, 9 ft and 7 ft Gabriel\'s and Diamond tables on Simonis 860 cloth. <a href="/billiards/">Learn about our billiard room</a>.',
+     "Two Stooges has 43 pool tables, 9 ft and 7 ft Gabriel's and Diamond tables on Simonis 860 cloth."),
+    ("Does Two Stooges have pool and dart leagues?",
+     'Yes. We run a Straight Pool League on Tuesdays at 11 AM, a 10-Ball League on Thursdays at 11 AM, APA, UPL and in-house 8-ball leagues, and dart leagues every day. <a href="/leagues/">Sign up for a league</a>.',
+     "Yes. Two Stooges runs a Straight Pool League on Tuesdays at 11 AM, a 10-Ball League on Thursdays at 11 AM, APA, UPL and in-house 8-ball leagues, and dart leagues every day."),
+    ("Can I host a private party at Two Stooges?",
+     'Yes. Two Stooges hosts birthdays, office parties, draft parties, banquets and celebrations of life, with custom menus, pool tables and darts. <a href="/private-parties/">Request a party date</a>.',
+     "Yes. Two Stooges hosts birthdays, office parties, draft parties, banquets and celebrations of life, with custom menus, pool tables and darts."),
+    ("Can I watch NFL games at Two Stooges?",
+     'Yes. We carry NFL Sunday Ticket and the DirecTV sports channels on 30 HD TVs and 4 monster screens. <a href="/about/">More about the sports bar</a>.',
+     "Yes. Two Stooges carries NFL Sunday Ticket and the DirecTV sports channels on 30 HD TVs and 4 monster screens."),
+]
+
+# ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
 e = lambda s: html.escape(str(s), quote=True)
+
+
+def L(href, text):
+    """Contextual in-body link with descriptive anchor text (always canonical, trailing slash)."""
+    return f'<a href="{href}">{text}</a>'
+
 
 try:
     from PIL import Image
@@ -165,6 +272,7 @@ try:
         with Image.open(IMG / rel) as im:
             return im.size
 except ImportError:  # still builds without Pillow, just without width/height
+    Image = None
     def dims(rel):
         return (None, None)
 
@@ -186,6 +294,37 @@ def img(rel, alt, sizes="100vw", cls="", eager=False, srcset=True):
     return f'<img src="{src}"{ss}{wh} alt="{e(alt)}"{load}{c}>'
 
 
+def make_og(key, src_rel):
+    """1200x630 Open Graph image: cover-cropped photo + logo. Written to assets/img/og/<key>.jpg"""
+    out = IMG / "og" / f"{key}.jpg"
+    if Image is None:
+        return out
+    out.parent.mkdir(parents=True, exist_ok=True)
+    with Image.open(IMG / f"{src_rel}.webp") as im:
+        im = im.convert("RGB")
+        W, H = 1200, 630
+        s = max(W / im.width, H / im.height)
+        im = im.resize((round(im.width * s), round(im.height * s)), Image.LANCZOS)
+        l, t = (im.width - W) // 2, (im.height - H) // 2
+        im = im.crop((l, t, l + W, t + H))
+    shade = Image.new("L", (W, H))
+    px = shade.load()
+    for y in range(H):
+        for x in range(0, W, 4):
+            a = int(min(235, max(0, 70 + 170 * (y / H) + 60 * (1 - x / W))))
+            for k in range(4):
+                if x + k < W:
+                    px[x + k, y] = a
+    im = Image.composite(Image.new("RGB", (W, H), (0, 0, 0)), im, shade)
+    with Image.open(IMG / "brand" / "two-stooges-logo-1200.png") as logo:
+        logo = logo.convert("RGBA")
+        lw = 460
+        logo = logo.resize((lw, round(logo.height * lw / logo.width)), Image.LANCZOS)
+        im.paste(logo, (56, H - logo.height - 48), logo)
+    im.save(out, "JPEG", quality=82, optimize=True, progressive=True)
+    return out
+
+
 ICONS = {
     "phone": '<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>',
     "pin": '<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>',
@@ -201,7 +340,6 @@ ICONS = {
     "nav": '<polygon points="3 11 22 2 13 21 11 13 3 11"/>',
     "ball": '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="11" r="3.5"/>',
     "bag": '<path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>',
-    "mug": '<path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" y1="2" x2="6" y2="4"/><line x1="10" y1="2" x2="10" y2="4"/><line x1="14" y1="2" x2="14" y2="4"/>',
     "fork": '<path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/>',
     "trophy": '<path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>',
 }
@@ -230,8 +368,23 @@ def cognito(form_id, title):
     return f'''<div class="form-panel">
   <script src="https://www.cognitoforms.com/f/seamless.js" data-key="{COGNITO_KEY}" data-form="{form_id}"></script>
   <noscript><iframe src="https://www.cognitoforms.com/f/{COGNITO_KEY}/{form_id}" title="{e(title)}" style="border:0;width:100%;height:900px"></iframe></noscript>
-  <p class="form-panel__fallback">Form not loading? <a href="https://www.cognitoforms.com/f/{COGNITO_KEY}/{form_id}" target="_blank" rel="noopener">Open it in a new tab</a> or call <a href="tel:{BIZ["tel"]}">{BIZ["phone"]}</a>.</p>
+  <p class="form-panel__fallback">Form not loading? <a href="https://www.cognitoforms.com/f/{COGNITO_KEY}/{form_id}" target="_blank" rel="noopener">Open the {e(title.lower())} in a new tab</a> or call <a href="tel:{BIZ["tel"]}">{BIZ["phone"]}</a>. We only use your details to respond to you. See our <a href="/privacy-policy/">privacy policy</a>.</p>
 </div>'''
+
+
+def related(key):
+    hrefs = RELATED.get(key)
+    if not hrefs:
+        return ""
+    cards = "".join(f'''<article class="card card--link"><div class="card__body">
+      <span class="card__kicker">Keep exploring</span>
+      <h3><a class="stretched" href="{h}">{e(LINK_INFO[h][0])}</a></h3>
+      <p>{e(LINK_INFO[h][1])}</p>
+    </div></article>''' for h in hrefs)
+    return f'''<section class="section section--tight related" aria-labelledby="related-h"><div class="wrap">
+  <div class="section-head"><span class="eyebrow">More at Two Stooges</span><h2 id="related-h">More to do at Two Stooges in Fridley</h2></div>
+  <div class="grid grid--3">{cards}</div>
+</div></section>'''
 
 
 # ---------------------------------------------------------------------------
@@ -257,8 +410,7 @@ def header(path):
             ac = ' aria-current="page"' if is_current(path, target) else ""
             items.append(f'<li><a class="nav__link" href="{target}"{ac}>{e(label)}</a></li>')
 
-    mob = []
-    flat = []
+    mob, flat = [], []
     for item in NAV:
         label, target = item[0], item[1]
         if isinstance(target, list):
@@ -283,7 +435,7 @@ def header(path):
 </div>
 <header class="site-header">
   <div class="wrap header-inner">
-    <a class="brand" href="/">{img("brand/two-stooges-logo.webp", "Two Stooges Sports Bar & Grill – home", eager=True, srcset=False)}</a>
+    <a class="brand" href="/">{img("brand/two-stooges-logo.webp", "Two Stooges Sports Bar & Grill, Fridley MN – home", eager=True, srcset=False)}</a>
     <nav class="site-nav" aria-label="Main"><ul class="nav">{"".join(items)}</ul></nav>
     <div class="header-cta">
       <a class="btn btn--outline btn--sm" href="tel:{BIZ["tel"]}">{icon("phone")}Call</a>
@@ -305,34 +457,37 @@ def header(path):
 
 
 def footer():
+    updated = dt.date.fromisoformat(TODAY).strftime("%B %-d, %Y")
     return f'''<footer class="site-footer">
   {rail()}
   <div class="wrap">
     <div class="footer-grid" style="padding-top:3rem">
       <div class="footer-brand">
         {img("brand/two-stooges-logo.webp", "Two Stooges Sports Bar & Grill", srcset=False)}
-        <p>Fridley's home for pool, darts, cold beer and game day since 1988.</p>
+        <p>{e(BIZ["name"])} has been Fridley's home for pool, darts, cold beer and game day since 1988.</p>
       </div>
       <div>
-        <h2>Visit</h2>
+        <p class="footer-title">Visit</p>
+        <address>
         <ul>
           <li><a href="{DIRECTIONS}" target="_blank" rel="noopener">{e(BIZ["street"])}<br>{e(BIZ["city"])}, {e(BIZ["region"])} {e(BIZ["zip"])}</a></li>
           <li><a href="tel:{BIZ["tel"]}">{e(BIZ["phone"])}</a></li>
           <li><a href="mailto:{BIZ["email"]}">{e(BIZ["email"])}</a></li>
         </ul>
+        </address>
       </div>
       <div>
-        <h2>Hours</h2>
+        <p class="footer-title">Hours</p>
         <div class="footer-hours"><span>Monday – Sunday</span><strong style="color:var(--text)">11 AM – 12 AM</strong><span class="small" style="margin-top:.5rem">Happy hour Mon–Thu 2–6 PM<br>Fri–Sun 11 AM–7 PM</span></div>
       </div>
       <div>
-        <h2>Explore</h2>
+        <p class="footer-title">Explore</p>
         <ul>
           <li><a href="/menu/">Menu</a></li>
-          <li><a href="/specials/">Specials</a></li>
+          <li><a href="/specials/">Specials &amp; Happy Hour</a></li>
           <li><a href="/billiards/">Billiards</a></li>
           <li><a href="/darts/">Darts</a></li>
-          <li><a href="/leagues/">Leagues</a></li>
+          <li><a href="/leagues/">Leagues &amp; Tournaments</a></li>
           <li><a href="/events/">Events</a></li>
           <li><a href="/private-parties/">Private Parties</a></li>
         </ul>
@@ -340,8 +495,8 @@ def footer():
     </div>
   </div>
   <div class="wrap footer-bottom">
-    <span>© <span data-year>2026</span> Two Stooges Sports Bar &amp; Grill. All rights reserved.</span>
-    <span><a href="/about/">About</a> · <a href="/gallery/">Gallery</a> · <a href="/contact/">Contact</a> · Website by Multimedia Graphics</span>
+    <span>© <span data-year>2026</span> {e(BIZ["name"])}, Fridley, Minnesota. Information updated {updated}.</span>
+    <span><a href="/about/">About</a> · <a href="/gallery/">Gallery</a> · <a href="/contact/">Contact</a> · <a href="/privacy-policy/">Privacy Policy</a> · Website by Multimedia Graphics</span>
   </div>
 </footer>
 <nav class="action-bar" aria-label="Quick actions">
@@ -359,17 +514,23 @@ def footer():
 def local_business_ld():
     return {
         "@context": "https://schema.org",
-        "@type": "BarOrPub",
+        "@type": ["BarOrPub", "SportsActivityLocation"],
         "@id": SITE + "/#business",
         "name": BIZ["name"],
+        "alternateName": ["Two Stooges", "Two Stooges Sports Bar", "Two Stooges Fridley"],
+        "description": ENTITY_DESC,
         "url": SITE + "/",
         "telephone": BIZ["tel"],
         "email": BIZ["email"],
-        "image": SITE + "/assets/img/photos/billiard-room-rows.webp",
+        "image": [SITE + "/assets/img/og/home.jpg", SITE + "/assets/img/photos/billiard-room-rows.webp"],
         "logo": SITE + "/assets/img/brand/two-stooges-logo-1200.png",
         "servesCuisine": "American",
         "priceRange": "$$",
-        "foundingDate": "1988",
+        "foundingDate": "1988-04",
+        "founder": [{"@type": "Person", "name": n} for n in FOUNDERS],
+        "award": AWARDS,
+        "hasMap": DIRECTIONS,
+        "areaServed": [{"@type": "City", "name": f"{c}, MN"} for c in AREA_SERVED],
         "address": {"@type": "PostalAddress", "streetAddress": BIZ["street"], "addressLocality": BIZ["city"],
                     "addressRegion": BIZ["region"], "postalCode": BIZ["zip"], "addressCountry": "US"},
         "geo": {"@type": "GeoCoordinates", "latitude": BIZ["lat"], "longitude": BIZ["lng"]},
@@ -377,33 +538,95 @@ def local_business_ld():
                                        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
                                        "opens": "11:00", "closes": "23:59"}],
         "amenityFeature": [{"@type": "LocationFeatureSpecification", "name": n, "value": True}
-                           for n in ["43 pool tables", "Dart boards", "30 HD TVs + 4 big screens", "Pro shop", "Private event space"]],
+                           for n in ["43 pool tables", "Electronic dart boards", "30 HD TVs and 4 big screens",
+                                     "NFL Sunday Ticket", "16 beers on tap", "Pro shop and cue repair", "Private event space"]],
+        "knowsAbout": ["Billiards", "Pool leagues", "Darts", "Dart leagues", "FargoRate tournaments", "Sports bar"],
     }
 
 
-def page(path, title, desc, body, og_image="photos/billiard-room-rows.webp", extra_ld=None):
-    full_title = title if "Two Stooges" in title else f"{title} | Two Stooges Sports Bar & Grill, Fridley MN"
+def website_ld():
+    return {"@context": "https://schema.org", "@type": "WebSite", "@id": SITE + "/#website", "url": SITE + "/",
+            "name": BIZ["name"], "publisher": {"@id": SITE + "/#business"}, "inLanguage": "en-US"}
+
+
+def breadcrumb_ld(path, name):
+    return {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": SITE + "/"},
+        {"@type": "ListItem", "position": 2, "name": name, "item": SITE + path}]}
+
+
+def webpage_ld(path, title, desc, crumb):
+    d = {"@context": "https://schema.org", "@type": "WebPage", "@id": SITE + path + "#webpage", "url": SITE + path,
+         "name": title, "description": desc, "isPartOf": {"@id": SITE + "/#website"},
+         "about": {"@id": SITE + "/#business"}, "inLanguage": "en-US", "dateModified": TODAY,
+         "primaryImageOfPage": SITE + "/assets/img/og/" + path.strip("/").replace("/", "-") + ".jpg"}
+    if crumb:
+        d["breadcrumb"] = {"@id": SITE + path + "#breadcrumb"}
+    return d
+
+
+def page(key, body, extra_ld=None, og_type="website"):
+    path, title, desc, og_src, og_alt, crumb = META[key]
+    assert len(title) <= 60, f"title too long ({len(title)}): {title}"
+    assert 150 <= len(desc) <= 160, f"description length {len(desc)}: {key}"
+    canonical = SITE + path
+    og_file = make_og(key, og_src).name
+    og_url = f"{SITE}/assets/img/og/{og_file}"
     robots = "index, follow, max-image-preview:large" if LAUNCH else "noindex, nofollow"
-    lds = [local_business_ld()] + (extra_ld or [])
+    wp = webpage_ld(path, title, desc, crumb)
+    wp["primaryImageOfPage"] = og_url
+    lds = [local_business_ld(), wp]
+    if key == "home":
+        lds.insert(1, website_ld())
+    if crumb:
+        bc = breadcrumb_ld(path, crumb)
+        bc["@id"] = SITE + path + "#breadcrumb"
+        lds.append(bc)
+    lds += extra_ld or []
     ld_html = "\n".join(f'<script type="application/ld+json">{json.dumps(x, ensure_ascii=False)}</script>' for x in lds)
-    url = SITE + path
+    biz_og = ""
+    if og_type == "business.business":
+        biz_og = f'''
+<meta property="business:contact_data:street_address" content="{e(BIZ["street"])}">
+<meta property="business:contact_data:locality" content="{e(BIZ["city"])}">
+<meta property="business:contact_data:region" content="{e(BIZ["region"])}">
+<meta property="business:contact_data:postal_code" content="{e(BIZ["zip"])}">
+<meta property="business:contact_data:country_name" content="United States">
+<meta property="business:contact_data:phone_number" content="{e(BIZ["phone"])}">
+<meta property="business:contact_data:email" content="{e(BIZ["email"])}">
+<meta property="place:location:latitude" content="{BIZ["lat"]}">
+<meta property="place:location:longitude" content="{BIZ["lng"]}">'''
     return f'''<!doctype html>
-<html lang="en">
+<html lang="en-US">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{e(full_title)}</title>
+<title>{e(title)}</title>
 <meta name="description" content="{e(desc)}">
 <meta name="robots" content="{robots}">
-<link rel="canonical" href="{url}">
+<link rel="canonical" href="{canonical}">
+<meta name="geo.region" content="US-MN">
+<meta name="geo.placename" content="Fridley">
+<meta name="geo.position" content="{BIZ["lat"]};{BIZ["lng"]}">
+<meta name="ICBM" content="{BIZ["lat"]}, {BIZ["lng"]}">
 <meta name="theme-color" content="#000000">
-<meta property="og:type" content="website">
+<meta property="og:type" content="{og_type}">
+<meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="{e(BIZ["name"])}">
-<meta property="og:title" content="{e(full_title)}">
+<meta property="og:title" content="{e(title)}">
 <meta property="og:description" content="{e(desc)}">
-<meta property="og:url" content="{url}">
-<meta property="og:image" content="{SITE}/assets/img/{og_image}">
+<meta property="og:url" content="{canonical}">
+<meta property="og:image" content="{og_url}">
+<meta property="og:image:secure_url" content="{og_url}">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="{e(og_alt)}">{biz_og}
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{e(title)}">
+<meta name="twitter:description" content="{e(desc)}">
+<meta name="twitter:image" content="{og_url}">
+<meta name="twitter:image:alt" content="{e(og_alt)}">
 <link rel="icon" type="image/png" sizes="48x48" href="/assets/img/brand/favicon-48.png">
 <link rel="apple-touch-icon" href="/assets/img/brand/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -416,6 +639,7 @@ def page(path, title, desc, body, og_image="photos/billiard-room-rows.webp", ext
 {header(path)}
 <main id="main">
 {body}
+{related(key)}
 </main>
 {footer()}
 <script src="/assets/js/site.js?v={ASSET_VER}" defer></script>
@@ -424,11 +648,12 @@ def page(path, title, desc, body, og_image="photos/billiard-room-rows.webp", ext
 '''
 
 
-def page_hero(crumb, eyebrow, title, lead, image, alt, actions=""):
+def page_hero(key, eyebrow, title, lead, image, alt, actions=""):
+    crumb = META[key][5]
     return f'''<section class="page-hero">
   <div class="page-hero__media">{img(image, alt, eager=True)}</div>
   <div class="wrap">
-    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a> / {e(crumb)}</nav>
+    <nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li aria-current="page">{e(crumb)}</li></ol></nav>
     <span class="eyebrow">{eyebrow}</span>
     <h1>{title}</h1>
     <p class="lead">{lead}</p>
@@ -445,19 +670,18 @@ def cta_band(title, text, actions):
 </div></div></section>'''
 
 
-def visit_section(head=True):
-    h = section_head("Find us", "Visit Two Stooges", "Right on University Ave NE in Fridley. Plenty of parking, and walk-ins are always welcome.") if head else ""
+def visit_section(title="Visit Two Stooges Sports Bar in Fridley, MN"):
     return f'''<section class="section section--alt" id="visit"><div class="wrap">
-  {h}
+  {section_head("Find us", title, f"We're on University Avenue NE (Highway 47) in Fridley, just north of Minneapolis, and we welcome guests from Columbia Heights, Spring Lake Park, New Brighton, Coon Rapids, Blaine and the rest of the north metro. Walk-ins are always welcome. Planning ahead? {L('/private-parties/', 'Reserve space for a group')}.")}
   <div class="visit">
     <div class="visit__info">
       <div class="info-row"><span class="tile__icon">{icon("pin")}</span><div><h3>Address</h3><p><a href="{DIRECTIONS}" target="_blank" rel="noopener">{e(BIZ["street"])}<br>{e(BIZ["city"])}, {e(BIZ["region"])} {e(BIZ["zip"])}</a></p></div></div>
       <div class="info-row"><span class="tile__icon">{icon("clock")}</span><div><h3>Hours</h3><p>Open every day, 11 AM – 12 AM</p></div></div>
       <div class="info-row"><span class="tile__icon">{icon("phone")}</span><div><h3>Phone</h3><p><a href="tel:{BIZ["tel"]}">{e(BIZ["phone"])}</a></p></div></div>
       <div class="info-row"><span class="tile__icon">{icon("mail")}</span><div><h3>Email</h3><p><a href="mailto:{BIZ["email"]}">{e(BIZ["email"])}</a></p></div></div>
-      <div class="btn-row mt-1">{btn("Get Directions", DIRECTIONS, "gold", "nav", ' target="_blank" rel="noopener"')}{btn("Call Us", "tel:" + BIZ["tel"], "outline", "phone")}</div>
+      <div class="btn-row mt-1">{btn("Get Directions", DIRECTIONS, "gold", "nav", ' target="_blank" rel="noopener"')}{btn("Call Two Stooges", "tel:" + BIZ["tel"], "outline", "phone")}</div>
     </div>
-    <div class="map"><iframe src="{MAP_EMBED}" title="Map: Two Stooges Sports Bar &amp; Grill, 7178 University Ave NE, Fridley MN" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+    <div class="map"><iframe src="{MAP_EMBED}" title="Map to Two Stooges Sports Bar &amp; Grill, 7178 University Ave NE, Fridley MN" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
   </div>
 </div></section>'''
 
@@ -484,12 +708,12 @@ def event_block(ev):
   <div>
     <div class="event__date"><span>{e(ev["dow"])}</span><span>{e(ev["date"])}</span></div>
     <h3>{e(ev["title"])}</h3>
-    <p class="muted">{e(ev["intro"])}</p>
+    <p class="muted">{e(ev["intro"])} New to FargoRate? Our {L("/leagues/", "weekly pool leagues")} are a great way to build your rating.</p>
     <div class="event__facts">{facts}</div>
     <p class="event__note">{e(ev["note"])}</p>
     <div class="event__contact">
       {btn(f"{who}: {num}", "tel:" + tel, "gold", "phone")}
-      <a class="text-link" href="/contact/">Directions &amp; parking</a>
+      <a class="text-link" href="/contact/">Directions to Two Stooges</a>
     </div>
   </div>
 </article>
@@ -510,6 +734,7 @@ def event_ld(ev):
         "startDate": ev["start_iso"], "eventStatus": "https://schema.org/EventScheduled",
         "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
         "description": ev["intro"], "image": [SITE + "/assets/img/" + ev["flyer"]],
+        "url": SITE + "/events/#" + ev["id"],
         "location": {"@type": "Place", "name": BIZ["name"], "address": {"@type": "PostalAddress",
                      "streetAddress": BIZ["street"], "addressLocality": BIZ["city"], "addressRegion": BIZ["region"],
                      "postalCode": BIZ["zip"], "addressCountry": "US"}},
@@ -519,8 +744,13 @@ def event_ld(ev):
         d["doorTime"] = ev["door_iso"]
     if ev.get("price"):
         d["offers"] = {"@type": "Offer", "price": ev["price"], "priceCurrency": "USD", "url": SITE + "/events/#" + ev["id"],
-                       "availability": "https://schema.org/LimitedAvailability"}
+                       "availability": "https://schema.org/LimitedAvailability", "validFrom": TODAY}
     return d
+
+
+def faq_ld():
+    return {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
+        {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": plain}} for q, _, plain in FAQ]}
 
 
 # ---------------------------------------------------------------------------
@@ -528,35 +758,35 @@ def event_ld(ev):
 # ---------------------------------------------------------------------------
 def p_home():
     ups = upcoming_events()
-    nxt = min(ups, key=lambda x: x["end"]) if ups else None  # soonest upcoming
+    nxt = min(ups, key=lambda x: x["end"]) if ups else None
     next_card = ""
     if nxt:
-        next_card = f'''<aside class="next-up" data-next-up="{nxt["end"]}" aria-label="Next event">
+        next_card = f'''<aside class="next-up" data-next-up="{nxt["end"]}" aria-label="Next event at Two Stooges">
       <div class="next-up__label">{icon("calendar")}Next up · {e(nxt["short_date"])}</div>
       <div class="next-up__body">
         {img(nxt["flyer"], nxt["flyer_alt"], srcset=False)}
         <div>
-          <h3>{e(nxt["title"])}</h3>
+          <p class="next-up__title">{e(nxt["title"])}</p>
           <p>{e(nxt["facts"][0][1])} · {e(nxt["facts"][3][1])} · starts {e(nxt["facts"][5][1])}</p>
-          <a class="text-link" href="/events/#{nxt["id"]}">Event details</a>
+          <a class="text-link" href="/events/#{nxt["id"]}">Tournament details</a>
         </div>
       </div>
     </aside>'''
 
     pillars = [
-        ("photos/player-shooting", "A player lines up a shot on a blue-felt pool table at Two Stooges", "43 Tables", "Billiards",
-         "Gabriel's and Diamond tables in 9 ft and 7 ft, daily pool specials and a full Pro Shop.", "/billiards/", "Shoot some pool"),
-        ("photos/dart-room", "The Two Stooges dart area with a row of electronic dart boards and high-top tables", "Leagues every day", "Darts",
-         "Electronic dart boards, high-tops and leagues for every skill level.", "/darts/", "Throw some darts"),
-        ("photos/tournament-table-trophies", "A tournament pool table under the lights with trophies on the shelf above", "Weekly play", "Leagues & Tournaments",
-         "Straight pool, 10-ball, APA and UPL leagues, plus FargoRate tournaments.", "/leagues/", "Join a league"),
-        ("photos/pool-hall-interior", "The warmly lit Two Stooges billiard room set up for a group", "Up to big groups", "Private Parties",
-         "Birthdays, office parties, draft parties and banquets, with food and pool tables included.", "/private-parties/", "Plan your party"),
+        ("photos/player-shooting", "A player lines up a shot on a blue-felt pool table at Two Stooges in Fridley", "43 tables", "Billiards", "/billiards/",
+         f"Gabriel's and Diamond tables in 9 ft and 7 ft, {L('/specials/#pool', 'daily pool specials')} and a full Pro Shop.", "Explore the billiard room"),
+        ("photos/dart-room", "The Two Stooges dart area with a row of electronic dart boards and high-top tables", "Leagues every day", "Darts", "/darts/",
+         f"Electronic dart boards, high-tops and {L('/leagues/', 'dart leagues')} for every skill level.", "See the dart area"),
+        ("photos/tournament-table-trophies", "A tournament pool table under the lights with trophies on the shelf above", "Weekly play", "Leagues & Tournaments", "/leagues/",
+         f"Straight pool, 10-ball, APA and UPL leagues, plus {L('/events/', 'FargoRate tournaments')}.", "Join a pool league"),
+        ("photos/pool-hall-interior", "The warmly lit Two Stooges billiard room set up for a group", "Groups welcome", "Private Parties", "/private-parties/",
+         f"Birthdays, office parties and banquets with {L('/menu/', 'custom menus')} and pool tables included.", "Plan a private party"),
     ]
     cards = "".join(f'''<article class="card card--link">
       <div class="card__media">{img(i, a, sizes="(max-width:640px) 100vw, (max-width:1000px) 50vw, 25vw")}</div>
-      <div class="card__body"><span class="card__kicker">{k}</span><h3><a class="stretched" href="{h}" style="color:inherit;text-decoration:none">{t}</a></h3><p>{d}</p><span class="text-link">{l}</span></div>
-    </article>''' for i, a, k, t, d, h, l in pillars)
+      <div class="card__body"><span class="card__kicker">{k}</span><h3>{t}</h3><p>{d}</p><a class="text-link" href="{h}">{l}</a></div>
+    </article>''' for i, a, k, t, h, d, l in pillars)
 
     sched = [("Tuesday · 11 AM", "Straight Pool League", "BCA rules · 3 races to 50"),
              ("Thursday · 11 AM", "10-Ball League", "3 sets · race to 5"),
@@ -567,21 +797,22 @@ def p_home():
     deals = [("Monday", "$2 off any burger"), ("Wednesday", "$1 wings"), ("Sunday Funday", "$1.50 wings"), ("Mon–Thu 2–6 PM", "$3.50 domestics · $4 rails")]
     deals_html = "".join(f'<div class="tile" style="background:rgba(0,0,0,.35);border-color:rgba(246,194,26,.25)"><div class="schedule__day">{d}</div><h3 class="mb-0">{t}</h3></div>' for d, t in deals)
 
-    quotes = "".join(f'<figure class="quote"><blockquote>{e(q)}</blockquote><figcaption>— {e(n)}</figcaption></figure>' for q, n in REVIEWS)
+    quotes = "".join(f'<figure class="quote"><blockquote>{e(q)}</blockquote><figcaption>— {e(n)}, Two Stooges guest</figcaption></figure>' for q, n in REVIEWS)
+    faqs = "".join(f'<details class="faq"><summary><h3>{e(q)}</h3></summary><p>{a}</p></details>' for q, a, _ in FAQ)
 
     body = f'''<section class="hero">
-  <div class="hero__media">{img("photos/billiard-room-rows", "Rows of blue-felt pool tables in the Two Stooges billiard room", eager=True)}</div>
+  <div class="hero__media">{img("photos/billiard-room-rows", "Rows of blue-felt pool tables in the Two Stooges Sports Bar billiard room, Fridley MN", eager=True)}</div>
   <div class="wrap hero__inner">
     <div>
-      <span class="eyebrow">Fridley, MN · Since 1988</span>
-      <h1>The most fun you can have <span class="grad-text">under one roof</span></h1>
-      <p class="lead">Classic American sports bar, restaurant and billiard room. 43 pool tables, dart boards, 30 HD TVs plus 4 monster screens, 16 ice-cold taps, and a team that feels like family.</p>
+      <span class="eyebrow">The most fun you can have under one roof</span>
+      <h1>Two Stooges Sports Bar &amp; Grill in <span class="grad-text">Fridley, MN</span></h1>
+      <p class="lead">{e(ENTITY_DESC)}</p>
       <div class="btn-row">{btn("Upcoming Events", "/events/", "gold", "calendar")}{btn("Today's Specials", "/specials/", "outline")}</div>
       <div class="stat-row">
         <div><span class="stat__num">43</span><span class="stat__label">Pool tables</span></div>
         <div><span class="stat__num">34</span><span class="stat__label">Screens</span></div>
         <div><span class="stat__num">16</span><span class="stat__label">Taps</span></div>
-        <div><span class="stat__num">7</span><span class="stat__label">Days a week</span></div>
+        <div><span class="stat__num">1988</span><span class="stat__label">Established</span></div>
       </div>
     </div>
     {next_card}
@@ -589,14 +820,14 @@ def p_home():
 </section>
 {rail()}
 <section class="section"><div class="wrap">
-  {section_head("Pick your game", "Pool, darts &amp; a whole lot more", "Four ways to spend a night at Stooges. Come for one, stay for all of them.", center=True)}
+  {section_head("Pick your game", "Pool, darts &amp; more at Two Stooges", f"Two Stooges is Fridley's all-in-one sports bar, restaurant and {L('/billiards/', 'billiard room')}. Come for one game and stay for all of them.", center=True)}
   <div class="grid grid--4">{cards}</div>
 </div></section>
 
 <section class="section section--alt section--tight"><div class="wrap">
   <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:1rem;margin-bottom:1.5rem">
-    <div><span class="eyebrow">Every week</span><h2 class="mb-0">League nights &amp; regular play</h2></div>
-    <a class="text-link" href="/leagues/">All leagues &amp; sign-up</a>
+    <div><span class="eyebrow">Every week</span><h2 class="mb-0">Pool &amp; dart league nights in Fridley</h2></div>
+    <a class="text-link" href="/leagues/">League details &amp; sign-up</a>
   </div>
   <div class="schedule">{sched_html}</div>
 </div></section>
@@ -605,9 +836,9 @@ def p_home():
   <div class="split">
     <div>
       <span class="eyebrow">Specials &amp; happy hour</span>
-      <h2>A deal every <span class="grad-text">day of the week</span></h2>
-      <p class="lead" style="color:#d5e6db">Happy hour runs Mon–Thu 2–6 PM and all weekend from 11 AM to 7 PM. On top of that there's a food special every day.</p>
-      <div class="btn-row mt-2">{btn("See All Specials", "/specials/", "gold")}{btn("View Menu", "/menu/", "outline")}</div>
+      <h2>Daily specials at <span class="grad-text">Two Stooges</span></h2>
+      <p class="lead" style="color:#d5e6db">Happy hour runs Mon–Thu 2–6 PM and all weekend from 11 AM to 7 PM, and there's a food special every day. Pair it with something from the {L("/menu/", "Two Stooges menu")}.</p>
+      <div class="btn-row mt-2">{btn("See All Specials", "/specials/", "gold")}{btn("View the Menu", "/menu/", "outline")}</div>
     </div>
     <div class="grid grid--2">{deals_html}</div>
   </div>
@@ -616,17 +847,17 @@ def p_home():
 <section class="section"><div class="wrap">
   <div class="split">
     <div class="split__media">
-      {img("photos/dart-room", "Big-screen TV over the dart area at Two Stooges", sizes="(max-width:860px) 100vw, 50vw")}
-      <div class="split__badge">NFL Sunday Ticket<small>+ all the DirecTV sports channels</small></div>
+      {img("photos/dart-room", "Big-screen TV over the dart area at Two Stooges Sports Bar", sizes="(max-width:860px) 100vw, 50vw")}
+      <div class="split__badge">NFL Sunday Ticket<small>+ the DirecTV sports channels</small></div>
     </div>
     <div>
       <span class="eyebrow">The sports bar</span>
-      <h2>Every game, <span class="grad-text">every screen</span></h2>
-      <p class="lead">Our elevated bar sits right in the middle of the room, so wherever you sit you're close to the action. It's cherry wood with steel railings, and the tall booths fit your whole crew.</p>
+      <h2>Watch the game in Fridley on <span class="grad-text">34 screens</span></h2>
+      <p class="lead">The elevated bar sits right in the middle of the room, so wherever you sit you're close to the action. It's cherry wood with steel railings, and the tall booths fit your whole crew. Between games, rack up on one of our {L("/billiards/", "43 pool tables")} or {L("/darts/", "throw darts")}.</p>
       <ul class="check-list check-list--2col">
         <li>30 HD flat screens</li><li>4 monster screens</li><li>16 taps, poured ice-cold</li><li>Original cocktails</li><li>Scratch-made pub food</li><li>Open 11 AM – midnight</li>
       </ul>
-      {btn("About Two Stooges", "/about/", "outline")}
+      {btn("Read Our Story", "/about/", "outline")}
     </div>
   </div>
 </div></section>
@@ -634,61 +865,65 @@ def p_home():
 <section class="section section--alt"><div class="wrap">
   <div class="split split--rev">
     <div class="split__media">
-      {img("photos/building-exterior", "The Two Stooges building on University Ave NE in Fridley with its green awnings", sizes="(max-width:860px) 100vw, 50vw")}
-      <div class="split__badge">Since 1988<small>Family-run in Fridley</small></div>
+      {img("photos/building-exterior", "The Two Stooges Sports Bar & Grill building on University Ave NE in Fridley, with green awnings", sizes="(max-width:860px) 100vw, 50vw")}
+      <div class="split__badge">Since 1988<small>Locally owned in Fridley</small></div>
     </div>
     <div>
       <span class="eyebrow">Award-winning billiards</span>
-      <h2>Named one of the <span class="grad-text">top ten billiard rooms</span> in North America</h2>
-      <p class="lead">It started in 1988 as University Billiards. Almost four decades later, Two Stooges is still serving the coldest beer and juiciest burgers around, and City Pages voted us the best place in town to shoot pool.</p>
-      <a class="text-link" href="/about/">Our story</a>
+      <h2>A top ten billiard room in <span class="grad-text">North America</span></h2>
+      <p class="lead">Owners Ty Wilson and Greg Asproth opened University Billiards in 1988 with 17 tables. Almost four decades later, Two Stooges is still serving the coldest beer and juiciest burgers around, and City Pages named it the best place to shoot pool in 2017.</p>
+      <p><a class="text-link" href="/about/">Read the Two Stooges story</a></p>
     </div>
   </div>
 </div></section>
 
 <section class="section"><div class="wrap">
-  {section_head("Happy customers", "What people are saying", center=True)}
+  {section_head("Guest reviews", "What guests say about Two Stooges", center=True)}
   <div class="grid grid--3">{quotes}</div>
 </div></section>
+
+<section class="section section--alt" id="faq"><div class="wrap" style="max-width:900px">
+  {section_head("Good to know", "Two Stooges Sports Bar FAQ", center=True)}
+  <div class="faq-list">{faqs}</div>
+</div></section>
 {visit_section()}'''
-    return page("/", "Two Stooges Sports Bar & Grill | Pool, Darts & Sports Bar in Fridley, MN",
-                "Fridley's sports bar, restaurant and billiard room since 1988. 43 pool tables, darts, 30 HD TVs plus 4 big screens, 16 taps, daily specials, leagues and tournaments.",
-                body)
+    return page("home", body, extra_ld=[faq_ld()], og_type="business.business")
 
 
 def p_menu():
-    cats = [("Stoogetizers", "Shareable starters for the table"), ("Wings", "Classic bone-in wings with house sauces"),
-            ("Burgers", "Including the Big Stooge"), ("Sandwiches & Wraps", "Hot, hearty and handheld"),
-            ("Pizza", "Small and large, perfect for league night"), ("Entrées", "Full plates, made to order"),
+    cats = [("Stoogetizers", "Shareable starters for the table"), ("Wings", f"Bone-in wings with house sauces, {L('/specials/', '$1 on Wednesdays')}"),
+            ("Burgers", f"Including the Big Stooge, {L('/specials/', '$2 off on Mondays')}"), ("Sandwiches & Wraps", "Hot, hearty and handheld"),
+            ("Pizza", "Small and large, perfect for league night"), ("Entrées", f"Full plates, {L('/specials/', '$3 off on Tuesdays')}"),
             ("Soup & Salad", "Lighter options")]
-    items = "".join(f'<div class="menu-cat"><span class="menu-cat__num">{i:02d}</span><div><h3>{e(t)}</h3><p>{e(d)}</p></div></div>' for i, (t, d) in enumerate(cats, 1))
-    body = f'''{page_hero("Menu", "Eat &amp; drink", "Pub food <span class='grad-text'>done right</span>",
-        "Classic American sports bar food with our own twist, served from 11 AM until close. Burgers, wings, pizza and plenty more, plus 16 beers on tap.",
-        "photos/billiard-balls-bokeh", "Colorful pool balls on felt", btn("Today's Specials", "/specials/", "gold") + btn("Call to Order: " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone"))}
+    items = "".join(f'<div class="menu-cat"><span class="menu-cat__num">{i:02d}</span><div><h3>{e(t)}</h3><p>{d}</p></div></div>' for i, (t, d) in enumerate(cats, 1))
+    body = f'''{page_hero("menu", "Eat &amp; drink", "The Two Stooges Sports Bar <span class='grad-text'>menu</span>",
+        f"Classic American bar and grill food with our own twist, served in Fridley from 11 AM until close. Burgers, wings, pizza and more, plus 16 beers on tap. Check the {L('/specials/', 'daily specials')} before you order.",
+        "photos/billiard-balls-bokeh", "Colorful pool balls on felt at Two Stooges", btn("Today's Specials", "/specials/", "gold") + btn("Call to Order: " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone"))}
 <section class="section"><div class="wrap">
   <!-- TODO(client): send the current food & drink menu with prices to replace the category list below. -->
-  <div class="notice mb-0" style="margin-bottom:2rem">{icon("info")}<p><strong>Our full menu is being updated.</strong> Call <a href="tel:{BIZ["tel"]}">{BIZ["phone"]}</a> for today's menu, or ask your server.</p></div>
-  {section_head("On the menu", "What we're serving", "")}
+  <div class="notice" style="margin-bottom:2rem">{icon("info")}<p><strong>Our full menu is being updated.</strong> Call <a href="tel:{BIZ["tel"]}">{BIZ["phone"]}</a> for today's menu, or ask your server.</p></div>
+  {section_head("On the menu", "Bar &amp; grill food in Fridley", f"Everything you'd want on {L('/leagues/', 'league night')}, at the bar or during a game of pool.")}
   <div class="grid grid--2">{items}</div>
 </div></section>
 <section class="section section--alt"><div class="wrap">
   <div class="split">
     <div>
       <span class="eyebrow">At the bar</span>
-      <h2>16 taps, <span class="grad-text">ice-cold</span></h2>
-      <p class="lead">Every beer is poured through our iced cobra taps. Pair it with an original cocktail, or catch the happy hour prices on domestics and rails.</p>
+      <h2>16 beers on tap, <span class="grad-text">ice-cold</span></h2>
+      <p class="lead">Every beer is poured through our iced cobra taps. Pair it with an original cocktail, or catch {L("/specials/", "happy hour prices")} on domestics and rails.</p>
+      <h3>Happy hour drink prices</h3>
       <ul class="price-list">
-        <li><span>Domestic bottles &amp; pints <small class="muted">· happy hour</small></span><span class="price">$3.50</span></li>
-        <li><span>Domestic 22 oz <small class="muted">· happy hour</small></span><span class="price">$4.25</span></li>
-        <li><span>Rail drinks <small class="muted">· happy hour</small></span><span class="price">$4.00</span></li>
+        <li><span>Domestic bottles &amp; pints</span><span class="price">$3.50</span></li>
+        <li><span>Domestic 22 oz</span><span class="price">$4.25</span></li>
+        <li><span>Rail drinks</span><span class="price">$4.00</span></li>
       </ul>
       <p class="small muted mt-1">Happy hour: Mon–Thu 2–6 PM · Fri–Sun 11 AM–7 PM.</p>
     </div>
-    <div class="split__media">{img("photos/pool-hall-interior", "The Two Stooges room with tables and booths under warm lights", sizes="(max-width:860px) 100vw, 50vw")}</div>
+    <div class="split__media">{img("photos/pool-hall-interior", "Tables and booths under warm lights at Two Stooges Sports Bar & Grill", sizes="(max-width:860px) 100vw, 50vw")}</div>
   </div>
 </div></section>
-{cta_band("Feeding a crowd?", "We put together custom menus for birthdays, office parties, banquets and league banquets.", btn("Plan a Party", "/private-parties/", "gold"))}'''
-    return page("/menu/", "Menu", "Burgers, wings, pizza, sandwiches, entrées and Stoogetizers at Two Stooges Sports Bar & Grill in Fridley, MN, plus 16 ice-cold beers on tap.", body)
+{cta_band("Feeding a crowd in Fridley?", f"We put together custom menus for birthdays, office parties and banquets.", btn("Plan a Private Party", "/private-parties/", "gold"))}'''
+    return page("menu", body)
 
 
 def p_specials():
@@ -696,58 +931,58 @@ def p_specials():
     for wd, name, deals in SPECIALS:
         d = "".join(f'<div class="deal"><span class="deal__time">{e(t)}</span><span class="deal__what">{e(w)}{f"<br><small>{e(n)}</small>" if n else ""}</span></div>' for t, w, n in deals)
         days.append(f'<article class="day-card" data-weekday="{wd}"><div class="day-card__day"><h3>{e(name)}</h3><span class="today-badge">Today</span></div>{d}</article>')
-    body = f'''{page_hero("Specials", "Daily deals", "Specials &amp; <span class='grad-text'>happy hour</span>",
-        "There's a deal every day of the week. Today's specials are highlighted below.",
-        "photos/billiard-balls-felt", "Pool balls on blue felt", btn("View Menu", "/menu/", "gold") + btn("Pool Specials", "#pool", "outline"))}
+    body = f'''{page_hero("specials", "Daily deals", "Two Stooges Sports Bar <span class='grad-text'>specials &amp; happy hour</span>",
+        f"There's a deal every day at Two Stooges in Fridley, and today's specials are highlighted below. Browse the {L('/menu/', 'full bar and grill menu')} or grab a table with our {L('#pool', 'daily pool specials')}.",
+        "photos/billiard-balls-felt", "Pool balls on blue felt", btn("View the Menu", "/menu/", "gold") + btn("Pool Specials", "#pool", "outline"))}
 <section class="section"><div class="wrap">
-  {section_head("This week", "Day-by-day specials", "Food specials, happy hour times and drink prices for each day.")}
+  {section_head("This week", "Daily food &amp; drink specials in Fridley", "Food specials, happy hour times and drink prices for each day of the week.")}
   <div class="grid grid--4">{"".join(days)}</div>
   <p class="small muted mt-2">Prices don't include tax. Specials are dine-in only and can't be combined with other offers. Prices and times can change, so ask your server for today's deals.</p>
 </div></section>
 <section class="section section--alt" id="pool"><div class="wrap">
   <div class="split">
-    <div class="split__media">{img("photos/player-lining-up-shot", "A player lining up a shot at Two Stooges", sizes="(max-width:860px) 100vw, 50vw")}</div>
+    <div class="split__media">{img("photos/player-lining-up-shot", "A player lining up a shot at Two Stooges Sports Bar", sizes="(max-width:860px) 100vw, 50vw")}</div>
     <div>
       <span class="eyebrow">Daily pool specials</span>
-      <h2>Rack 'em up for less, <span class="grad-text">11 AM–5 PM</span></h2>
-      <p class="lead">Discounted table time every day from 11 AM to 5 PM.</p>
+      <h2>Pool specials, <span class="grad-text">11 AM–5 PM daily</span></h2>
+      <p class="lead">Discounted table time every day from 11 AM to 5 PM on our {L("/billiards/", "43 Gabriel's and Diamond tables")}.</p>
       <!-- TODO(client): confirm pool special pricing (old site listed $11/$10/$12 on Billiards but $12/$11 on Specials). -->
       <ul class="price-list">
         <li><span>Regular</span><span class="price">$11</span></li>
         <li><span>Seniors</span><span class="price">$10</span></li>
         <li><span>Premier table</span><span class="price">$12</span></li>
       </ul>
-      <p class="small muted mt-1">Plus tax. Grab a table and balls at the billiard counter.</p>
-      {btn("About Our Tables", "/billiards/", "outline")}
+      <p class="small muted mt-1">Plus tax. Grab a table and balls at the billiard counter. Want to play every week? {L("/leagues/", "Join a pool league")}.</p>
     </div>
   </div>
 </div></section>
 {cta_band("Celebrating a birthday?", "Bring the crew. We'll set you up with tables, food and drinks for your group.", btn("Book a Party", "/private-parties/", "gold") + btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone"))}'''
-    return page("/specials/", "Specials & Happy Hour", "Daily food specials and happy hour at Two Stooges in Fridley: $1 wings Wednesday, $2 off burgers Monday, Sunday Funday deals, $3.50 domestics and daily pool specials.", body, og_image="photos/billiard-balls-felt.webp")
+    return page("specials", body)
 
 
 def p_billiards():
-    gallery = [("photos/billiard-hall-tables", "Rows of tables in the Two Stooges billiard hall"), ("photos/player-racking", "A player racking balls at a Two Stooges table"),
+    gallery = [("photos/billiard-hall-tables", "Rows of tables in the Two Stooges billiard hall"), ("photos/player-racking", "A player racking balls at a Two Stooges pool table"),
                ("photos/tournament-table-trophies", "Tournament table with trophies above"), ("photos/pool-balls-rack", "A fresh rack of pool balls on blue felt")]
-    g = "".join(f'<figure class="gallery__item"><button type="button" data-lightbox="/assets/img/{p}.webp" data-alt="{e(a)}" data-caption="{e(a)}" aria-label="Enlarge: {e(a)}">{img(p, a, sizes="(max-width:640px) 100vw, 33vw")}</button></figure>' for p, a in gallery)
-    body = f'''{page_hero("Billiards", "43 tables · since 1988", "Shoot some <span class='grad-text'>pool</span>",
-        "Named a top ten billiard room in North America and voted best place to shoot pool by City Pages. 43 Gabriel's and Diamond tables in 9 ft and 7 ft, with room to play around every one.",
-        "photos/billiard-hall-tables", "The Two Stooges billiard hall with rows of blue-felt tables", btn("Daily Pool Specials", "#rates", "gold") + btn("Join a League", "/leagues/", "outline"))}
+    g = "".join(f'<figure class="gallery__item"><button type="button" data-lightbox="/assets/img/{p}.webp" data-alt="{e(a)}" data-caption="{e(a)}" aria-label="Enlarge photo: {e(a)}">{img(p, a, sizes="(max-width:640px) 100vw, 33vw")}</button></figure>' for p, a in gallery)
+    body = f'''{page_hero("billiards", "43 tables · since 1988", "Billiards at Two Stooges Sports Bar in <span class='grad-text'>Fridley</span>",
+        "Two Stooges has been named a top ten billiard room in North America, and City Pages voted it the best place to shoot pool. There are 43 Gabriel's and Diamond tables in 9 ft and 7 ft, with room to play around every one.",
+        "photos/billiard-hall-tables", "The Two Stooges billiard hall with rows of blue-felt pool tables", btn("Daily Pool Specials", "#rates", "gold") + btn("Join a Pool League", "/leagues/", "outline"))}
 <section class="section"><div class="wrap">
+  {section_head("The billiard room", "Fridley's award-winning pool hall", f"Pool has been the heart of Two Stooges since 1988, when it opened as University Billiards. {L('/about/', 'Read the full story')}.")}
   <div class="grid grid--3">
     <div class="tile"><span class="tile__icon">{icon("ball")}</span><h3>43 tournament tables</h3><p>9 ft and 7 ft Gabriel's and Diamond tables on Simonis 860 cloth, with good lighting and comfortable seating at every table.</p></div>
-    <div class="tile"><span class="tile__icon">{icon("trophy")}</span><h3>Leagues &amp; tournaments</h3><p>APA, UPL, in-house 8-ball, straight pool and 10-ball leagues, plus FargoRate tournaments throughout the year.</p></div>
-    <div class="tile"><span class="tile__icon">{icon("bag")}</span><h3>Pro Shop</h3><p>Cues, cases, chalk, gloves, darts and accessories, plus cue repair.</p></div>
+    <div class="tile"><span class="tile__icon">{icon("trophy")}</span><h3>Leagues &amp; tournaments</h3><p>APA, UPL, in-house 8-ball, straight pool and 10-ball {L("/leagues/", "pool leagues")}, plus {L("/events/", "FargoRate tournaments")} throughout the year.</p></div>
+    <div class="tile"><span class="tile__icon">{icon("bag")}</span><h3>Pro Shop</h3><p>Cues, cases, chalk, gloves, {L("/darts/", "darts")} and accessories, plus {L("#pro-shop", "cue repair")}.</p></div>
   </div>
 </div></section>
 <section class="section section--alt" id="rates"><div class="wrap">
   <div class="split">
     <div>
       <span class="eyebrow">How to rent a table</span>
-      <h2>Grab a table, <span class="grad-text">pay when you're done</span></h2>
+      <h2>Renting a pool table <span class="grad-text">at Two Stooges</span></h2>
       <ol class="check-list" style="list-style:none">
         <li>Stop at the billiard counter. The attendant will set you up with a table and a set of balls.</li>
-        <li>Play as long as you like. Order food and drinks right at your table.</li>
+        <li>Play as long as you like and order from the {L("/menu/", "bar and grill menu")} right at your table.</li>
         <li>Bring the balls back to the counter and settle up.</li>
       </ol>
       <h3 class="mt-2">Daily pool specials · 11 AM–5 PM</h3>
@@ -757,16 +992,16 @@ def p_billiards():
         <li><span>Seniors</span><span class="price">$10</span></li>
         <li><span>Premier table</span><span class="price">$12</span></li>
       </ul>
-      <p class="small muted mt-1">Plus tax.</p>
+      <p class="small muted mt-1">Plus tax. See every {L("/specials/", "food and drink special")} too.</p>
     </div>
-    <div class="split__media">{img("photos/player-shooting", "A player shooting on a blue-felt table at Two Stooges", sizes="(max-width:860px) 100vw, 50vw")}<div class="split__badge">Top 10 Billiard Room<small>in North America</small></div></div>
+    <div class="split__media">{img("photos/player-shooting", "A player shooting on a blue-felt table at Two Stooges Sports Bar", sizes="(max-width:860px) 100vw, 50vw")}<div class="split__badge">Top 10 Billiard Room<small>in North America</small></div></div>
   </div>
 </div></section>
 <section class="section" id="tournaments"><div class="wrap">
-  {section_head("Compete", "Leagues &amp; tournaments", "Handicapped leagues for every skill level, and tournaments that are open to the public. You don't need to be in a league to play.")}
+  {section_head("Compete", "Pool leagues &amp; tournaments in Fridley", "Handicapped leagues for every skill level, and tournaments that are open to the public. You don't need to be in a league to play.")}
   <div class="grid grid--2">
-    <div class="tile"><h3>Weekly leagues</h3><div class="tile__meta"><span class="chip chip--gold">Straight Pool · Tue 11 AM</span><span class="chip chip--gold">10-Ball · Thu 11 AM</span><span class="chip">APA</span><span class="chip">UPL</span><span class="chip">In-house 8-Ball</span></div><p class="mt-1">All leagues are handicapped, so beginners and sharks can play together.</p><a class="text-link" href="/leagues/">League details &amp; sign-up</a></div>
-    <div class="tile"><h3>Tournaments</h3><p>FargoRate 8-ball tournaments and bar box shootouts with money added. Spots fill fast, so check the events calendar and sign up early.</p><a class="text-link" href="/events/">Upcoming tournaments</a></div>
+    <div class="tile"><h3>Weekly pool leagues</h3><div class="tile__meta"><span class="chip chip--gold">Straight Pool · Tue 11 AM</span><span class="chip chip--gold">10-Ball · Thu 11 AM</span><span class="chip">APA</span><span class="chip">UPL</span><span class="chip">In-house 8-Ball</span></div><p class="mt-1">All leagues are handicapped, so beginners and sharks can play together.</p><a class="text-link" href="/leagues/">Pool league details &amp; sign-up</a></div>
+    <div class="tile"><h3>FargoRate tournaments</h3><p>FargoRate 8-ball tournaments and bar box shootouts with money added. Spots fill fast, so sign up early.</p><a class="text-link" href="/events/">Upcoming pool tournaments</a></div>
   </div>
 </div></section>
 <section class="section section--alt" id="pro-shop"><div class="wrap">
@@ -774,82 +1009,83 @@ def p_billiards():
     <div class="split__media">{img("photos/player-racking", "A player racking a game at Two Stooges", sizes="(max-width:860px) 100vw, 50vw")}</div>
     <div>
       <span class="eyebrow">Pro Shop</span>
-      <h2>Gear up <span class="grad-text">in-house</span></h2>
-      <p class="lead">Our Pro Shop carries cues and accessories for pool and darts, and we do cue repair on site.</p>
+      <h2>Two Stooges Pro Shop <span class="grad-text">&amp; cue repair</span></h2>
+      <p class="lead">Our Pro Shop carries cues and accessories for pool and {L("/darts/", "darts")}, and we do cue repair on site.</p>
       <ul class="check-list"><li>Cues &amp; cases</li><li>Chalk, gloves &amp; accessories</li><li>Darts &amp; flights</li><li>Cue repair</li></ul>
-      {btn("Ask About the Pro Shop", "tel:" + BIZ["tel"], "outline", "phone")}
+      {btn("Call the Pro Shop", "tel:" + BIZ["tel"], "outline", "phone")}
     </div>
   </div>
 </div></section>
 <section class="section"><div class="wrap">
-  {section_head("The room", "Inside the billiard room")}
+  {section_head("The room", "Inside the Two Stooges billiard room", f"More photos in the {L('/gallery/', 'Two Stooges photo gallery')}.")}
   <div class="gallery">{g}</div>
 </div></section>
-{cta_band("Host your event on the tables", "Birthdays, draft parties, office parties, celebrations of life and banquets. We'll customize the menu and the room for you.", btn("Plan a Party", "/private-parties/", "gold"))}'''
-    return page("/billiards/", "Billiards & Pool Tables", "43 Gabriel's and Diamond pool tables in Fridley, MN. Daily pool specials, APA, UPL, straight pool and 10-ball leagues, tournaments and a full Pro Shop with cue repair.", body, og_image="photos/billiard-hall-tables.webp")
+{cta_band("Host your event on the tables", "Birthdays, draft parties, office parties, celebrations of life and banquets. We'll customize the menu and the room for you.", btn("Plan a Private Party", "/private-parties/", "gold"))}'''
+    return page("billiards", body)
 
 
 def p_darts():
-    body = f'''{page_hero("Darts", "Darts at Stooges", "Throw some <span class='grad-text'>darts</span>",
-        "Electronic dart boards, high-top tables and a big screen. Bring friends for a casual game or join one of our leagues, which run every day of the week.",
+    body = f'''{page_hero("darts", "Darts at Stooges", "Darts at Two Stooges Sports Bar in <span class='grad-text'>Fridley</span>",
+        f"Electronic dart boards, high-top tables and a big screen. Bring friends for a casual game or join one of our {L('/leagues/', 'dart leagues')}, which run every day of the week.",
         "photos/dart-bullseye-neon", "A dart hitting the bullseye under colorful bar lights", btn("Join a Dart League", "/leagues/#signup", "gold") + btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone"))}
 <section class="section"><div class="wrap">
   <div class="split">
     <div class="split__media">{img("photos/dart-room", "The Two Stooges dart area with a row of electronic dart boards", sizes="(max-width:860px) 100vw, 50vw")}</div>
     <div>
       <span class="eyebrow">The dart area</span>
-      <h2>Step up to <span class="grad-text">the line</span></h2>
-      <p class="lead">Our dart area has a row of electronic boards, high-tops for your crew and a big screen showing the game. It's a great way to spend a night out with friends.</p>
-      <ul class="check-list"><li>Electronic dart boards</li><li>High-top seating right by the boards</li><li>Food and drinks delivered to your table</li><li>Darts and flights in our Pro Shop</li></ul>
+      <h2>Electronic dart boards <span class="grad-text">in Fridley</span></h2>
+      <p class="lead">Our dart area has a row of electronic boards, high-tops for your crew and a big screen showing the game. It's right next to the {L("/billiards/", "billiard room")}, so your group can switch between pool and darts all night.</p>
+      <ul class="check-list"><li>Electronic dart boards</li><li>High-top seating right by the boards</li><li>Food and drinks from the {L("/menu/", "Two Stooges menu")} delivered to your table</li><li>Darts and flights in our {L("/billiards/#pro-shop", "Pro Shop")}</li></ul>
     </div>
   </div>
 </div></section>
 <section class="section section--alt"><div class="wrap">
-  {section_head("Dart leagues", "Leagues every day of the week", "Meet other players, sharpen your game and win cash. There's a league for every skill level.")}
+  {section_head("Dart leagues", "Dart leagues every day of the week", "Meet other players, sharpen your game and win cash. There's a league for every skill level.")}
   <div class="grid grid--3">
     <div class="tile"><span class="tile__icon">{icon("calendar")}</span><h3>Every night</h3><p>Leagues run every day of the week, so pick the night that works for you.</p></div>
     <div class="tile"><span class="tile__icon">{icon("users")}</span><h3>Custom leagues</h3><p>We can set up leagues for women, couples or teams. Just ask.</p></div>
     <div class="tile"><span class="tile__icon">{icon("award")}</span><h3>Win cash</h3><p>Compete for prize money and bragging rights all season long.</p></div>
   </div>
-  <div class="btn-row mt-2">{btn("Sign Up for a League", "/leagues/#signup", "gold")}{btn("Ask a Team Member", "tel:" + BIZ["tel"], "outline", "phone")}</div>
+  <div class="btn-row mt-2">{btn("Sign Up for a Dart League", "/leagues/#signup", "gold")}{btn("Ask a Team Member", "tel:" + BIZ["tel"], "outline", "phone")}</div>
 </div></section>
-{cta_band("Dart night for your group?", "Birthdays, office outings and team nights. We'll reserve boards and put together food for your group.", btn("Plan a Party", "/private-parties/", "gold"))}'''
-    return page("/darts/", "Darts & Dart Leagues", "Electronic dart boards and dart leagues every day of the week at Two Stooges Sports Bar & Grill in Fridley, MN. Custom leagues for women, couples and teams.", body, og_image="photos/dart-room.webp")
+{cta_band("Dart night for your group?", f"Birthdays, office outings and team nights. We'll reserve boards and put together food for your group.", btn("Plan a Private Party", "/private-parties/", "gold"))}'''
+    return page("darts", body)
 
 
 def p_leagues():
     lg = []
-    for L in LEAGUES:
-        pts = "".join(f"<li>{e(p)}</li>" for p in L["points"])
+    for L_ in LEAGUES:
+        pts = "".join(f"<li>{e(p)}</li>" for p in L_["points"])
         lg.append(f'''<article class="event">
-  <button class="event__flyer" type="button" data-lightbox="/assets/img/{L["flyer"]}" data-alt="{e(L["flyer_alt"])}" data-caption="{e(L["name"])}" aria-label="View full flyer: {e(L["name"])}">{img(L["flyer"], L["flyer_alt"], srcset=False)}</button>
+  <button class="event__flyer" type="button" data-lightbox="/assets/img/{L_["flyer"]}" data-alt="{e(L_["flyer_alt"])}" data-caption="{e(L_["name"])}" aria-label="View full flyer: {e(L_["name"])}">{img(L_["flyer"], L_["flyer_alt"], srcset=False)}</button>
   <div>
-    <div class="event__date"><span>{e(L["day"])}</span><span>{e(L["time"])}</span></div>
-    <h3>{e(L["name"])}</h3>
+    <div class="event__date"><span>{e(L_["day"])}</span><span>{e(L_["time"])}</span></div>
+    <h3>{e(L_["name"])} at Two Stooges</h3>
     <ul class="check-list">{pts}</ul>
-    <div class="event__contact">{btn("Call to sign up: " + BIZ["phone"], "tel:" + BIZ["tel"], "gold", "phone")}<a class="text-link" href="#signup">Or sign up online</a></div>
+    <div class="event__contact">{btn("Call to sign up: " + BIZ["phone"], "tel:" + BIZ["tel"], "gold", "phone")}<a class="text-link" href="#signup">Sign up for a league online</a></div>
   </div>
 </article>''')
-    body = f'''{page_hero("Leagues", "Pool &amp; dart leagues", "Join a <span class='grad-text'>league</span>",
-        "Stooges leagues are a great way to meet other pool and dart players, sharpen your skills and win cash. There's a league for every skill level.",
+    body = f'''{page_hero("leagues", "Pool &amp; dart leagues", "Pool &amp; dart leagues at <span class='grad-text'>Two Stooges Sports Bar</span>",
+        f"Leagues at Two Stooges are a great way to meet other pool and dart players in Fridley, sharpen your skills and win cash. There's a league for every skill level on our {L('/billiards/', '43 tables')} and {L('/darts/', 'dart boards')}.",
         "photos/tournament-table-trophies", "Tournament table with trophies above", btn("Sign Up Online", "#signup", "gold") + btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone"))}
 <section class="section"><div class="wrap">
-  {section_head("In-house pool leagues", "Weekday leagues on the 9-footers", "Played on our 9 ft Gabriel's tables. Click a flyer to see it full size.")}
+  {section_head("In-house pool leagues", "Weekday pool leagues in Fridley", "Played on our 9 ft Gabriel's tables. Click a flyer to see it full size.")}
   {"".join(lg)}
 </div></section>
 <section class="section section--alt"><div class="wrap">
-  {section_head("More leagues", "Something for every player")}
+  {section_head("More leagues", "APA, UPL &amp; dart leagues")}
   <div class="grid grid--3">
     <div class="tile"><span class="tile__icon">{icon("ball")}</span><h3>APA &amp; UPL</h3><p>We host APA and UPL handicapped pool leagues, open to all skill levels.</p></div>
     <div class="tile"><span class="tile__icon">{icon("ball")}</span><h3>In-house 8-Ball</h3><p>Our own handicapped 8-ball league, a great first league for newer players.</p></div>
-    <div class="tile"><span class="tile__icon">{icon("target")}</span><h3>Dart leagues</h3><p>Leagues every day of the week, plus custom leagues for women, couples and teams.</p></div>
+    <div class="tile"><span class="tile__icon">{icon("target")}</span><h3>Dart leagues</h3><p>Leagues every day of the week, plus custom leagues for women, couples and teams. {L("/darts/", "See the dart area")}.</p></div>
   </div>
+  <p class="mt-2 muted">Ready to compete for money? Check the {L("/events/", "upcoming pool tournaments")} for FargoRate 8-ball shootouts.</p>
 </div></section>
 <section class="section" id="signup"><div class="wrap">
   <div class="split" style="align-items:start">
     <div>
       <span class="eyebrow">League sign-up</span>
-      <h2>Get on <span class="grad-text">the roster</span></h2>
+      <h2>Sign up for a <span class="grad-text">Two Stooges league</span></h2>
       <p class="lead">Fill out the form and we'll get you placed on a team or league night. Prefer the phone? Call us and a team member will sign you up.</p>
       <ul class="check-list"><li>Pool or darts</li><li>Solo players welcome. We'll help find you a team.</li><li>Handicapped, so every skill level can compete</li></ul>
       {btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone")}
@@ -857,82 +1093,81 @@ def p_leagues():
     {cognito(FORM_LEAGUE, "League sign-up form")}
   </div>
 </div></section>'''
-    return page("/leagues/", "Pool & Dart Leagues", "Join a pool or dart league at Two Stooges in Fridley, MN: Straight Pool Tuesdays 11 AM, 10-Ball Thursdays 11 AM, APA, UPL, in-house 8-ball and dart leagues every night.", body, og_image="events/10-ball-league.webp")
+    return page("leagues", body, og_type="website")
 
 
 def p_events():
     ups = sorted(upcoming_events(), key=lambda x: x["end"])
     up_html = "".join(event_block(ev) for ev in ups)
     past_html = "".join(past_card(ev) for ev in past_events())
-    weekly = "".join(f'''<div class="schedule__item"><div class="schedule__day">{e(L["day"])} · {e(L["time"])}</div><h3>{e(L["name"])}</h3><p>{e(L["points"][0])}</p></div>''' for L in LEAGUES)
+    weekly = "".join(f'''<div class="schedule__item"><div class="schedule__day">{e(L_["day"])} · {e(L_["time"])}</div><h3>{e(L_["name"])}</h3><p>{e(L_["points"][0])}</p></div>''' for L_ in LEAGUES)
     weekly += '<div class="schedule__item"><div class="schedule__day">Every day</div><h3>Dart Leagues</h3><p>All skill levels</p></div>'
     weekly += '<div class="schedule__item"><div class="schedule__day">Daily · 11 AM–5 PM</div><h3>Pool Specials</h3><p>Discounted table time</p></div>'
-    body = f'''{page_hero("Events", "What's happening", "Upcoming <span class='grad-text'>events</span>",
-        "Tournaments, league nights and special events at Two Stooges. Click any flyer to see it full size.",
+    body = f'''{page_hero("events", "What's happening", "Events &amp; tournaments at <span class='grad-text'>Two Stooges Sports Bar</span>",
+        f"Pool tournaments, league nights and special events at Two Stooges in Fridley. Click any flyer to see it full size. Want your own event? {L('/private-parties/', 'Book a private party')}.",
         "photos/tournament-table-trophies", "Tournament table with trophies on the shelf", btn("Host Your Own Event", "/private-parties/", "gold") + btn("League Nights", "#weekly", "outline"))}
 <section class="section"><div class="wrap">
-  {section_head("Coming up", "Tournaments &amp; special nights")}
+  {section_head("Coming up", "Upcoming pool tournaments in Fridley", f"FargoRate events on our {L('/billiards/', 'tournament tables')}. Spots are limited, so call to sign up.")}
   <div data-upcoming>{up_html}</div>
-  <div class="empty-note{"" if ups else " is-visible"}" data-empty-note>New events are on the way. Follow along in the bar or call <a href="tel:{BIZ["tel"]}">{BIZ["phone"]}</a> for what's coming up next.</div>
+  <div class="empty-note{"" if ups else " is-visible"}" data-empty-note>New events are on the way. Call <a href="tel:{BIZ["tel"]}">{BIZ["phone"]}</a> to find out what's coming up next, or {L("/leagues/", "join a weekly league")}.</div>
 </div></section>
 <section class="section section--alt section--tight" id="weekly"><div class="wrap">
   <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:1rem;margin-bottom:1.5rem">
-    <div><span class="eyebrow">Every week</span><h2 class="mb-0">Weekly league nights</h2></div>
-    <a class="text-link" href="/leagues/">League details &amp; sign-up</a>
+    <div><span class="eyebrow">Every week</span><h2 class="mb-0">Weekly league nights at Two Stooges</h2></div>
+    <a class="text-link" href="/leagues/">Pool &amp; dart league sign-up</a>
   </div>
   <div class="schedule">{weekly}</div>
 </div></section>
 <section class="section"><div class="wrap">
   <details class="past-events">
-    <summary>Recent events</summary>
+    <summary><h2>Recent events at Two Stooges</h2></summary>
     <div class="past-grid" data-past-grid>{past_html}</div>
   </details>
 </div></section>
 {cta_band("Want to host a tournament or party?", "From birthday bashes to banquets and league parties, we'll help you plan it.", btn("Plan Your Event", "/private-parties/", "gold") + btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone"))}'''
-    return page("/events/", "Events & Tournaments", "Upcoming pool tournaments, league nights and special events at Two Stooges Sports Bar & Grill in Fridley, MN.",
-                body, og_image=(ups[0]["flyer"] if ups else "photos/tournament-table-trophies.webp"), extra_ld=[event_ld(ev) for ev in ups])
+    return page("events", body, extra_ld=[event_ld(ev) for ev in ups])
 
 
 def p_parties():
     occasions = ["Birthdays", "Office parties", "Draft parties", "Holiday parties", "Celebrations of life", "Banquets & league parties", "Business meetings", "Reunions & receptions"]
     occ = "".join(f"<li>{e(o)}</li>" for o in occasions)
-    body = f'''{page_hero("Private Parties", "Private parties &amp; events", "Always a reason <span class='grad-text'>to celebrate</span>",
-        "Two Stooges is ready for your next birthday, holiday party, office outing or banquet. We'll customize the menu and the space for your group.",
+    body = f'''{page_hero("parties", "Private parties &amp; events", "Private parties at <span class='grad-text'>Two Stooges Sports Bar</span>",
+        "Two Stooges is ready for your next birthday, holiday party, office outing or banquet in Fridley. We'll customize the menu and the space for your group.",
         "photos/pool-hall-interior", "The Two Stooges room set up with tables and booths", btn("Request a Date", "#request", "gold") + btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone"))}
 <section class="section"><div class="wrap">
   <div class="split">
     <div>
       <span class="eyebrow">Perfect for</span>
-      <h2>Any occasion, <span class="grad-text">any size crew</span></h2>
-      <p class="lead">We have a range of spaces for small and large groups, with pool tables, dart boards and big screens included.</p>
+      <h2>A Fridley party venue for <span class="grad-text">any occasion</span></h2>
+      <p class="lead">We have spaces for small and large groups, with {L("/billiards/", "pool tables")}, {L("/darts/", "dart boards")} and big screens included.</p>
       <ul class="check-list check-list--2col">{occ}</ul>
     </div>
-    <div class="split__media">{img("photos/billiard-hall-tables", "Tables ready for a group at Two Stooges", sizes="(max-width:860px) 100vw, 50vw")}</div>
+    <div class="split__media">{img("photos/billiard-hall-tables", "Tables ready for a group party at Two Stooges", sizes="(max-width:860px) 100vw, 50vw")}</div>
   </div>
 </div></section>
 <section class="section section--alt"><div class="wrap">
-  {section_head("What's included", "We take care of the details", center=True)}
+  {section_head("What's included", "Party packages at Two Stooges", center=True)}
   <!-- TODO(client): add room names, capacities and package pricing when available. -->
   <div class="grid grid--4">
     <div class="tile"><span class="tile__icon">{icon("users")}</span><h3>Space for your group</h3><p>Different areas for small and large gatherings.</p></div>
-    <div class="tile"><span class="tile__icon">{icon("fork")}</span><h3>Custom menus</h3><p>Food packages built for your group and budget.</p></div>
+    <div class="tile"><span class="tile__icon">{icon("fork")}</span><h3>Custom menus</h3><p>Food packages built from the {L("/menu/", "Two Stooges menu")} for your group and budget.</p></div>
     <div class="tile"><span class="tile__icon">{icon("ball")}</span><h3>Pool &amp; darts</h3><p>Reserve tables and boards so your guests can play.</p></div>
-    <div class="tile"><span class="tile__icon">{icon("tv")}</span><h3>Big screens</h3><p>Watch the game, or bring your own slideshow.</p></div>
+    <div class="tile"><span class="tile__icon">{icon("tv")}</span><h3>Big screens</h3><p>Watch the game on our 34 screens, or bring your own slideshow.</p></div>
   </div>
 </div></section>
 <section class="section" id="request"><div class="wrap">
   <div class="split" style="align-items:start">
     <div>
       <span class="eyebrow">Event request</span>
-      <h2>Tell us about <span class="grad-text">your event</span></h2>
-      <p class="lead">Send us the date, how many guests and what you're celebrating. We'll get back to you with options and pricing.</p>
+      <h2>Request a <span class="grad-text">party date</span></h2>
+      <p class="lead">Send us the date, how many guests and what you're celebrating. We'll get back to you with options and pricing. Planning a tournament? See our {L("/events/", "past and upcoming events")} for ideas.</p>
       <div class="info-row mt-2"><span class="tile__icon">{icon("phone")}</span><div><h3>Rather talk it through?</h3><p><a href="tel:{BIZ["tel"]}">{BIZ["phone"]}</a></p></div></div>
       <div class="info-row mt-1"><span class="tile__icon">{icon("mail")}</span><div><h3>Email</h3><p><a href="mailto:{BIZ["email"]}">{BIZ["email"]}</a></p></div></div>
     </div>
     {cognito(FORM_EVENT, "Private event request form")}
   </div>
 </div></section>'''
-    return page("/private-parties/", "Private Parties & Event Space", "Host birthdays, office parties, draft parties, banquets and celebrations of life at Two Stooges in Fridley, MN. Custom menus, pool tables, darts and big screens.", body, og_image="photos/pool-hall-interior.webp")
+    return page("parties", body)
 
 
 def p_about():
@@ -945,22 +1180,22 @@ def p_about():
     awards = [("Top Ten Billiard Room in North America", "Billiards industry recognition"), ("Best Place to Shoot Pool", "City Pages, 2017"),
               ("Business of the Year", "Local business award"), ("Best of: Architectural Design", "Billiards Digest")]
     aw = "".join(f'<div class="tile"><span class="tile__icon">{icon("award")}</span><h3>{e(a)}</h3><p>{e(b)}</p></div>' for a, b in awards)
-    body = f'''{page_hero("About", "Our story", "Fridley's game room <span class='grad-text'>since 1988</span>",
-        "Two Stooges is a classic American sports bar, restaurant and billiard room. Almost four decades in, we're still serving the coldest beer and juiciest burgers around.",
+    body = f'''{page_hero("about", "Our story", "About Two Stooges Sports Bar: <span class='grad-text'>Fridley since 1988</span>",
+        f"{e(ENTITY_DESC)} Almost four decades in, we're still serving the coldest beer and juiciest burgers around.",
         "photos/building-exterior", "The Two Stooges building on University Ave NE", btn("Visit Us", "/contact/", "gold"))}
 <section class="section"><div class="wrap">
   <div class="split" style="align-items:start">
     <div>
       <span class="eyebrow">How it started</span>
-      <h2>From 17 tables to <span class="grad-text">a Fridley institution</span></h2>
-      <p class="lead">What began as a neighborhood billiard room became one of the best-known pool and darts destinations in Minnesota, with a full sports bar and kitchen to match.</p>
+      <h2>The history of <span class="grad-text">Two Stooges</span></h2>
+      <p class="lead">What began as a neighborhood {L("/billiards/", "billiard room")} became one of the best-known pool and darts destinations in Minnesota, with a full sports bar and {L("/menu/", "kitchen")} to match.</p>
       <ol class="timeline mt-2">{tl_html}</ol>
     </div>
     <div class="split__media">{img("photos/tournament-table-trophies", "Tournament table with trophies above at Two Stooges", sizes="(max-width:860px) 100vw, 50vw")}</div>
   </div>
 </div></section>
 <section class="section section--alt"><div class="wrap">
-  {section_head("Recognition", "Award-winning, all-in-one fun", center=True)}
+  {section_head("Recognition", "Awards &amp; recognition", f"Want to see why? Join a {L('/leagues/', 'pool or dart league')} or enter one of our {L('/events/', 'tournaments')}.", center=True)}
   <div class="grid grid--4">{aw}</div>
 </div></section>
 <section class="section"><div class="wrap">
@@ -968,63 +1203,110 @@ def p_about():
     <div class="split__media">{img("photos/dart-room", "Big screen over the dart area", sizes="(max-width:860px) 100vw, 50vw")}</div>
     <div>
       <span class="eyebrow">The sports bar</span>
-      <h2>A seat at the <span class="grad-text">center of the fun</span></h2>
-      <p class="lead">Our elevated bar sits right in the middle of the room, so wherever you sit you're part of the action. It's cherry wood with steel railings, and the tall booths fit your whole group.</p>
-      <ul class="check-list"><li>NFL Sunday Ticket and all the DirecTV sports channels</li><li>30 HD TVs and 4 monster screens</li><li>16 beers on tap</li><li>Original drinks and scratch-made food</li></ul>
+      <h2>A Fridley sports bar with <span class="grad-text">a seat at the center</span></h2>
+      <p class="lead">Our elevated bar sits right in the middle of the room, so wherever you sit you're part of the action. It's cherry wood with steel railings, and the tall booths fit your whole group. Take a look in the {L("/gallery/", "photo gallery")}.</p>
+      <ul class="check-list"><li>NFL Sunday Ticket and the DirecTV sports channels</li><li>30 HD TVs and 4 monster screens</li><li>16 beers on tap</li><li>Original drinks and {L("/specials/", "daily specials")}</li></ul>
     </div>
   </div>
 </div></section>
 {visit_section()}'''
-    return page("/about/", "About Us", "Two Stooges opened in 1988 as University Billiards and grew into an award-winning sports bar, restaurant and billiard room in Fridley, MN.", body, og_image="photos/building-exterior.webp")
+    return page("about", body)
 
 
 def p_gallery():
-    photos = [("photos/billiard-room-rows", "Rows of blue-felt tables in the billiard room"), ("photos/player-shooting", "A player taking a shot"),
+    photos = [("photos/billiard-room-rows", "Rows of blue-felt pool tables in the billiard room"), ("photos/player-shooting", "A player taking a shot"),
               ("photos/dart-room", "The dart area with electronic boards and a big screen"), ("photos/pool-hall-interior", "The billiard room under warm lights"),
-              ("photos/player-racking", "Racking up a game"), ("photos/building-exterior", "Outside Two Stooges on University Ave NE"),
+              ("photos/player-racking", "Racking up a game"), ("photos/building-exterior", "Outside Two Stooges on University Ave NE, Fridley"),
               ("photos/tournament-table-trophies", "Tournament table and trophies"), ("photos/player-lining-up-shot", "Lining up the shot"),
               ("photos/billiard-hall-tables", "The billiard hall"), ("photos/pool-balls-rack", "A fresh rack on blue felt")]
-    g = "".join(f'<figure class="gallery__item"><button type="button" data-lightbox="/assets/img/{p}.webp" data-alt="{e(a)}" data-caption="{e(a)}" aria-label="Enlarge: {e(a)}">{img(p, a, sizes="(max-width:640px) 100vw, (max-width:1000px) 50vw, 33vw")}</button><figcaption>{e(a)}</figcaption></figure>' for p, a in photos)
-    body = f'''{page_hero("Gallery", "Take a look", "Inside <span class='grad-text'>Two Stooges</span>",
-        "The billiard room, the dart area and the bar. Click any photo to see it full size.",
+    g = "".join(f'<figure class="gallery__item"><button type="button" data-lightbox="/assets/img/{p}.webp" data-alt="{e(a)}" data-caption="{e(a)}" aria-label="Enlarge photo: {e(a)}">{img(p, a + " at Two Stooges Sports Bar", sizes="(max-width:640px) 100vw, (max-width:1000px) 50vw, 33vw")}</button><figcaption>{e(a)}</figcaption></figure>' for p, a in photos)
+    body = f'''{page_hero("gallery", "Take a look", "Photos of <span class='grad-text'>Two Stooges Sports Bar</span>",
+        f"Inside the {L('/billiards/', 'billiard room')}, the {L('/darts/', 'dart area')} and the bar in Fridley. Click any photo to see it full size.",
         "photos/pool-hall-interior", "The Two Stooges billiard room")}
-<section class="section"><div class="wrap"><div class="gallery">{g}</div></div></section>
+<section class="section"><div class="wrap">
+  {section_head("Gallery", "Inside the Fridley pool hall &amp; sports bar", f"Every photo was taken at Two Stooges. Like what you see? {L('/private-parties/', 'Host your next party here')}.")}
+  <div class="gallery">{g}</div>
+</div></section>
 {cta_band("See it in person", "Open every day from 11 AM to midnight at 7178 University Ave NE in Fridley.", btn("Get Directions", DIRECTIONS, "gold", "nav", ' target="_blank" rel="noopener"'))}'''
-    return page("/gallery/", "Photo Gallery", "Photos of the billiard room, dart area and sports bar at Two Stooges Sports Bar & Grill in Fridley, MN.", body, og_image="photos/pool-hall-interior.webp")
+    return page("gallery", body)
 
 
 def p_contact():
-    body = f'''{page_hero("Contact", "Get in touch", "Contact &amp; <span class='grad-text'>directions</span>",
+    body = f'''{page_hero("contact", "Get in touch", "Contact <span class='grad-text'>Two Stooges Sports Bar</span> in Fridley, MN",
         "Questions about leagues, tournaments, parties or the menu? Give us a call or stop in. We're open every day from 11 AM to midnight.",
         "photos/building-exterior", "The Two Stooges building on University Ave NE", btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "gold", "phone") + btn("Get Directions", DIRECTIONS, "outline", "nav", ' target="_blank" rel="noopener"'))}
-{visit_section(head=False)}
+{visit_section("Two Stooges address, hours &amp; phone")}
 <section class="section"><div class="wrap">
-  {section_head("How can we help?", "Quick links", center=True)}
+  {section_head("How can we help?", "Plan your visit to Two Stooges", center=True)}
   <div class="grid grid--3">
-    <a class="card card--link" href="/private-parties/#request" style="text-decoration:none;color:inherit"><div class="card__body"><span class="tile__icon">{icon("users")}</span><h3>Plan a party</h3><p>Birthdays, office parties, banquets and more. Send us your event details.</p><span class="text-link">Event request form</span></div></a>
-    <a class="card card--link" href="/leagues/#signup" style="text-decoration:none;color:inherit"><div class="card__body"><span class="tile__icon">{icon("trophy")}</span><h3>Join a league</h3><p>Pool or darts, every skill level. Sign up online or by phone.</p><span class="text-link">League sign-up</span></div></a>
-    <a class="card card--link" href="/events/" style="text-decoration:none;color:inherit"><div class="card__body"><span class="tile__icon">{icon("calendar")}</span><h3>Tournaments &amp; events</h3><p>See what's coming up and how to get on the bracket.</p><span class="text-link">Upcoming events</span></div></a>
+    <article class="card card--link"><div class="card__body"><span class="tile__icon">{icon("users")}</span><h3><a class="stretched" href="/private-parties/#request">Plan a private party</a></h3><p>Birthdays, office parties, banquets and more. Send us your event details.</p></div></article>
+    <article class="card card--link"><div class="card__body"><span class="tile__icon">{icon("trophy")}</span><h3><a class="stretched" href="/leagues/#signup">Join a pool or dart league</a></h3><p>Every skill level is welcome. Sign up online or by phone.</p></div></article>
+    <article class="card card--link"><div class="card__body"><span class="tile__icon">{icon("calendar")}</span><h3><a class="stretched" href="/events/">See upcoming tournaments</a></h3><p>See what's coming up and how to get on the bracket.</p></div></article>
   </div>
-  <p class="center small muted mt-2">Find us on Google Maps: {e(BIZ["plus_code"])}</p>
+  <p class="center small muted mt-2">Find Two Stooges on Google Maps: {e(BIZ["plus_code"])}</p>
 </div></section>'''
-    return page("/contact/", "Contact & Directions", "Two Stooges Sports Bar & Grill, 7178 University Ave NE, Fridley, MN 55432. Call (763) 574-1399. Open daily 11 AM – 12 AM.", body, og_image="photos/building-exterior.webp")
+    return page("contact", body, og_type="business.business")
+
+
+def p_privacy():
+    upd = dt.date.fromisoformat(TODAY).strftime("%B %-d, %Y")
+    # TODO(client): have the owners review this policy.
+    body = f'''{page_hero("privacy", "Legal", "Two Stooges Sports Bar <span class='grad-text'>privacy policy</span>",
+        f"How {e(BIZ['name'])} handles information collected through this website. Last updated {upd}.",
+        "photos/billiard-room-rows", "The Two Stooges billiard room")}
+<section class="section"><div class="wrap prose" style="max-width:820px">
+  <h2>Information we collect</h2>
+  <p>We only collect the information you choose to send us, such as your name, phone number, email address and event or league details when you fill out our {L("/private-parties/#request", "event request form")} or {L("/leagues/#signup", "league sign-up form")}. These forms are provided by Cognito Forms, which processes the information on our behalf.</p>
+  <h2>How we use it</h2>
+  <p>We use your information to respond to your request, schedule your event or league, and contact you about it. We don't sell or rent your personal information.</p>
+  <h2>Third-party services</h2>
+  <p>This site uses Google Maps (to show our location), Google Fonts (for text styling) and Cloudflare (to host and protect the site). These services may receive technical information such as your IP address and browser type when the page loads, under their own privacy policies.</p>
+  <h2>Cookies</h2>
+  <p>We don't use advertising cookies. Embedded services like Google Maps may set their own cookies.</p>
+  <h2>Contact us</h2>
+  <p>Questions about this policy? Email <a href="mailto:{BIZ["email"]}">{BIZ["email"]}</a>, call <a href="tel:{BIZ["tel"]}">{BIZ["phone"]}</a>, or {L("/contact/", "visit our contact page")}.</p>
+</div></section>'''
+    return page("privacy", body)
 
 
 def p_404():
     body = f'''<section class="section"><div class="wrap center" style="max-width:720px">
   <span class="eyebrow">Error 404</span>
   <h1>Scratch! <span class="grad-text">Page not found</span></h1>
-  <p class="lead" style="margin:0 auto 2rem">That page has moved or doesn't exist. Try one of these instead.</p>
+  <p class="lead" style="margin:0 auto 2rem">That page has moved or doesn't exist. Try one of these Two Stooges pages instead.</p>
   <div class="btn-row" style="justify-content:center">{btn("Home", "/", "gold")}{btn("Events", "/events/", "outline")}{btn("Specials", "/specials/", "outline")}{btn("Contact", "/contact/", "outline")}</div>
 </div></section>'''
-    return page("/404.html", "Page Not Found", "The page you were looking for could not be found.", body)
+    # 404 is never indexed and carries no canonical (a canonical on an error page is invalid).
+    html_ = f'''<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page Not Found | Two Stooges Sports Bar</title>
+<meta name="robots" content="noindex, follow">
+<link rel="icon" type="image/png" sizes="48x48" href="/assets/img/brand/favicon-48.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/site.css?v={ASSET_VER}">
+</head>
+<body>
+{header("/404.html")}
+<main id="main">{body}</main>
+{footer()}
+<script src="/assets/js/site.js?v={ASSET_VER}" defer></script>
+</body>
+</html>
+'''
+    return html_
 
 
 PAGES = {
     "index.html": p_home, "menu/index.html": p_menu, "specials/index.html": p_specials,
     "billiards/index.html": p_billiards, "darts/index.html": p_darts, "leagues/index.html": p_leagues,
     "events/index.html": p_events, "private-parties/index.html": p_parties, "about/index.html": p_about,
-    "gallery/index.html": p_gallery, "contact/index.html": p_contact, "404.html": p_404,
+    "gallery/index.html": p_gallery, "contact/index.html": p_contact, "privacy-policy/index.html": p_privacy,
+    "404.html": p_404,
 }
 
 
@@ -1034,12 +1316,14 @@ def main():
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(fn(), encoding="utf-8")
         print("wrote", rel)
-    # sitemap
-    urls = [SITE + "/" + (r[:-10] if r.endswith("index.html") else r) for r in PAGES if r != "404.html"]
+    # Sitemap: canonical URLs only (matches <link rel=canonical> exactly)
+    prio = {"/": "1.0", "/events/": "0.9", "/billiards/": "0.9", "/specials/": "0.8", "/menu/": "0.8", "/leagues/": "0.8",
+            "/darts/": "0.7", "/private-parties/": "0.8", "/about/": "0.6", "/gallery/": "0.5", "/contact/": "0.7", "/privacy-policy/": "0.2"}
+    urls = [m[0] for m in META.values()]
     sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + \
-         "".join(f"  <url><loc>{u}</loc><lastmod>{TODAY}</lastmod></url>\n" for u in urls) + "</urlset>\n"
+         "".join(f"  <url><loc>{SITE}{u}</loc><lastmod>{TODAY}</lastmod><priority>{prio.get(u, '0.5')}</priority></url>\n" for u in urls) + "</urlset>\n"
     (ROOT / "sitemap.xml").write_text(sm, encoding="utf-8")
-    robots = ("User-agent: *\nAllow: /\n\nSitemap: " + SITE + "/sitemap.xml\n") if LAUNCH else "User-agent: *\nDisallow: /\n"
+    robots = ("User-agent: *\nAllow: /\nDisallow: /_src/\n\nSitemap: " + SITE + "/sitemap.xml\n") if LAUNCH else "User-agent: *\nDisallow: /\n"
     (ROOT / "robots.txt").write_text(robots, encoding="utf-8")
     print("wrote sitemap.xml, robots.txt (launch=%s)" % LAUNCH)
 

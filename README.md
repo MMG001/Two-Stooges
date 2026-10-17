@@ -9,7 +9,7 @@ All pages are generated from **`_src/build.py`**, which holds the shared header,
 python3 _src/build.py   # rebuilds every page (Pillow optional, adds image sizes)
 ```
 
-Edit `_src/build.py`, run it, commit, push. Don't hand-edit the generated `*.html`, because the next build overwrites them.
+Edit `_src/build.py`, run it, commit, push. The build stops with an error if a title goes over 60 characters or a description falls outside 150–160. Don't hand-edit the generated `*.html`, because the next build overwrites them.
 
 - **Add an event:** add a dict to `EVENTS` and put the flyer in `assets/img/events/`. Past events move to "Recent events" automatically.
 - **Styles:** `assets/css/site.css` (colors are tokens at the top).
