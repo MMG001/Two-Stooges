@@ -24,7 +24,7 @@ IMG = ROOT / "assets" / "img"
 # Flip to True on launch day (removes noindex). pages.dev stays noindex via _headers.
 LAUNCH = False
 SITE = "https://twostooges.com"
-ASSET_VER = "20261017b"
+ASSET_VER = "20261017c"
 
 BIZ = {
     "name": "Two Stooges Sports Bar & Grill",
@@ -916,24 +916,25 @@ def p_home():
     quotes = "".join(f'''<figure class="quote"><blockquote>{e(q)}</blockquote><figcaption><span class="quote__avatar">{e(n[0])}</span><span>{e(n)}<small>Two Stooges guest</small></span></figcaption></figure>''' for q, n in REVIEWS)
     faqs = "".join(f'<details class="faq"><summary><h3>{e(q)}</h3></summary><p>{a}</p></details>' for q, a, _ in FAQ)
 
-    body = f'''<section class="hero on-dark">
+    body = f'''<section class="hero hero--full on-dark">
+  <picture class="hero__bg">
+    <source media="(max-width: 700px)" srcset="/assets/img/photos/hero-billiard-room-mobile.webp" width="800" height="1000">
+    <img src="/assets/img/photos/hero-billiard-room-1920.webp" srcset="/assets/img/photos/hero-billiard-room-1280.webp 1280w, /assets/img/photos/hero-billiard-room-1920.webp 1920w" sizes="100vw" width="1920" height="800" alt="The Two Stooges billiard room in Fridley, MN: rows of blue-felt Diamond pool tables under wood-trimmed lights, with the bar behind" fetchpriority="high">
+  </picture>
   <div class="wrap hero__inner">
-    <div>
+    <div class="hero__copy">
       <span class="hero__badge">{icon("pin")}Fridley, MN · Since 1988</span>
       <h1>Two Stooges Sports Bar &amp; Grill in <span class="grad-text">Fridley, MN</span></h1>
-      <p class="lead">The most fun you can have under one roof. Two Stooges is a locally owned sports bar, restaurant and billiard room on University Ave NE with 43 pool tables, dart boards, 34 TV screens and 16 ice-cold beers on tap.</p>
+      <p class="lead">The most fun you can have under one roof: 43 pool tables, dart boards, 34 TV screens, 16 ice-cold taps and a full bar &amp; grill.</p>
       <div class="btn-row">{btn("Upcoming Events", "/events/", "gold", "calendar")}{btn("See the Menu", "/menu/", "outline")}</div>
       <div class="stat-row">
         <div><span class="stat__num">43</span><span class="stat__label">Pool tables</span></div>
         <div><span class="stat__num">34</span><span class="stat__label">Screens</span></div>
         <div><span class="stat__num">16</span><span class="stat__label">Taps</span></div>
-        <div><span class="stat__num">7</span><span class="stat__label">Days · 11 AM–12 AM</span></div>
+        <div><span class="stat__num">7</span><span class="stat__label">Days a week</span></div>
       </div>
     </div>
-    <div class="hero__visual">
-      <div class="hero__photo">{img("photos/billiard-room-hero", "The Two Stooges billiard room in Fridley: rows of blue-felt Diamond pool tables under wood-trimmed lights, with the bar and dining area behind", sizes="(max-width:960px) 100vw, 55vw", eager=True)}</div>
-      {next_card}
-    </div>
+    {next_card}
   </div>
 </section>
 {rail()}
@@ -955,7 +956,7 @@ def p_home():
   <div class="split">
     <div class="split__media">
       {img("photos/pool-hall-interior", "Booths and tables in the Two Stooges dining area, next to the billiard room", sizes="(max-width:860px) 100vw, 50vw")}
-      <div class="split__badge">Kitchen open daily<small>11 AM – midnight</small></div>
+      <div class="split__badge">Bar &amp; grill<small>Open daily 11 AM – midnight</small></div>
     </div>
     <div>
       <span class="eyebrow">From the kitchen</span>
