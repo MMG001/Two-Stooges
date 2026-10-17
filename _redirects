@@ -1,0 +1,15 @@
+# Old WordPress URLs -> new pages (keeps Google rankings and old links working)
+/menus            /menu/               301
+/menus/           /menu/               301
+/book-it          /private-parties/    301
+/book-it/         /private-parties/    301
+/contact-events   /events/             301
+/contact-events/  /events/             301
+/contact-us       /contact/            301
+/contact-us/      /contact/            301
+/league-signup    /leagues/#signup     301
+/league-signup/   /leagues/#signup     301
+/reservations     /private-parties/    301
+/reservations/    /private-parties/    301
+/event            /events/             301
+/event/*          /events/             301
