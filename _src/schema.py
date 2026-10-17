@@ -24,16 +24,30 @@ PLATFORMS = ["http://schema.org/DesktopWebPlatform", "http://schema.org/MobileWe
 
 # Decoded from plus code 3PXP+85 Fridley → 86Q83PXP+85 (matches the Google Maps embed)
 LAT, LNG = 45.098312, -93.264562
-SERVICE_RADIUS_MI = 15
+SERVICE_RADIUS_MI = 30
 SERVICE_RADIUS_M = str(round(SERVICE_RADIUS_MI * 1609.34))
 ANCHOR_CITY, STATE = "Fridley", "Minnesota"
 
-# Add verified profile URLs here (GBP, Facebook, Instagram, Yelp…). Never from memory.
-SAME_AS = []
+# Verified profile URLs (client-supplied 2026-10-17). Never add from memory.
+# GBP CID 0x4d32f5c7fba28d0 = 347673670564063440 (matches the ludocid in the client's Google link).
+GBP_URL = "https://www.google.com/maps?cid=347673670564063440"
+SAME_AS = [
+    GBP_URL,
+    "https://www.instagram.com/twostoogesbarandgrill/",
+    "https://www.yelp.com/biz/two-stooges-sports-bar-and-grill-fridley",
+    "https://www.tripadvisor.com/Restaurant_Review-g43087-d5259418-Reviews-Two_Stooges_Sports_Bar_Grill-Fridley_Minnesota.html",
+    "https://maps.apple.com/place?place-id=I390CADDFBB3A1DE1",
+]
+# Wikidata IDs, each confirmed by two independent sources (DBpedia owl:sameAs + Wikidata/OSM/museum-digital).
+WIKIDATA = {
+    "cue": "https://www.wikidata.org/wiki/Q3341285",     # Cue sports (billiards)
+    "darts": "https://www.wikidata.org/wiki/Q131471",    # Darts
+    "fridley": "https://www.wikidata.org/wiki/Q985235",  # Fridley, Minnesota
+}
 
 WIKI = {
     "pool": ("Pool (cue sports)", "https://en.wikipedia.org/wiki/Pool_(cue_sports)"),
-    "cue": ("Cue sports", "https://en.wikipedia.org/wiki/Cue_sports"),
+    "cue": ("Billiards", "https://en.wikipedia.org/wiki/Cue_sports"),
     "darts": ("Darts", "https://en.wikipedia.org/wiki/Darts"),
     "straight": ("Straight pool", "https://en.wikipedia.org/wiki/Straight_pool"),
     "eightball": ("Eight-ball", "https://en.wikipedia.org/wiki/Eight-ball"),
@@ -46,7 +60,7 @@ WIKI = {
 
 def thing(k):
     n, u = WIKI[k]
-    return {"@type": "Thing", "name": n, "sameAs": u}
+    return {"@type": "Thing", "name": n, "sameAs": [u, WIKIDATA[k]] if k in WIKIDATA else u}
 
 
 def ep(url):
@@ -57,7 +71,7 @@ def ep(url):
 # Services (three-level rule). `home` = exact visible blurb on the home page card.
 SERVICES = {
     "billiards": {"@id": SITE + "/billiards/#service", "name": "Billiards & pool table rental", "serviceType": "Pool table rental",
-                  "url": SITE + "/billiards/", "category": "pool", "output": "Pool table time",
+                  "url": SITE + "/billiards/", "category": "cue", "output": "Pool table time",
                   "home": "Gabriel's and Diamond tables in 9 ft and 7 ft, daily pool specials and a full Pro Shop."},
     "darts": {"@id": SITE + "/darts/#service", "name": "Darts", "serviceType": "Electronic dart boards",
               "url": SITE + "/darts/", "category": "darts", "output": "Dart board play",
@@ -112,7 +126,7 @@ def business_node(biz, page_key, extras=None):
         "address": {"@type": "PostalAddress", "streetAddress": biz["street"], "addressLocality": biz["city"],
                     "addressRegion": biz["region"], "postalCode": biz["zip"], "addressCountry": "US"},
         "geo": {"@type": "GeoCoordinates", "latitude": LAT, "longitude": LNG},
-        "hasMap": biz["directions"],
+        "hasMap": GBP_URL,
         "openingHoursSpecification": [{"@type": "OpeningHoursSpecification",
                                        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
                                        "opens": "11:00", "closes": "23:59"}],
@@ -125,9 +139,9 @@ def business_node(biz, page_key, extras=None):
              "geoMidpoint": {"@type": "GeoCoordinates", "latitude": LAT, "longitude": LNG},
              "geoRadius": SERVICE_RADIUS_M},
             {"@type": "State", "name": STATE, "sameAs": "https://en.wikipedia.org/wiki/Minnesota"},
-            {"@type": "City", "name": ANCHOR_CITY, "sameAs": "https://en.wikipedia.org/wiki/Fridley,_Minnesota"},
+            {"@type": "City", "name": ANCHOR_CITY, "sameAs": ["https://en.wikipedia.org/wiki/Fridley,_Minnesota", WIKIDATA["fridley"]]},
         ],
-        "knowsAbout": [thing(k) for k in ("pool", "cue", "darts", "straight", "eightball", "tenball", "sportsbar")],
+        "knowsAbout": [thing(k) for k in ("cue", "darts", "pool", "straight", "eightball", "tenball", "sportsbar")],
         "hasOfferCatalog": {"@type": "OfferCatalog", "name": "Games, leagues & events at Two Stooges",
                             "itemListElement": [{"@id": s["@id"]} for s in SERVICES.values()]},
         "potentialAction": [

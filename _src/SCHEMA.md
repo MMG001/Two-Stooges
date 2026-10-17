@@ -21,7 +21,9 @@ Built by `_src/schema.py` (Universal Prompt v3.1). Every page carries **one** `<
 ## Business facts
 
 - Geo: plus code `3PXP+85 Fridley` → `86Q83PXP+85` → **45.098312, -93.264562** (decoded, matches the Google Maps embed).
-- `areaServed`: GeoCircle 15 mi (`24140` m) anchored on Fridley + State Minnesota + City Fridley. **The 15-mile radius was chosen by us — confirm with the client.** Visible copy in the Visit section states it.
+- `areaServed`: GeoCircle **30 mi (`48280` m)** anchored on Fridley (client-confirmed) + State Minnesota + City Fridley (Wikipedia + Wikidata Q985235). Visible copy in the Visit section states the 30-mile radius.
+- `sameAs` (client-supplied, verified): Google Business Profile `maps?cid=347673670564063440` (CID 0x4d32f5c7fba28d0, matches the client's Google `ludocid`), Instagram, Yelp, Tripadvisor, Apple Maps. Facebook omitted: the supplied link is a search page, not the business page.
+- Wikidata IDs, each confirmed by two independent sources (DBpedia owl:sameAs + Wikidata/OSM/museum-digital): Billiards/cue sports **Q3341285**, Darts **Q131471**, Fridley **Q985235**. Used in `knowsAbout`, Service `category` and `areaServed` City.
 - Hours: 11:00–23:59 daily ("11 AM – 12 AM" on the old site and in the brief).
 - Enrichment used (true + visible): alternateName, slogan (home), foundingDate 1988, publicAccess, hasMenu, tourBookingPage, servesCuisine (home/menu), amenityFeature/award/founder (home/about), knowsAbout (Wikipedia-linked concepts, mirrored onto Services as `category`).
 
@@ -38,10 +40,10 @@ EntryPoints carry only `urlTemplate` + `actionPlatform`. Form fields are managed
 
 ## Intentionally NOT marked up
 
-- **Guest reviews** (David, Ashley, Josh): displayed, but not first-party collected ratings → no Review/AggregateRating. Don't add it.
+- **Google reviews** (Andrea, Christopher, Travel Genius, Jessica; first names only per client): displayed on the home page with links to Google/Yelp/Tripadvisor, but third-party reviews must NOT be marked up → no Review/AggregateRating. Don't add it.
 - **Past events** (Oct 10 tournament, Aug 22 Rum, Ribs & Cigar Night): visible but no longer actionable.
 - **paymentAccepted, priceRange, smokingAllowed, isAccessibleForFree**: not published on the site.
-- **sameAs** profiles: none verified yet. Add confirmed URLs (Google Business Profile, Facebook, Instagram, Yelp) to `SAME_AS` in `_src/schema.py`. Never from memory.
+- **Facebook**: add the business page URL (not a search URL) to `SAME_AS` in `_src/schema.py` when available.
 
 ## Validation
 
@@ -107,7 +109,7 @@ EntryPoints carry only `urlTemplate` + `actionPlatform`. Form fields are managed
         "latitude": 45.098312,
         "longitude": -93.264562
       },
-      "hasMap": "https://www.google.com/maps/dir/?api=1&destination=Two+Stooges+Sports+Bar+%26+Grill%2C+7178+University+Ave+NE%2C+Fridley%2C+MN+55432",
+      "hasMap": "https://www.google.com/maps?cid=347673670564063440",
       "openingHoursSpecification": [
         {
           "@type": "OpeningHoursSpecification",
@@ -131,13 +133,13 @@ EntryPoints carry only `urlTemplate` + `actionPlatform`. Form fields are managed
         {
           "@type": "GeoCircle",
           "@id": "https://twostooges.com/#service-area",
-          "description": "15-mile service radius anchored on Fridley, Minnesota",
+          "description": "30-mile service radius anchored on Fridley, Minnesota",
           "geoMidpoint": {
             "@type": "GeoCoordinates",
             "latitude": 45.098312,
             "longitude": -93.264562
           },
-          "geoRadius": "24140"
+          "geoRadius": "48280"
         },
         {
           "@type": "State",
@@ -147,24 +149,33 @@ EntryPoints carry only `urlTemplate` + `actionPlatform`. Form fields are managed
         {
           "@type": "City",
           "name": "Fridley",
-          "sameAs": "https://en.wikipedia.org/wiki/Fridley,_Minnesota"
+          "sameAs": [
+            "https://en.wikipedia.org/wiki/Fridley,_Minnesota",
+            "https://www.wikidata.org/wiki/Q985235"
+          ]
         }
       ],
       "knowsAbout": [
         {
           "@type": "Thing",
-          "name": "Pool (cue sports)",
-          "sameAs": "https://en.wikipedia.org/wiki/Pool_(cue_sports)"
-        },
-        {
-          "@type": "Thing",
-          "name": "Cue sports",
-          "sameAs": "https://en.wikipedia.org/wiki/Cue_sports"
+          "name": "Billiards",
+          "sameAs": [
+            "https://en.wikipedia.org/wiki/Cue_sports",
+            "https://www.wikidata.org/wiki/Q3341285"
+          ]
         },
         {
           "@type": "Thing",
           "name": "Darts",
-          "sameAs": "https://en.wikipedia.org/wiki/Darts"
+          "sameAs": [
+            "https://en.wikipedia.org/wiki/Darts",
+            "https://www.wikidata.org/wiki/Q131471"
+          ]
+        },
+        {
+          "@type": "Thing",
+          "name": "Pool (cue sports)",
+          "sameAs": "https://en.wikipedia.org/wiki/Pool_(cue_sports)"
         },
         {
           "@type": "Thing",
@@ -254,6 +265,13 @@ EntryPoints carry only `urlTemplate` + `actionPlatform`. Form fields are managed
             ]
           }
         }
+      ],
+      "sameAs": [
+        "https://www.google.com/maps?cid=347673670564063440",
+        "https://www.instagram.com/twostoogesbarandgrill/",
+        "https://www.yelp.com/biz/two-stooges-sports-bar-and-grill-fridley",
+        "https://www.tripadvisor.com/Restaurant_Review-g43087-d5259418-Reviews-Two_Stooges_Sports_Bar_Grill-Fridley_Minnesota.html",
+        "https://maps.apple.com/place?place-id=I390CADDFBB3A1DE1"
       ],
       "founder": [
         {
@@ -349,8 +367,11 @@ EntryPoints carry only `urlTemplate` + `actionPlatform`. Form fields are managed
       },
       "category": {
         "@type": "Thing",
-        "name": "Pool (cue sports)",
-        "sameAs": "https://en.wikipedia.org/wiki/Pool_(cue_sports)"
+        "name": "Billiards",
+        "sameAs": [
+          "https://en.wikipedia.org/wiki/Cue_sports",
+          "https://www.wikidata.org/wiki/Q3341285"
+        ]
       },
       "description": "Gabriel's and Diamond tables in 9 ft and 7 ft, daily pool specials and a full Pro Shop."
     },
@@ -369,7 +390,10 @@ EntryPoints carry only `urlTemplate` + `actionPlatform`. Form fields are managed
       "category": {
         "@type": "Thing",
         "name": "Darts",
-        "sameAs": "https://en.wikipedia.org/wiki/Darts"
+        "sameAs": [
+          "https://en.wikipedia.org/wiki/Darts",
+          "https://www.wikidata.org/wiki/Q131471"
+        ]
       },
       "description": "Electronic dart boards, high-tops and dart leagues for every skill level."
     },
@@ -569,7 +593,7 @@ EntryPoints carry only `urlTemplate` + `actionPlatform`. Form fields are managed
         "latitude": 45.098312,
         "longitude": -93.264562
       },
-      "hasMap": "https://www.google.com/maps/dir/?api=1&destination=Two+Stooges+Sports+Bar+%26+Grill%2C+7178+University+Ave+NE%2C+Fridley%2C+MN+55432",
+      "hasMap": "https://www.google.com/maps?cid=347673670564063440",
       "openingHoursSpecification": [
         {
           "@type": "OpeningHoursSpecification",
@@ -593,13 +617,13 @@ EntryPoints carry only `urlTemplate` + `actionPlatform`. Form fields are managed
         {
           "@type": "GeoCircle",
           "@id": "https://twostooges.com/#service-area",
-          "description": "15-mile service radius anchored on Fridley, Minnesota",
+          "description": "30-mile service radius anchored on Fridley, Minnesota",
           "geoMidpoint": {
             "@type": "GeoCoordinates",
             "latitude": 45.098312,
             "longitude": -93.264562
           },
-          "geoRadius": "24140"
+          "geoRadius": "48280"
         },
         {
           "@type": "State",
@@ -609,24 +633,33 @@ EntryPoints carry only `urlTemplate` + `actionPlatform`. Form fields are managed
         {
           "@type": "City",
           "name": "Fridley",
-          "sameAs": "https://en.wikipedia.org/wiki/Fridley,_Minnesota"
+          "sameAs": [
+            "https://en.wikipedia.org/wiki/Fridley,_Minnesota",
+            "https://www.wikidata.org/wiki/Q985235"
+          ]
         }
       ],
       "knowsAbout": [
         {
           "@type": "Thing",
-          "name": "Pool (cue sports)",
-          "sameAs": "https://en.wikipedia.org/wiki/Pool_(cue_sports)"
-        },
-        {
-          "@type": "Thing",
-          "name": "Cue sports",
-          "sameAs": "https://en.wikipedia.org/wiki/Cue_sports"
+          "name": "Billiards",
+          "sameAs": [
+            "https://en.wikipedia.org/wiki/Cue_sports",
+            "https://www.wikidata.org/wiki/Q3341285"
+          ]
         },
         {
           "@type": "Thing",
           "name": "Darts",
-          "sameAs": "https://en.wikipedia.org/wiki/Darts"
+          "sameAs": [
+            "https://en.wikipedia.org/wiki/Darts",
+            "https://www.wikidata.org/wiki/Q131471"
+          ]
+        },
+        {
+          "@type": "Thing",
+          "name": "Pool (cue sports)",
+          "sameAs": "https://en.wikipedia.org/wiki/Pool_(cue_sports)"
         },
         {
           "@type": "Thing",
@@ -716,6 +749,13 @@ EntryPoints carry only `urlTemplate` + `actionPlatform`. Form fields are managed
             ]
           }
         }
+      ],
+      "sameAs": [
+        "https://www.google.com/maps?cid=347673670564063440",
+        "https://www.instagram.com/twostoogesbarandgrill/",
+        "https://www.yelp.com/biz/two-stooges-sports-bar-and-grill-fridley",
+        "https://www.tripadvisor.com/Restaurant_Review-g43087-d5259418-Reviews-Two_Stooges_Sports_Bar_Grill-Fridley_Minnesota.html",
+        "https://maps.apple.com/place?place-id=I390CADDFBB3A1DE1"
       ]
     },
     {
@@ -778,8 +818,11 @@ EntryPoints carry only `urlTemplate` + `actionPlatform`. Form fields are managed
       },
       "category": {
         "@type": "Thing",
-        "name": "Pool (cue sports)",
-        "sameAs": "https://en.wikipedia.org/wiki/Pool_(cue_sports)"
+        "name": "Billiards",
+        "sameAs": [
+          "https://en.wikipedia.org/wiki/Cue_sports",
+          "https://www.wikidata.org/wiki/Q3341285"
+        ]
       },
       "description": "Two Stooges has been named a top ten billiard room in North America, and City Pages voted it the best place to shoot pool. There are 43 Gabriel's and Diamond tables in 9 ft and 7 ft, with room to play around every one.",
       "serviceOutput": {
@@ -903,7 +946,7 @@ EntryPoints carry only `urlTemplate` + `actionPlatform`. Form fields are managed
         "latitude": 45.098312,
         "longitude": -93.264562
       },
-      "hasMap": "https://www.google.com/maps/dir/?api=1&destination=Two+Stooges+Sports+Bar+%26+Grill%2C+7178+University+Ave+NE%2C+Fridley%2C+MN+55432",
+      "hasMap": "https://www.google.com/maps?cid=347673670564063440",
       "openingHoursSpecification": [
         {
           "@type": "OpeningHoursSpecification",
@@ -927,13 +970,13 @@ EntryPoints carry only `urlTemplate` + `actionPlatform`. Form fields are managed
         {
           "@type": "GeoCircle",
           "@id": "https://twostooges.com/#service-area",
-          "description": "15-mile service radius anchored on Fridley, Minnesota",
+          "description": "30-mile service radius anchored on Fridley, Minnesota",
           "geoMidpoint": {
             "@type": "GeoCoordinates",
             "latitude": 45.098312,
             "longitude": -93.264562
           },
-          "geoRadius": "24140"
+          "geoRadius": "48280"
         },
         {
           "@type": "State",
@@ -943,24 +986,33 @@ EntryPoints carry only `urlTemplate` + `actionPlatform`. Form fields are managed
         {
           "@type": "City",
           "name": "Fridley",
-          "sameAs": "https://en.wikipedia.org/wiki/Fridley,_Minnesota"
+          "sameAs": [
+            "https://en.wikipedia.org/wiki/Fridley,_Minnesota",
+            "https://www.wikidata.org/wiki/Q985235"
+          ]
         }
       ],
       "knowsAbout": [
         {
           "@type": "Thing",
-          "name": "Pool (cue sports)",
-          "sameAs": "https://en.wikipedia.org/wiki/Pool_(cue_sports)"
-        },
-        {
-          "@type": "Thing",
-          "name": "Cue sports",
-          "sameAs": "https://en.wikipedia.org/wiki/Cue_sports"
+          "name": "Billiards",
+          "sameAs": [
+            "https://en.wikipedia.org/wiki/Cue_sports",
+            "https://www.wikidata.org/wiki/Q3341285"
+          ]
         },
         {
           "@type": "Thing",
           "name": "Darts",
-          "sameAs": "https://en.wikipedia.org/wiki/Darts"
+          "sameAs": [
+            "https://en.wikipedia.org/wiki/Darts",
+            "https://www.wikidata.org/wiki/Q131471"
+          ]
+        },
+        {
+          "@type": "Thing",
+          "name": "Pool (cue sports)",
+          "sameAs": "https://en.wikipedia.org/wiki/Pool_(cue_sports)"
         },
         {
           "@type": "Thing",
@@ -1050,6 +1102,13 @@ EntryPoints carry only `urlTemplate` + `actionPlatform`. Form fields are managed
             ]
           }
         }
+      ],
+      "sameAs": [
+        "https://www.google.com/maps?cid=347673670564063440",
+        "https://www.instagram.com/twostoogesbarandgrill/",
+        "https://www.yelp.com/biz/two-stooges-sports-bar-and-grill-fridley",
+        "https://www.tripadvisor.com/Restaurant_Review-g43087-d5259418-Reviews-Two_Stooges_Sports_Bar_Grill-Fridley_Minnesota.html",
+        "https://maps.apple.com/place?place-id=I390CADDFBB3A1DE1"
       ]
     },
     {

@@ -28,7 +28,7 @@ IMG = ROOT / "assets" / "img"
 # Flip to True on launch day (removes noindex). pages.dev stays noindex via _headers.
 LAUNCH = False
 SITE = "https://twostooges.com"
-ASSET_VER = "20261017e"
+ASSET_VER = "20261017f"
 
 BIZ = {
     "name": "Two Stooges Sports Bar & Grill",
@@ -153,10 +153,12 @@ SPECIALS = [  # weekday: 0=Sun … 6=Sat (matches JS getDay)
                           ("Happy Hour 11 AM–7 PM", "Drink specials + $1 off 22 oz craft beer", "domestic bottles & pints $3.50 · rail drinks $4")]),
 ]
 
+# Google reviews (displayed only, never marked up). First names only, per client.
 REVIEWS = [
-    ("Food and drinks are amazing. Staff is wonderful. Great environment!", "David"),
-    ("We love to go to Two Stooges for a date night! We love to play pool and the food is great too!", "Ashley"),
-    ("Great hang out, tucked away in Fridley. Nice staff, good food and drink options. Pool tables are nice. They have multiple dart boards.", "Josh"),
+    ("Will was Amazing! Very welcoming, knowledgeable and accommodating!!! He suggested the nachos! Get the nachos!! Get the stuff separate and make sure it's the chicken and beef combo!!! Sooooo good! Also add lettuce!! The drinks were strong and the pool tables were 6 per person and it's per hour!! Clean place and great service! I'll be back and hungry for more.", "Andrea", 5),
+    ("A many-tabled pool hall with a bar, food, darts, and cardboard and e pulltabs. I go mostly to play pull tabs and have had my share of luck with the $1, $2, and $3 boxes. The $5 box is a little too rich for my blood. The charitable gambling benefits the Fridley Lions so even when I lose, it goes to a good cause. The burgers and sandwiches are great and I have to admit that I always finish the hot, crispy, tater tots before I even touch the burger.", "Christopher", 4),
+    ("Loved the whole place. We have been looking for a pool hall and this place was perfect. It also has darts and a few arcade games. The drinks are good and strong and its not an arm and a leg for a shot. This place is good for kids, a night out or just brunch. The staff was very nice and helpful. The food was good and the atmosphere would be comfortable for anyone.", "Travel Genius", 4),
+    ("Me & my family been going here for years we love the staff, customers, just the environment itself. We like family from other mother's & cultures & how times are now we all need a place to fellowship with peace & love inspite what the world is doing around us..", "Jessica", 5),
 ]
 
 
@@ -572,6 +574,14 @@ def footer():
           <li><a href="mailto:{BIZ["email"]}">{e(BIZ["email"])}</a></li>
         </ul>
         </address>
+        <p class="footer-title" style="margin-top:1.5rem">Find us online</p>
+        <ul class="footer-social">
+          <li><a href="{SG.SAME_AS[1]}" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="{SG.GBP_URL}" target="_blank" rel="noopener">Google</a></li>
+          <li><a href="{SG.SAME_AS[2]}" target="_blank" rel="noopener">Yelp</a></li>
+          <li><a href="{SG.SAME_AS[3]}" target="_blank" rel="noopener">Tripadvisor</a></li>
+          <li><a href="{SG.SAME_AS[4]}" target="_blank" rel="noopener">Apple Maps</a></li>
+        </ul>
       </div>
       <div>
         <p class="footer-title">Hours</p>
@@ -775,7 +785,7 @@ def cta_band(title, text, actions):
 
 def visit_section(title="Visit Two Stooges Sports Bar in Fridley, MN"):
     return f'''<section class="section section--alt" id="visit"><div class="wrap">
-  {section_head("Find us", title, f"We're on University Avenue NE (Highway 47) in Fridley, just north of Minneapolis, serving guests within about 15 miles, from Columbia Heights and Spring Lake Park to New Brighton, Coon Rapids, Blaine and the rest of the north metro. Walk-ins are always welcome. Planning ahead? {L('/private-parties/', 'Reserve space for a group')}.")}
+  {section_head("Find us", title, f"We're on University Avenue NE (Highway 47) in Fridley, just north of Minneapolis, serving guests within about 30 miles, from Columbia Heights and Spring Lake Park to New Brighton, Coon Rapids, Blaine and the rest of the north metro. Walk-ins are always welcome. Planning ahead? {L('/private-parties/', 'Reserve space for a group')}.")}
   <div class="visit">
     <div class="visit__info">
       <div class="info-row"><span class="tile__icon">{icon("pin")}</span><div><h3>Address</h3><p><a href="{DIRECTIONS}" target="_blank" rel="noopener">{e(BIZ["street"])}<br>{e(BIZ["city"])}, {e(BIZ["region"])} {e(BIZ["zip"])}</a></p></div></div>
@@ -942,7 +952,7 @@ def p_home():
              ("Walleye Sandwich", "18", "Battered walleye, lettuce, American and tartar on a toasted hoagie.", [])]
     picks_html = "".join(f'''<li class="menu-item"><h3>{e(n)} {tag_chips(t)}</h3><span class="menu-item__price">${p}</span><p>{e(d)}</p></li>''' for n, p, d, t in picks)
 
-    quotes = "".join(f'''<figure class="quote"><blockquote>{e(q)}</blockquote><figcaption><span class="quote__avatar">{e(n[0])}</span><span>{e(n)}<small>Two Stooges guest</small></span></figcaption></figure>''' for q, n in REVIEWS)
+    quotes = "".join(f'''<figure class="quote"><div class="quote__stars" role="img" aria-label="{r} out of 5 stars">{"★" * r}{"☆" * (5 - r)}</div><blockquote>{e(q)}</blockquote><figcaption><span class="quote__avatar">{e(n[0])}</span><span>{e(n)}<small>Google review</small></span></figcaption></figure>''' for q, n, r in REVIEWS)
     faqs = "".join(f'<details class="faq"><summary><h3>{e(q)}</h3></summary><p>{a}</p></details>' for q, a, _ in FAQ)
 
     body = f'''<section class="hero hero--full on-dark">
@@ -1027,8 +1037,9 @@ def p_home():
 </div></section>
 
 <section class="section section--alt"><div class="wrap">
-  {section_head("Guest reviews", "What guests say about Two Stooges", center=True)}
-  <div class="grid grid--3">{quotes}</div>
+  {section_head("Guest reviews", "What guests say about Two Stooges", "Real reviews from Google, shared with first names only.", center=True)}
+  <div class="grid grid--2">{quotes}</div>
+  <div class="btn-row mt-2" style="justify-content:center">{btn("Read More Reviews on Google", SG.GBP_URL, "green", None, ' target="_blank" rel="noopener"')}{btn("Yelp", SG.SAME_AS[2], "outline", None, ' target="_blank" rel="noopener"')}{btn("Tripadvisor", SG.SAME_AS[3], "outline", None, ' target="_blank" rel="noopener"')}</div>
 </div></section>
 
 <section class="section section--tight"><div class="wrap">
