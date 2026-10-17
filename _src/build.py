@@ -28,7 +28,7 @@ IMG = ROOT / "assets" / "img"
 # Flip to True on launch day (removes noindex). pages.dev stays noindex via _headers.
 LAUNCH = False
 SITE = "https://twostooges.com"
-ASSET_VER = "20261017j"
+ASSET_VER = "20261017k"
 
 BIZ = {
     "name": "Two Stooges Sports Bar & Grill",
@@ -1201,7 +1201,7 @@ def p_billiards():
 </div></section>
 <section class="section section--alt" id="pro-shop"><div class="wrap">
   <div class="split split--rev">
-    <div class="split__media">{img("photos/player-racking", "A player racking a game at Two Stooges", sizes="(max-width:860px) 100vw, 50vw")}</div>
+    <div class="split__media">{img("photos/pro-shop-cues-and-stuff", "The Two Stooges Pro Shop counter: racks of pool cues under a lit Cues & Stuff sign, with chalk, gloves and accessories in glass cases and apparel on the wall", sizes="(max-width:860px) 100vw, 50vw")}<div class="split__badge">Cues &amp; Stuff<small>Pro Shop · cue repair</small></div></div>
     <div>
       <span class="eyebrow">Pro Shop</span>
       <h2>Two Stooges Pro Shop <span class="grad-text">&amp; cue repair</span></h2>
@@ -1481,7 +1481,7 @@ def p_gallery():
               ("photos/dart-room", "The dart area with electronic boards and a big screen"), ("photos/pool-hall-interior", "The billiard room under warm lights"),
               ("photos/player-racking", "Racking up a game"), ("photos/building-exterior", "Outside Two Stooges on University Ave NE, Fridley"),
               ("photos/tournament-table-trophies", "Tournament table and trophies"), ("photos/player-lining-up-shot", "Lining up the shot"),
-              ("photos/billiard-hall-tables", "The billiard hall"), ("photos/pool-balls-rack", "A fresh rack on blue felt")]
+              ("photos/billiard-hall-tables", "The billiard hall"), ("photos/pro-shop-cues-and-stuff", "The Pro Shop: cues, cases and accessories"), ("photos/pool-balls-rack", "A fresh rack on blue felt")]
     g = "".join(f'<figure class="gallery__item"><button type="button" data-lightbox="/assets/img/{p}.webp" data-alt="{e(a)}" data-caption="{e(a)}" aria-label="Enlarge photo: {e(a)}">{img(p, a + " at Two Stooges Sports Bar", sizes="(max-width:640px) 100vw, (max-width:1000px) 50vw, 33vw")}</button><figcaption>{e(a)}</figcaption></figure>' for p, a in photos)
     body = f'''{page_hero("gallery", "Take a look", "Photos of <span class='grad-text'>Two Stooges Sports Bar</span>",
         f"Inside the {L('/billiards/', 'billiard room')}, the {L('/darts/', 'dart area')} and the bar in Fridley. Click any photo to see it full size.",
