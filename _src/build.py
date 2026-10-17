@@ -15,8 +15,12 @@ automatically (at build time and again in the browser via site.js).
 import datetime as dt
 import html
 import json
+import re
 import os
 from pathlib import Path
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import schema as SG
 
 ROOT = Path(__file__).resolve().parent.parent
 IMG = ROOT / "assets" / "img"
@@ -60,6 +64,7 @@ NAV = [
 ]
 
 TODAY = dt.date.today().isoformat()
+GRAPHS = {}
 
 # ---------------------------------------------------------------------------
 # Events (newest first). `end` decides upcoming vs past.
@@ -603,63 +608,75 @@ def footer():
 </dialog>'''
 
 
-def local_business_ld():
-    return {
-        "@context": "https://schema.org",
-        "@type": ["BarOrPub", "SportsActivityLocation"],
-        "@id": SITE + "/#business",
-        "name": BIZ["name"],
-        "alternateName": ["Two Stooges", "Two Stooges Sports Bar", "Two Stooges Fridley"],
-        "description": ENTITY_DESC,
-        "url": SITE + "/",
-        "telephone": BIZ["tel"],
-        "email": BIZ["email"],
-        "image": [SITE + "/assets/img/og/home.jpg", SITE + "/assets/img/photos/billiard-room-rows.webp"],
-        "logo": SITE + "/assets/img/brand/two-stooges-logo-1200.png",
-        "servesCuisine": "American",
-        "priceRange": "$$",
-        "foundingDate": "1988-04",
-        "founder": [{"@type": "Person", "name": n} for n in FOUNDERS],
-        "award": AWARDS,
-        "hasMap": DIRECTIONS,
-        "hasMenu": SITE + "/menu/",
-        "acceptsReservations": True,
-        "areaServed": [{"@type": "City", "name": f"{c}, MN"} for c in AREA_SERVED],
-        "address": {"@type": "PostalAddress", "streetAddress": BIZ["street"], "addressLocality": BIZ["city"],
-                    "addressRegion": BIZ["region"], "postalCode": BIZ["zip"], "addressCountry": "US"},
-        "geo": {"@type": "GeoCoordinates", "latitude": BIZ["lat"], "longitude": BIZ["lng"]},
-        "openingHoursSpecification": [{"@type": "OpeningHoursSpecification",
-                                       "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-                                       "opens": "11:00", "closes": "23:59"}],
-        "amenityFeature": [{"@type": "LocationFeatureSpecification", "name": n, "value": True}
-                           for n in ["43 pool tables", "Electronic dart boards", "30 HD TVs and 4 big screens",
-                                     "NFL Sunday Ticket", "16 beers on tap", "Pro shop and cue repair", "Private event space"]],
-        "knowsAbout": ["Billiards", "Pool leagues", "Darts", "Dart leagues", "FargoRate tournaments", "Sports bar"],
-    }
+PERSONS = [("ty-wilson", "Ty Wilson"), ("greg-asproth", "Greg Asproth")]
+AWARDS_VISIBLE = AWARDS
+AMENITIES = ["43 pool tables", "Electronic dart boards", "30 HD TVs and 4 monster screens", "NFL Sunday Ticket",
+             "16 beers on tap", "Pro shop and cue repair", "Private event space"]
+PAGE_TYPES = {"contact": "ContactPage", "about": "AboutPage", "gallery": "CollectionPage"}
+SERVICE_PAGES = {"billiards": "billiards", "darts": "darts", "leagues": "leagues", "parties": "parties"}
 
 
-def website_ld():
-    return {"@context": "https://schema.org", "@type": "WebSite", "@id": SITE + "/#website", "url": SITE + "/",
-            "name": BIZ["name"], "publisher": {"@id": SITE + "/#business"}, "inLanguage": "en-US"}
+def person_nodes():
+    return [{"@type": "Person", "@id": f"{SITE}/about/#{pid}", "name": n, "jobTitle": "Owner", "worksFor": {"@id": SG.BID}}
+            for pid, n in PERSONS]
 
 
-def breadcrumb_ld(path, name):
-    return {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
-        {"@type": "ListItem", "position": 1, "name": "Home", "item": SITE + "/"},
-        {"@type": "ListItem", "position": 2, "name": name, "item": SITE + path}]}
+def biz_extras(key):
+    """Enrichment properties only on pages where the fact is visible (Rule 3)."""
+    x = {}
+    if key in ("home", "about"):
+        x["founder"] = [{"@id": f"{SITE}/about/#{pid}"} for pid, _ in PERSONS]
+        x["award"] = AWARDS_VISIBLE
+        x["amenityFeature"] = [{"@type": "LocationFeatureSpecification", "name": a, "value": True} for a in AMENITIES]
+    if key == "home":
+        x["slogan"] = "The most fun you can have under one roof"
+        x["description"] = ENTITY_DESC
+    if key in ("home", "menu"):
+        x["servesCuisine"] = "American"
+    return x
 
 
-def webpage_ld(path, title, desc, crumb):
-    d = {"@context": "https://schema.org", "@type": "WebPage", "@id": SITE + path + "#webpage", "url": SITE + path,
-         "name": title, "description": desc, "isPartOf": {"@id": SITE + "/#website"},
-         "about": {"@id": SITE + "/#business"}, "inLanguage": "en-US", "dateModified": TODAY,
-         "primaryImageOfPage": SITE + "/assets/img/og/" + path.strip("/").replace("/", "-") + ".jpg"}
+def first_lead(body):
+    m = re.search(r'<p class="lead">(.*?)</p>', body, re.S)
+    return SG.strip(m.group(1)) if m else ""
+
+
+BILLIARDS_OFFERS = [{"@type": "Offer", "name": f"Daily pool special – {n}", "price": p, "priceCurrency": "USD",
+                     "description": "Table time, 11 AM–5 PM daily, plus tax"} for n, p in (("regular", "11"), ("seniors", "10"), ("premier table", "12"))]
+
+
+def build_graph(key, body, title, desc, og_url, og_alt, extra_nodes, main_entity):
+    path, crumb = META[key][0], META[key][5]
+    svc_key = SERVICE_PAGES.get(key)
+    if svc_key and not main_entity:
+        main_entity = SG.SERVICES[svc_key]["@id"]
+    if key in ("home", "about") and not main_entity:
+        main_entity = SG.BID
+    biz = dict(BIZ, directions=DIRECTIONS)
+    nodes = [SG.website_node(BIZ["name"]),
+             SG.business_node(biz, key, biz_extras(key)),
+             SG.webpage_node(path, title, desc, og_url, og_alt, PAGE_TYPES.get(key, "WebPage"), crumb, main_entity, TODAY)]
     if crumb:
-        d["breadcrumb"] = {"@id": SITE + path + "#breadcrumb"}
-    return d
+        nodes.append(SG.breadcrumb_node(path, crumb))
+    for k in SG.SERVICES:
+        if k == svc_key:
+            nodes.append(SG.service_node(k, "full", first_lead(body), RELATED.get(key, []),
+                                         BILLIARDS_OFFERS if k == "billiards" else None, SITE + path + "#webpage"))
+        elif key == "home":
+            nodes.append(SG.service_node(k, "card"))
+        else:
+            nodes.append(SG.service_node(k, "nav"))
+    if key in ("home", "about"):
+        nodes += person_nodes()
+    nodes += [{k: v for k, v in n.items() if k != "@context"} for n in (extra_nodes or [])]
+    g = SG.graph(nodes)
+    errs = SG.check_graph(g, path)
+    if errs:
+        raise SystemExit("Schema check failed:\n  " + "\n  ".join(errs))
+    return g
 
 
-def page(key, body, extra_ld=None, og_type="website"):
+def page(key, body, extra_ld=None, og_type="website", main_entity=None):
     path, title, desc, og_src, og_alt, crumb = META[key]
     assert len(title) <= 60, f"title too long ({len(title)}): {title}"
     assert 150 <= len(desc) <= 160, f"description length {len(desc)}: {key}"
@@ -667,17 +684,9 @@ def page(key, body, extra_ld=None, og_type="website"):
     og_file = make_og(key, og_src).name
     og_url = f"{SITE}/assets/img/og/{og_file}"
     robots = "index, follow, max-image-preview:large" if LAUNCH else "noindex, nofollow"
-    wp = webpage_ld(path, title, desc, crumb)
-    wp["primaryImageOfPage"] = og_url
-    lds = [local_business_ld(), wp]
-    if key == "home":
-        lds.insert(1, website_ld())
-    if crumb:
-        bc = breadcrumb_ld(path, crumb)
-        bc["@id"] = SITE + path + "#breadcrumb"
-        lds.append(bc)
-    lds += extra_ld or []
-    ld_html = "\n".join(f'<script type="application/ld+json">{json.dumps(x, ensure_ascii=False)}</script>' for x in lds)
+    g = build_graph(key, body, title, desc, og_url, og_alt, extra_ld, main_entity)
+    GRAPHS[path] = g
+    ld_html = f'<script type="application/ld+json">{json.dumps(g, ensure_ascii=False, separators=(",", ":"))}</script>'
     biz_og = ""
     if og_type == "business.business":
         biz_og = f'''
@@ -766,7 +775,7 @@ def cta_band(title, text, actions):
 
 def visit_section(title="Visit Two Stooges Sports Bar in Fridley, MN"):
     return f'''<section class="section section--alt" id="visit"><div class="wrap">
-  {section_head("Find us", title, f"We're on University Avenue NE (Highway 47) in Fridley, just north of Minneapolis, and we welcome guests from Columbia Heights, Spring Lake Park, New Brighton, Coon Rapids, Blaine and the rest of the north metro. Walk-ins are always welcome. Planning ahead? {L('/private-parties/', 'Reserve space for a group')}.")}
+  {section_head("Find us", title, f"We're on University Avenue NE (Highway 47) in Fridley, just north of Minneapolis, serving guests within about 15 miles, from Columbia Heights and Spring Lake Park to New Brighton, Coon Rapids, Blaine and the rest of the north metro. Walk-ins are always welcome. Planning ahead? {L('/private-parties/', 'Reserve space for a group')}.")}
   <div class="visit">
     <div class="visit__info">
       <div class="info-row"><span class="tile__icon">{icon("pin")}</span><div><h3>Address</h3><p><a href="{DIRECTIONS}" target="_blank" rel="noopener">{e(BIZ["street"])}<br>{e(BIZ["city"])}, {e(BIZ["region"])} {e(BIZ["zip"])}</a></p></div></div>
@@ -824,15 +833,12 @@ def past_card(ev):
 
 def event_ld(ev):
     d = {
-        "@context": "https://schema.org", "@type": "Event", "name": ev["title"],
+        "@type": "Event", "@id": SITE + "/events/#" + ev["id"], "name": ev["title"],
         "startDate": ev["start_iso"], "eventStatus": "https://schema.org/EventScheduled",
         "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
         "description": ev["intro"], "image": [SITE + "/assets/img/" + ev["flyer"]],
         "url": SITE + "/events/#" + ev["id"],
-        "location": {"@type": "Place", "name": BIZ["name"], "address": {"@type": "PostalAddress",
-                     "streetAddress": BIZ["street"], "addressLocality": BIZ["city"], "addressRegion": BIZ["region"],
-                     "postalCode": BIZ["zip"], "addressCountry": "US"}},
-        "organizer": {"@type": "Organization", "name": BIZ["name"], "url": SITE + "/"},
+        "location": {"@id": SG.BID}, "organizer": {"@id": SG.BID},
     }
     if ev.get("door_iso"):
         d["doorTime"] = ev["door_iso"]
@@ -842,14 +848,37 @@ def event_ld(ev):
     return d
 
 
+LEAGUE_SCHEDULE = {
+    "Straight Pool League": {"slug": "straight-pool-league", "day": "Tuesday", "start": "2026-09-08", "concept": "straight",
+                             "desc": "Weekly straight pool league on Tuesdays at 11 AM. BCA rules, 3 races to 50 points."},
+    "10-Ball League": {"slug": "10-ball-league", "day": "Thursday", "start": None, "concept": "tenball",
+                       "desc": "Weekly 10-ball league on Thursdays at 11 AM. 3 sets, race to 5, no 10-ball on the break, 3-foul rule, on 9 ft Gabriel's tables."},
+}
+
+
+def league_event_nodes():
+    out = []
+    for L_ in LEAGUES:
+        m = LEAGUE_SCHEDULE[L_["name"]]
+        sched = {"@type": "Schedule", "byDay": "https://schema.org/" + m["day"], "startTime": "11:00",
+                 "repeatFrequency": "P1W", "scheduleTimezone": "America/Chicago"}
+        n = {"@type": "Event", "@id": SITE + "/events/#" + m["slug"], "name": f'{L_["name"]} at Two Stooges',
+             "description": m["desc"], "image": [SITE + "/assets/img/" + L_["flyer"]], "url": SITE + "/events/#weekly",
+             "eventSchedule": sched, "eventStatus": "https://schema.org/EventScheduled",
+             "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+             "location": {"@id": SG.BID}, "organizer": {"@id": SG.BID}, "about": SG.thing(m["concept"])}
+        if m["start"]:
+            sched["startDate"] = m["start"]
+            n["startDate"] = m["start"] + "T11:00:00-05:00"
+        out.append(n)
+    return out
+
+
 def faq_ld():
-    return {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
+    return {"@type": "FAQPage", "@id": SITE + "/#faq", "isPartOf": {"@id": SITE + "/#webpage"}, "mainEntity": [
         {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": plain}} for q, _, plain in FAQ]}
 
 
-# ---------------------------------------------------------------------------
-# Pages
-# ---------------------------------------------------------------------------
 def tag_chips(tags):
     m = {"new": '<span class="chip chip--orange">New</span>', "signature": '<span class="chip chip--gold">Signature</span>'}
     return "".join(m[t] for t in tags)
@@ -858,8 +887,8 @@ def tag_chips(tags):
 def menu_ld():
     def price(p):
         return p.split(" / ")[0]
-    return {"@context": "https://schema.org", "@type": "Menu", "@id": SITE + "/menu/#menu", "name": "Two Stooges Sports Bar & Grill Menu",
-            "url": SITE + "/menu/", "inLanguage": "en-US",
+    return {"@type": "Menu", "@id": SITE + "/menu/#menu", "name": "Two Stooges Sports Bar & Grill Menu",
+            "url": SITE + "/menu/", "inLanguage": "en-US", "mainEntityOfPage": {"@id": SITE + "/menu/#webpage"},
             "hasMenuSection": [{"@type": "MenuSection", "name": sec["name"], "url": SITE + "/menu/#" + sec["id"],
                                 "hasMenuItem": [{"@type": "MenuItem", "name": n, "description": html.unescape(d),
                                                  "offers": {"@type": "Offer", "price": price(p), "priceCurrency": "USD"}}
@@ -1014,7 +1043,7 @@ def p_home():
   <div class="faq-list">{faqs}</div>
 </div></section>
 {visit_section()}'''
-    return page("home", body, extra_ld=[faq_ld()], og_type="business.business")
+    return page("home", body, extra_ld=[faq_ld()] + ([event_ld(nxt)] if nxt else []), og_type="business.business")
 
 
 def p_menu():
@@ -1054,7 +1083,7 @@ def p_menu():
   </div>
 </div></section>
 {cta_band("Feeding a crowd in Fridley?", "We put together custom menus for birthdays, office parties and banquets.", btn("Plan a Private Party", "/private-parties/", "gold"))}'''
-    return page("menu", body, extra_ld=[menu_ld()])
+    return page("menu", body, extra_ld=[menu_ld()], main_entity=SITE + "/menu/#menu")
 
 
 def p_specials():
@@ -1235,7 +1264,7 @@ def p_leagues():
     {cognito(FORM_LEAGUE, "League sign-up form")}
   </div>
 </div></section>'''
-    return page("leagues", body, og_type="website")
+    return page("leagues", body, extra_ld=league_event_nodes())
 
 
 def league_block(L_):
@@ -1272,7 +1301,7 @@ def p_events():
   <div class="flyer-grid" data-past-grid>{past_html}</div>
 </div></section>
 {cta_band("Want to host a tournament or party?", "From birthday bashes to banquets and league parties, we'll help you plan it.", btn("Plan Your Event", "/private-parties/", "gold") + btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone"))}'''
-    return page("events", body, extra_ld=[event_ld(ev) for ev in ups])
+    return page("events", body, extra_ld=[event_ld(ev) for ev in ups] + league_event_nodes())
 
 
 def p_parties():

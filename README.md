@@ -20,3 +20,8 @@ Edit `_src/build.py`, run it, commit, push. The build stops with an error if a t
 1. Set `LAUNCH = True` in `_src/build.py` and rebuild (removes `noindex`, opens `robots.txt`).
 2. Add `twostooges.com` + `www` under the Pages project → Custom domains.
 3. `_redirects` maps the old WordPress URLs to the new pages.
+
+## Structured data
+One interlinked JSON-LD `@graph` per page, built by `_src/schema.py`. See **`_src/SCHEMA.md`** for the entity map, form/action wiring, what is intentionally not marked up (guest reviews, past events), example output, and validation steps. Add verified social/Google profile URLs to `SAME_AS` in `_src/schema.py`. The build fails on a dangling `@id` or a misplaced property.
+
+Cache busting: bump `ASSET_VER` in `_src/build.py`. CSS/JS are served with a 1-day cache (`_headers`) and the version query string.
