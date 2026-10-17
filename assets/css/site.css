@@ -562,3 +562,6 @@ address { font-style: normal; }
 .faq-jump .chip:hover { background: var(--green); color: var(--gold); }
 .faq-group + .faq-group { margin-top: 2.75rem; }
 .faq-group h2 { font-size: clamp(1.5rem, 3vw, 1.9rem); margin-bottom: 1rem; }
+.section--photo-strong::after { background: linear-gradient(180deg, rgba(0,0,0,.72) 0%, rgba(0,0,0,.6) 50%, rgba(0,0,0,.74) 100%); }
+.section--photo .section-head p { color: #eef1ee; text-shadow: 0 2px 12px rgba(0,0,0,.6); }
+.on-light .tile { box-shadow: 0 10px 30px rgba(0,0,0,.35); }

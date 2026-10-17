@@ -28,7 +28,7 @@ IMG = ROOT / "assets" / "img"
 # Flip to True on launch day (removes noindex). pages.dev stays noindex via _headers.
 LAUNCH = False
 SITE = "https://twostooges.com"
-ASSET_VER = "20261017r"
+ASSET_VER = "20261017s"
 
 BIZ = {
     "name": "Two Stooges Sports Bar & Grill",
@@ -1195,9 +1195,11 @@ def p_billiards():
     <div class="split__media">{img("photos/friends-playing-pool", "Friends laughing around a pool table as one lines up a shot", sizes="(max-width:860px) 100vw, 50vw")}<div class="split__badge">Top 10 Billiard Room<small>in North America</small></div></div>
   </div>
 </div></section>
-<section class="section" id="tournaments"><div class="wrap">
+<section class="section section--photo section--photo-strong on-dark" id="tournaments">
+  <div class="section__bg">{img("photos/pool-rack-break", "A racked set of pool balls on blue felt with a player lining up the break", sizes="100vw")}</div>
+  <div class="wrap">
   {section_head("Compete", "Pool leagues &amp; tournaments in Fridley", "Handicapped leagues for every skill level, and tournaments that are open to the public. You don't need to be in a league to play.")}
-  <div class="grid grid--2">
+  <div class="grid grid--2 on-light">
     <div class="tile"><h3>Weekly pool leagues</h3><div class="tile__meta"><span class="chip chip--gold">Straight Pool · Tue 11 AM</span><span class="chip chip--gold">10-Ball · Thu 11 AM</span><span class="chip">APA</span><span class="chip">UPL</span><span class="chip">In-house 8-Ball</span></div><p class="mt-1">All leagues are handicapped, so beginners and sharks can play together.</p><a class="text-link" href="/leagues/">Pool league details &amp; sign-up</a></div>
     <div class="tile"><h3>FargoRate tournaments</h3><p>FargoRate 8-ball tournaments and bar box shootouts with money added. Spots fill fast, so sign up early.</p><a class="text-link" href="/events/">Upcoming pool tournaments</a></div>
   </div>
