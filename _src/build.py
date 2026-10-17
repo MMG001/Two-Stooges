@@ -24,7 +24,7 @@ IMG = ROOT / "assets" / "img"
 # Flip to True on launch day (removes noindex). pages.dev stays noindex via _headers.
 LAUNCH = False
 SITE = "https://twostooges.com"
-ASSET_VER = "20261017c"
+ASSET_VER = "20261017d"
 
 BIZ = {
     "name": "Two Stooges Sports Bar & Grill",

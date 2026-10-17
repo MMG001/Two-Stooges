@@ -189,7 +189,7 @@ address { font-style: normal; }
 /* ---------- Home hero ---------- */
 .hero { position: relative; isolation: isolate; overflow: hidden; background: radial-gradient(ellipse at 0% 0%, #1d5c46 0%, var(--green) 45%, var(--green-darkest) 100%); }
 .hero__inner { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.3fr); gap: clamp(2rem, 4vw, 3.5rem); align-items: center; padding-top: clamp(3rem, 7vw, 5rem); padding-bottom: clamp(3.5rem, 7vw, 5.5rem); }
-.hero__badge { display: inline-flex; align-items: center; gap: .5rem; padding: .45rem .8rem; border-radius: var(--radius); background: rgba(0,38,27,.6); border: 1px solid rgba(255,206,81,.45); color: var(--gold); font: 600 .76rem/1 var(--font-body); letter-spacing: .12em; text-transform: uppercase; margin-bottom: 1.25rem; }
+.hero__badge { display: inline-flex; align-items: center; gap: .5rem; padding: .45rem .8rem; border-radius: var(--radius); background: rgba(0,0,0,.55); border: 1px solid rgba(255,206,81,.45); color: var(--gold); font: 600 .76rem/1 var(--font-body); letter-spacing: .12em; text-transform: uppercase; margin-bottom: 1.25rem; }
 .hero h1 { margin-bottom: 1.1rem; font-size: clamp(2.3rem, 4.6vw, 3.6rem); }
 .hero .lead { color: #dbe8e1; margin-bottom: 1.75rem; }
 .stat-row { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; margin-top: 2.25rem; padding-top: 1.4rem; border-top: 1px solid rgba(255,206,81,.25); max-width: 560px; }
@@ -215,10 +215,10 @@ address { font-style: normal; }
 .next-up .text-link { color: var(--gold-ink); }
 
 /* Inner page hero */
-.page-hero { position: relative; isolation: isolate; overflow: hidden; background: var(--green); }
+.page-hero { position: relative; isolation: isolate; overflow: hidden; background: #000; }
 .page-hero__media { position: absolute; inset: 0; z-index: -2; }
 .page-hero__media img { width: 100%; height: 100%; object-fit: cover; }
-.page-hero::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(0,38,27,.94) 0%, rgba(18,60,47,.8) 45%, rgba(18,60,47,.3) 100%); }
+.page-hero::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(0,0,0,.82) 0%, rgba(0,0,0,.6) 45%, rgba(0,0,0,.2) 100%); }
 .page-hero .wrap { padding-top: clamp(3rem, 7vw, 5rem); padding-bottom: clamp(3rem, 6vw, 4.25rem); }
 .page-hero h1 { max-width: 22ch; font-size: clamp(2.1rem, 5vw, 3.5rem); }
 .page-hero .lead { color: #dbe8e1; margin-bottom: 1.75rem; }
@@ -479,14 +479,14 @@ address { font-style: normal; }
 .small { font-size: .875rem; }
 
 /* ---------- Full-bleed home hero (1920×800 photo) ---------- */
-.hero--full { background: var(--green-darkest); min-height: clamp(620px, 41.67vw, 800px); display: flex; align-items: stretch; }
+.hero--full { background: #000; min-height: clamp(620px, 41.67vw, 800px); display: flex; align-items: stretch; }
 .hero--full::before { display: none; }
 .hero__bg { position: absolute; inset: 0; z-index: -2; }
 .hero__bg img { width: 100%; height: 100%; object-fit: cover; object-position: center 45%; }
 .hero--full::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
   background:
-    linear-gradient(90deg, rgba(0,38,27,.9) 0%, rgba(0,38,27,.72) 30%, rgba(18,60,47,.25) 58%, rgba(0,0,0,0) 75%),
-    linear-gradient(0deg, rgba(0,38,27,.55) 0%, rgba(0,38,27,0) 30%); }
+    linear-gradient(90deg, rgba(0,0,0,.78) 0%, rgba(0,0,0,.6) 30%, rgba(0,0,0,.2) 58%, rgba(0,0,0,0) 75%),
+    linear-gradient(0deg, rgba(0,0,0,.5) 0%, rgba(0,0,0,0) 30%); }
 .hero--full .hero__inner { display: flex; align-items: center; justify-content: space-between; gap: 2rem; width: 100%; padding-top: clamp(3rem, 6vw, 5rem); padding-bottom: clamp(3rem, 6vw, 5rem); }
 .hero--full .hero__copy { max-width: 610px; text-shadow: 0 2px 18px rgba(0,0,0,.35); }
 .hero--full .lead { color: #f1f5f2; }
@@ -497,7 +497,7 @@ address { font-style: normal; }
 }
 @media (max-width: 700px) {
   .hero--full { min-height: auto; }
-  .hero--full::after { background: linear-gradient(180deg, rgba(0,38,27,.35) 0%, rgba(0,38,27,.68) 45%, rgba(0,38,27,.92) 100%); }
+  .hero--full::after { background: linear-gradient(180deg, rgba(0,0,0,.3) 0%, rgba(0,0,0,.6) 45%, rgba(0,0,0,.88) 100%); }
   .hero--full .hero__inner { padding-top: 2.5rem; padding-bottom: 2rem; }
 }
 
