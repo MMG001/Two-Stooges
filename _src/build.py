@@ -28,7 +28,7 @@ IMG = ROOT / "assets" / "img"
 # Flip to True on launch day (removes noindex). pages.dev stays noindex via _headers.
 LAUNCH = False
 SITE = "https://twostooges.com"
-ASSET_VER = "20261017g"
+ASSET_VER = "20261017h"
 
 BIZ = {
     "name": "Two Stooges Sports Bar & Grill",
@@ -984,6 +984,7 @@ def p_home():
     <li><span class="badge-static">{icon("sun")}<span>2 Patios</span></span></li>
     <li><a href="/billiards/">{icon("ball")}<span>43 Pool Tables</span></a></li>
     <li><a href="/darts/">{icon("target")}<span>6 Dart Boards</span></a></li>
+    <li><a href="/about/">{icon("tv")}<span>34 TVs</span></a></li>
   </ul>
 </div></section>
 

@@ -515,8 +515,9 @@ address { font-style: normal; }
 
 /* Badge strip under the home hero */
 .badge-strip { background: var(--card); border-bottom: 1px solid var(--line); box-shadow: var(--shadow-1); position: relative; z-index: 2; }
-.badges { list-style: none; margin: 0; padding: 1.1rem 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .75rem; }
+.badges { list-style: none; margin: 0; padding: 1.1rem 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: .75rem; }
+@media (max-width: 1100px) { .badges a, .badges .badge-static { font-size: .9rem; padding: .75rem .6rem; } }
 .badges a, .badges .badge-static { display: flex; align-items: center; justify-content: center; gap: .65rem; height: 100%; padding: .85rem 1rem; border: 1.5px solid var(--gold-2); border-radius: 999px; background: #fffaeb; color: var(--green); text-decoration: none; font: 600 1rem/1.1 var(--font-display); letter-spacing: .07em; text-transform: uppercase; transition: background-color .15s, transform .15s; }
 .badges a:hover { background: var(--gold); transform: translateY(-2px); }
 .badges .icon { width: 1.5em; height: 1.5em; color: var(--orange-ink); flex: none; }
-@media (max-width: 760px) { .badges { grid-template-columns: repeat(2, minmax(0, 1fr)); } .badges a, .badges .badge-static { font-size: .88rem; padding: .7rem .6rem; gap: .45rem; } }
+@media (max-width: 760px) { .badges { grid-template-columns: repeat(2, minmax(0, 1fr)); } .badges li:last-child { grid-column: 1 / -1; } .badges a, .badges .badge-static { font-size: .88rem; padding: .7rem .6rem; gap: .45rem; } }
