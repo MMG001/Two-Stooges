@@ -28,7 +28,7 @@ IMG = ROOT / "assets" / "img"
 # Flip to True on launch day (removes noindex). pages.dev stays noindex via _headers.
 LAUNCH = False
 SITE = "https://twostooges.com"
-ASSET_VER = "20261017m"
+ASSET_VER = "20261017n"
 
 BIZ = {
     "name": "Two Stooges Sports Bar & Grill",
@@ -935,11 +935,11 @@ def p_home():
       </aside>'''
 
     pillars = [
-        ("photos/player-shooting", "A player lines up a shot on a blue-felt pool table at Two Stooges in Fridley", "43 tables", "Billiards", "/billiards/",
+        ("photos/home-card-billiards-rack", "A racked set of pool balls on blue felt at Two Stooges in Fridley", "43 tables", "Billiards", "/billiards/",
          f"Gabriel's and Diamond tables in 9 ft and 7 ft, {L('/specials/#pool', 'daily pool specials')} and a full Pro Shop.", "Explore the billiard room"),
-        ("photos/dart-room", "The Two Stooges dart area with a row of electronic dart boards and high-top tables", "Leagues every day", "Darts", "/darts/",
+        ("photos/home-card-darts-bullseye", "A blue-flighted dart in the bullseye of a dartboard, with warm bar lights behind", "Leagues every day", "Darts", "/darts/",
          f"Electronic dart boards, high-tops and {L('/leagues/', 'dart leagues')} for every skill level.", "See the dart area"),
-        ("photos/tournament-table-trophies", "A tournament pool table under the lights with trophies on the shelf above", "Weekly play", "Leagues & Tournaments", "/leagues/",
+        ("photos/home-card-leagues-player", "A league player lining up a shot on a blue-felt Diamond table at Two Stooges", "Weekly play", "Leagues & Tournaments", "/leagues/",
          f"Straight pool, 10-ball, APA and UPL leagues, plus {L('/events/', 'FargoRate tournaments')}.", "Join a pool league"),
         ("photos/pool-hall-interior", "The warmly lit Two Stooges billiard room set up for a group", "Groups welcome", "Private Parties", "/private-parties/",
          f"Birthdays, office parties and banquets with {L('/menu/', 'custom menus')} and pool tables included.", "Plan a private party"),
@@ -1014,7 +1014,7 @@ def p_home():
 <section class="section"><div class="wrap">
   <div class="split">
     <div class="split__media">
-      {img("photos/pool-hall-interior", "Booths and tables in the Two Stooges dining area, next to the billiard room", sizes="(max-width:860px) 100vw, 50vw")}
+      {img("photos/burger-and-fries", "A Two Stooges double bacon cheeseburger stacked with onion strings, served in a basket with seasoned fries and pickles", sizes="(max-width:860px) 100vw, 50vw")}
       <div class="split__badge">Bar &amp; grill<small>Open daily 11 AM – midnight</small></div>
     </div>
     <div>
