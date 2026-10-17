@@ -28,7 +28,7 @@ IMG = ROOT / "assets" / "img"
 # Flip to True on launch day (removes noindex). pages.dev stays noindex via _headers.
 LAUNCH = False
 SITE = "https://twostooges.com"
-ASSET_VER = "20261017p"
+ASSET_VER = "20261017q"
 
 BIZ = {
     "name": "Two Stooges Sports Bar & Grill",
@@ -61,7 +61,8 @@ NAV = [
                 ("Private Parties", "/private-parties/", "Birthdays, office parties & more")]),
     ("About", "/about/"),
     ("Gallery", "/gallery/"),
-    ("Contact", "/contact/"),
+    ("Contact", [("Contact Us", "/contact/", "Address, hours & message form"),
+                 ("FAQ", "/faq/", "Answers to common questions")]),
 ]
 
 TODAY = dt.date.today().isoformat()
@@ -304,6 +305,9 @@ META = {
     "contact": ("/contact/", "Contact & Directions | Two Stooges Sports Bar, Fridley",
                 "Contact Two Stooges Sports Bar & Grill at 7178 University Ave NE, Fridley, MN 55432. Call (763) 574-1399. Open daily 11 AM to midnight. Get directions.",
                 "photos/building-exterior", "Two Stooges Sports Bar & Grill, 7178 University Ave NE, Fridley MN", "Contact"),
+    "faq": ("/faq/", "FAQ | Two Stooges Sports Bar & Grill, Fridley MN",
+            "Answers about Two Stooges Sports Bar in Fridley, MN: hours, location, pool tables, darts, leagues, tournaments, food, happy hour and private parties. Read more.",
+            "photos/billiard-room-gabriels", "The Two Stooges billiard room in Fridley, MN", "FAQ"),
     "privacy": ("/privacy-policy/", "Privacy Policy | Two Stooges Sports Bar",
                 "Read the Two Stooges Sports Bar & Grill privacy policy: what information our Fridley, MN website collects through forms and maps, and how we use and protect it.",
                 "photos/billiard-room-rows", "Two Stooges Sports Bar & Grill", "Privacy Policy"),
@@ -321,6 +325,7 @@ LINK_INFO = {
     "/private-parties/": ("Private parties", "Birthdays, office parties and banquets with custom menus."),
     "/about/": ("Our story since 1988", "From University Billiards to Two Stooges Sports Bar & Grill."),
     "/gallery/": ("Photo gallery", "Take a look inside the billiard room, dart area and bar."),
+    "/faq/": ("Two Stooges FAQ", "Hours, pool tables, leagues, food and parties, answered."),
     "/contact/": ("Contact & directions", "Address, hours, phone and a map to 7178 University Ave NE."),
 }
 RELATED = {
@@ -334,8 +339,9 @@ RELATED = {
     "parties": ["/menu/", "/billiards/", "/darts/"],
     "about": ["/gallery/", "/billiards/", "/contact/"],
     "gallery": ["/about/", "/billiards/", "/darts/"],
-    "contact": ["/private-parties/", "/leagues/", "/events/"],
+    "contact": ["/faq/", "/private-parties/", "/leagues/"],
     "privacy": ["/contact/", "/about/", "/events/"],
+    "faq": ["/contact/", "/league-signup/", "/private-parties/"],
 }
 
 FAQ = [
@@ -615,7 +621,7 @@ def footer():
   </div>
   <div class="wrap footer-bottom">
     <span>© <span data-year>2026</span> {e(BIZ["name"])}, Fridley, Minnesota. Information updated {updated}.</span>
-    <span><a href="/about/">About</a> · <a href="/gallery/">Gallery</a> · <a href="/contact/">Contact</a> · <a href="/privacy-policy/">Privacy Policy</a> · Website by Multimedia Graphics</span>
+    <span><a href="/about/">About</a> · <a href="/gallery/">Gallery</a> · <a href="/contact/">Contact</a> · <a href="/faq/">FAQ</a> · <a href="/privacy-policy/">Privacy Policy</a> · Website by Multimedia Graphics</span>
   </div>
 </footer>
 <nav class="action-bar" aria-label="Quick actions">
@@ -1049,7 +1055,7 @@ def p_home():
 <section class="section"><div class="wrap">
   <div class="split split--rev">
     <div class="split__media">
-      {img("photos/building-exterior", "The Two Stooges Sports Bar & Grill building on University Ave NE in Fridley, with green awnings", sizes="(max-width:860px) 100vw, 50vw")}
+      {img("photos/billiard-room-gabriels", "Rows of blue-felt Gabriel's tournament tables under wood-trimmed lights in the Two Stooges billiard room", sizes="(max-width:860px) 100vw, 50vw")}
       <div class="split__badge">Since 1988<small>Locally owned in Fridley</small></div>
     </div>
     <div>
@@ -1070,17 +1076,12 @@ def p_home():
 
 <section class="section section--tight"><div class="wrap">
   <div class="cta-band on-dark">
-    <div><span class="eyebrow">Private parties</span><h2>Celebrate at Two Stooges</h2><p>Birthdays, office parties, draft parties and banquets, with custom menus, pool tables and darts for your group.</p></div>
+    <div><span class="eyebrow">Private parties</span><h2>Celebrate at Two Stooges</h2><p>Birthdays, office parties, draft parties and banquets, with custom menus, pool tables and darts for your group. Questions first? Check the {L("/faq/", "Two Stooges FAQ")}.</p></div>
     <div class="btn-row">{btn("Plan a Party", "/private-parties/", "gold")}{btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone")}</div>
   </div>
 </div></section>
-
-<section class="section" id="faq"><div class="wrap" style="max-width:900px">
-  {section_head("Good to know", "Two Stooges Sports Bar FAQ", center=True)}
-  <div class="faq-list">{faqs}</div>
-</div></section>
-{visit_section()}'''
-    return page("home", body, extra_ld=[faq_ld()] + ([event_ld(nxt)] if nxt else []), og_type="business.business")
+'''
+    return page("home", body, extra_ld=([event_ld(nxt)] if nxt else []), og_type="business.business")
 
 
 def p_menu():
@@ -1519,7 +1520,7 @@ def p_contact():
 </div></section>
 {visit_section("Two Stooges address, hours &amp; phone")}
 <section class="section"><div class="wrap">
-  {section_head("How can we help?", "Plan your visit to Two Stooges", center=True)}
+  {section_head("How can we help?", "Plan your visit to Two Stooges", f"Quick answer? Try the {L('/faq/', 'Two Stooges FAQ')}.", center=True)}
   <div class="grid grid--3">
     <article class="card card--link"><div class="card__body"><span class="tile__icon">{icon("users")}</span><h3><a class="stretched" href="/private-parties/#request">Plan a private party</a></h3><p>Birthdays, office parties, banquets and more. Send us your event details.</p></div></article>
     <article class="card card--link"><div class="card__body"><span class="tile__icon">{icon("trophy")}</span><h3><a class="stretched" href="/league-signup/">Join a pool or dart league</a></h3><p>Every skill level is welcome. Sign up online or by phone.</p></div></article>
@@ -1528,6 +1529,60 @@ def p_contact():
   <p class="center small muted mt-2">Find Two Stooges on Google Maps: {e(BIZ["plus_code"])}</p>
 </div></section>'''
     return page("contact", body, og_type="business.business")
+
+
+FAQ_GROUPS = [
+    ("Visiting Two Stooges", [
+        FAQ[0][:2], FAQ[1][:2],
+        ("Does Two Stooges have outdoor seating?", "Yes. Two Stooges has two patios."),
+        ("Is there parking?", 'Yes, there is a parking lot right outside the front doors on University Ave NE. <a href="/contact/">Get directions</a>.'),
+        FAQ[5][:2],
+    ]),
+    ("Pool, darts & the Pro Shop", [
+        FAQ[2][:2],
+        ("How do I rent a pool table?", 'Stop at the billiard counter and the attendant will set you up with a table and a set of balls. Play as long as you like, then bring the balls back and settle up. <a href="/billiards/#rates">Daily pool specials</a> run 11 AM–5 PM.'),
+        ("How many dart boards are there?", 'Two Stooges has 6 electronic dart boards with high-top seating right next to them. <a href="/darts/">See the dart area</a>.'),
+        ("Is there a pro shop?", 'Yes. The Pro Shop carries cues, cases, chalk, gloves, darts and accessories, and we do cue repair on site. <a href="/billiards/#pro-shop">Visit the Pro Shop</a>.'),
+    ]),
+    ("Leagues & tournaments", [
+        FAQ[3][:2],
+        ("Do I need a team to join a league?", 'No. Solo players are welcome, and we will help place you on a team or league night. <a href="/league-signup/">Sign up for a league</a>.'),
+        ("What skill level do I need?", "Any. Our leagues are handicapped, so beginners and experienced players can compete on even terms."),
+        ("Does Two Stooges host pool tournaments?", 'Yes. We host FargoRate 8-ball tournaments and bar box shootouts with money added. <a href="/events/">See upcoming tournaments</a>.'),
+    ]),
+    ("Food & drink", [
+        ("What food does Two Stooges serve?", 'Classic American bar and grill food: Stoogetizers, wings, burgers, sandwiches and wraps, pizza, entrées, soup and salad. <a href="/menu/">See the full menu</a>.'),
+        ("When is happy hour?", 'Monday to Thursday 2–6 PM, and Friday to Sunday 11 AM–7 PM, with daily food specials too. <a href="/specials/">See every special</a>.'),
+        ("How many beers are on tap?", "Two Stooges pours 16 beers on tap, ice-cold from our iced cobra taps."),
+    ]),
+    ("Parties & contact", [
+        FAQ[4][:2],
+        ("How do I book a private party?", 'Send your date, guest count and occasion with the <a href="/private-parties/#request">event request form</a>, or call (763) 574-1399.'),
+        ("How do I contact Two Stooges?", 'Call (763) 574-1399, email info@twostooges.com, or use the <a href="/contact/#form">contact form</a>.'),
+    ]),
+]
+
+
+def p_faq():
+    groups = []
+    for title, qs in FAQ_GROUPS:
+        items = "".join(f'<details class="faq"><summary><h3>{e(q)}</h3></summary><p>{a}</p></details>' for q, a in qs)
+        groups.append(f'<section class="faq-group"><h2>{e(title)}</h2><div class="faq-list">{items}</div></section>')
+    jump = "".join(f'<a class="chip chip--green" href="#faq-{i}">{e(t)}</a>' for i, (t, _) in enumerate(FAQ_GROUPS))
+    groups_html = "".join(g.replace('<section class="faq-group">', f'<section class="faq-group" id="faq-{i}">', 1) for i, g in enumerate(groups))
+    body = f'''{page_hero("faq", "Good to know", "Two Stooges Sports Bar <span class='grad-text'>FAQ</span>",
+        f"Quick answers about visiting Two Stooges in Fridley: hours, pool tables, darts, leagues, food and private parties. Can't find what you need? {L('/contact/#form', 'Send us a message')}.",
+        "photos/billiard-room-gabriels", "The Two Stooges billiard room", btn("Contact Us", "/contact/", "gold") + btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone"))}
+<section class="section"><div class="wrap" style="max-width:900px">
+  <nav class="faq-jump" aria-label="FAQ topics">{jump}</nav>
+  {groups_html}
+</div></section>
+{visit_section()}'''
+    node = {"@type": "FAQPage", "@id": SITE + "/faq/#faq", "isPartOf": {"@id": SITE + "/faq/#webpage"},
+            "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": SG.strip(a)}}
+                           for _, qs in FAQ_GROUPS for q, a in qs]}
+    return page("faq", body, extra_ld=[node], main_entity=SITE + "/faq/#faq")
+
 
 
 def p_privacy():
@@ -1587,7 +1642,7 @@ PAGES = {
     "index.html": p_home, "menu/index.html": p_menu, "specials/index.html": p_specials,
     "billiards/index.html": p_billiards, "darts/index.html": p_darts, "leagues/index.html": p_leagues,
     "events/index.html": p_events, "league-signup/index.html": p_signup, "private-parties/index.html": p_parties, "about/index.html": p_about,
-    "gallery/index.html": p_gallery, "contact/index.html": p_contact, "privacy-policy/index.html": p_privacy,
+    "gallery/index.html": p_gallery, "contact/index.html": p_contact, "privacy-policy/index.html": p_privacy, "faq/index.html": p_faq,
     "404.html": p_404,
 }
 
@@ -1600,7 +1655,7 @@ def main():
         print("wrote", rel)
     # Sitemap: canonical URLs only (matches <link rel=canonical> exactly)
     prio = {"/": "1.0", "/events/": "0.9", "/billiards/": "0.9", "/specials/": "0.8", "/menu/": "0.8", "/leagues/": "0.8",
-            "/darts/": "0.7", "/league-signup/": "0.8", "/private-parties/": "0.8", "/about/": "0.6", "/gallery/": "0.5", "/contact/": "0.7", "/privacy-policy/": "0.2"}
+            "/darts/": "0.7", "/league-signup/": "0.8", "/private-parties/": "0.8", "/about/": "0.6", "/gallery/": "0.5", "/contact/": "0.7", "/faq/": "0.6", "/privacy-policy/": "0.2"}
     urls = [m[0] for m in META.values()]
     sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + \
          "".join(f"  <url><loc>{SITE}{u}</loc><lastmod>{TODAY}</lastmod><priority>{prio.get(u, '0.5')}</priority></url>\n" for u in urls) + "</urlset>\n"
