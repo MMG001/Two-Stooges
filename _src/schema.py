@@ -148,7 +148,8 @@ def business_node(biz, page_key, extras=None):
             {"@type": "CommunicateAction", "name": "Call Two Stooges", "target": ep("tel:" + biz["tel"])},
             {"@type": "CommunicateAction", "name": "Email Two Stooges", "target": ep("mailto:" + biz["email"])},
             {"@type": "AskAction", "name": "Request a private party", "target": ep(SITE + "/private-parties/#request")},
-            {"@type": "JoinAction", "name": "Sign up for a pool or dart league", "target": ep(SITE + "/leagues/#signup")},
+            {"@type": "JoinAction", "name": "Sign up for a pool or dart league", "target": ep(SITE + "/league-signup/#form")},
+            {"@type": "AskAction", "name": "Send Two Stooges a message", "target": ep(SITE + "/contact/#form")},
         ],
     }
     if SAME_AS:

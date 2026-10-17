@@ -28,7 +28,7 @@ IMG = ROOT / "assets" / "img"
 # Flip to True on launch day (removes noindex). pages.dev stays noindex via _headers.
 LAUNCH = False
 SITE = "https://twostooges.com"
-ASSET_VER = "20261017i"
+ASSET_VER = "20261017j"
 
 BIZ = {
     "name": "Two Stooges Sports Bar & Grill",
@@ -55,7 +55,8 @@ NAV = [
                      ("Specials & Happy Hour", "/specials/", "Daily deals, 7 days a week")]),
     ("Play", [("Billiards", "/billiards/", "43 tables · Pro Shop"),
               ("Darts", "/darts/", "Boards & dart leagues"),
-              ("Leagues & Tournaments", "/leagues/", "Join a league")]),
+              ("Leagues & Tournaments", "/leagues/", "Weekly pool & dart leagues"),
+              ("League Sign-Up", "/league-signup/", "Join a league online")]),
     ("Events", [("Upcoming Events", "/events/", "Tournaments & special nights"),
                 ("Private Parties", "/private-parties/", "Birthdays, office parties & more")]),
     ("About", "/about/"),
@@ -285,6 +286,9 @@ META = {
     "leagues": ("/leagues/", "Pool & Dart Leagues in Fridley, MN | Two Stooges",
                 "Join a pool or dart league at Two Stooges Sports Bar in Fridley, MN: Straight Pool Tuesdays, 10-Ball Thursdays, APA, UPL and daily darts. Sign up online.",
                 "photos/tournament-table-trophies", "League table and trophies at Two Stooges Sports Bar", "Leagues & Tournaments"),
+    "signup": ("/league-signup/", "League Sign-Up in Fridley, MN | Two Stooges Sports Bar",
+               "Sign up for a pool or dart league at Two Stooges Sports Bar in Fridley, MN. Straight pool, 10-ball, APA, UPL and darts for every skill level. Join today.",
+               "photos/player-lining-up-shot", "A league player lining up a shot at Two Stooges Sports Bar", "League Sign-Up"),
     "events": ("/events/", "Pool Tournaments & Events in Fridley | Two Stooges",
                "Upcoming pool tournaments, FargoRate 8-ball shootouts, league nights and special events at Two Stooges Sports Bar in Fridley, MN. See dates and sign up.",
                "photos/player-shooting", "A tournament player shooting at Two Stooges Sports Bar", "Events"),
@@ -312,6 +316,7 @@ LINK_INFO = {
     "/billiards/": ("Billiards in Fridley", "43 tournament tables, pool specials and the Pro Shop."),
     "/darts/": ("Darts at Two Stooges", "Electronic boards and dart leagues every night."),
     "/leagues/": ("Pool & dart leagues", "Straight pool, 10-ball, APA, UPL and darts. Sign up online."),
+    "/league-signup/": ("League sign-up", "Join a pool or dart league online. Every skill level welcome."),
     "/events/": ("Tournaments & events", "FargoRate shootouts, league nights and special events."),
     "/private-parties/": ("Private parties", "Birthdays, office parties and banquets with custom menus."),
     "/about/": ("Our story since 1988", "From University Billiards to Two Stooges Sports Bar & Grill."),
@@ -323,7 +328,8 @@ RELATED = {
     "specials": ["/menu/", "/billiards/", "/events/"],
     "billiards": ["/leagues/", "/events/", "/darts/"],
     "darts": ["/leagues/", "/billiards/", "/private-parties/"],
-    "leagues": ["/billiards/", "/darts/", "/events/"],
+    "leagues": ["/league-signup/", "/billiards/", "/events/"],
+    "signup": ["/leagues/", "/billiards/", "/darts/"],
     "events": ["/leagues/", "/private-parties/", "/billiards/"],
     "parties": ["/menu/", "/billiards/", "/darts/"],
     "about": ["/gallery/", "/billiards/", "/contact/"],
@@ -464,10 +470,14 @@ def section_head(eyebrow, title, intro="", center=False, h="h2"):
     return f'<div class="section-head{c}"><span class="eyebrow">{eyebrow}</span><{h}>{title}</{h}>{p}</div>'
 
 
+FORM_HEIGHTS = {FORM_LEAGUE: 1200, FORM_EVENT: 592}
+
+
 def cognito(form_id, title):
+    """Cognito Forms iframe embed exactly as supplied by the client (+ title for accessibility)."""
     return f'''<div class="form-panel">
-  <script src="https://www.cognitoforms.com/f/seamless.js" data-key="{COGNITO_KEY}" data-form="{form_id}"></script>
-  <noscript><iframe src="https://www.cognitoforms.com/f/{COGNITO_KEY}/{form_id}" title="{e(title)}" style="border:0;width:100%;height:900px"></iframe></noscript>
+  <iframe src="https://www.cognitoforms.com/f/{COGNITO_KEY}/{form_id}" title="{e(title)}" allow="payment" style="border:0;width:100%;" height="{FORM_HEIGHTS[form_id]}"></iframe>
+  <script src="https://www.cognitoforms.com/f/iframe.js"></script>
   <p class="form-panel__fallback">Form not loading? <a href="https://www.cognitoforms.com/f/{COGNITO_KEY}/{form_id}" target="_blank" rel="noopener">Open the {e(title.lower())} in a new tab</a> or call <a href="tel:{BIZ["tel"]}">{BIZ["phone"]}</a>. We only use your details to respond to you. See our <a href="/privacy-policy/">privacy policy</a>.</p>
 </div>'''
 
@@ -596,6 +606,7 @@ def footer():
           <li><a href="/billiards/">Billiards</a></li>
           <li><a href="/darts/">Darts</a></li>
           <li><a href="/leagues/">Leagues &amp; Tournaments</a></li>
+          <li><a href="/league-signup/">League Sign-Up</a></li>
           <li><a href="/events/">Events</a></li>
           <li><a href="/private-parties/">Private Parties</a></li>
         </ul>
@@ -1027,6 +1038,10 @@ def p_home():
     <div class="deal-tile"><div class="schedule__day">Every day</div><h3>Dart Leagues</h3></div>
     <div class="deal-tile"><div class="schedule__day">Daily · 11 AM–5 PM</div><h3>Pool Specials</h3></div>
   </div>
+  <div class="league-cta">
+    <p><strong>Want in?</strong> Leagues are handicapped, so every skill level can compete. Solo players welcome.</p>
+    <div class="btn-row">{btn("Sign Up for a League", "/league-signup/", "gold", "trophy")}{btn("See All Leagues", "/leagues/", "outline")}</div>
+  </div>
 </div></section>
 
 <section class="section"><div class="wrap">
@@ -1207,7 +1222,7 @@ def p_billiards():
 def p_darts():
     body = f'''{page_hero("darts", "Darts at Stooges", "Darts at Two Stooges Sports Bar in <span class='grad-text'>Fridley</span>",
         f"Electronic dart boards, high-top tables and a big screen. Bring friends for a casual game or join one of our {L('/leagues/', 'dart leagues')}, which run every day of the week.",
-        "photos/dart-bullseye-neon", "A dart hitting the bullseye under colorful bar lights", btn("Join a Dart League", "/leagues/#signup", "gold") + btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone"))}
+        "photos/dart-bullseye-neon", "A dart hitting the bullseye under colorful bar lights", btn("Join a Dart League", "/league-signup/", "gold") + btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone"))}
 <section class="section"><div class="wrap">
   <div class="split">
     <div class="split__media">{img("photos/dart-room", "The Two Stooges dart area with a row of electronic dart boards", sizes="(max-width:860px) 100vw, 50vw")}</div>
@@ -1226,7 +1241,7 @@ def p_darts():
     <div class="tile"><span class="tile__icon">{icon("users")}</span><h3>Custom leagues</h3><p>We can set up leagues for women, couples or teams. Just ask.</p></div>
     <div class="tile"><span class="tile__icon">{icon("award")}</span><h3>Win cash</h3><p>Compete for prize money and bragging rights all season long.</p></div>
   </div>
-  <div class="btn-row mt-2">{btn("Sign Up for a Dart League", "/leagues/#signup", "gold")}{btn("Ask a Team Member", "tel:" + BIZ["tel"], "outline", "phone")}</div>
+  <div class="btn-row mt-2">{btn("Sign Up for a Dart League", "/league-signup/", "gold")}{btn("Ask a Team Member", "tel:" + BIZ["tel"], "outline", "phone")}</div>
 </div></section>
 <section class="section section--alt"><div class="wrap">
   <div class="split split--rev">
@@ -1235,7 +1250,7 @@ def p_darts():
       <span class="eyebrow">New to darts?</span>
       <h2>Easy to start, <span class="grad-text">hard to put down</span></h2>
       <p class="lead">Never thrown before? Ask a team member and we'll get you set up on a board. The electronic boards keep score for you, so you can focus on the fun.</p>
-      <ul class="check-list"><li>Electronic boards keep score automatically</li><li>Bring your own darts or pick up a set in the {L("/billiards/#pro-shop", "Pro Shop")}</li><li>Ready to compete? {L("/leagues/#signup", "Join a dart league")}</li></ul>
+      <ul class="check-list"><li>Electronic boards keep score automatically</li><li>Bring your own darts or pick up a set in the {L("/billiards/#pro-shop", "Pro Shop")}</li><li>Ready to compete? {L("/league-signup/", "Join a dart league")}</li></ul>
     </div>
   </div>
 </div></section>
@@ -1253,12 +1268,12 @@ def p_leagues():
     <div class="event__date"><span>{e(L_["day"])}</span><span>{e(L_["time"])}</span></div>
     <h3>{e(L_["name"])} at Two Stooges</h3>
     <ul class="check-list">{pts}</ul>
-    <div class="event__contact">{btn("Call to sign up: " + BIZ["phone"], "tel:" + BIZ["tel"], "gold", "phone")}<a class="text-link" href="#signup">Sign up for a league online</a></div>
+    <div class="event__contact">{btn("Call to sign up: " + BIZ["phone"], "tel:" + BIZ["tel"], "gold", "phone")}<a class="text-link" href="/league-signup/">Sign up for a league online</a></div>
   </div>
 </article>''')
     body = f'''{page_hero("leagues", "Pool &amp; dart leagues", "Pool &amp; dart leagues at <span class='grad-text'>Two Stooges Sports Bar</span>",
         f"Leagues at Two Stooges are a great way to meet other pool and dart players in Fridley, sharpen your skills and win cash. There's a league for every skill level on our {L('/billiards/', '43 tables')} and {L('/darts/', 'dart boards')}.",
-        "photos/tournament-table-trophies", "Tournament table with trophies above", btn("Sign Up Online", "#signup", "gold") + btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone"))}
+        "photos/tournament-table-trophies", "Tournament table with trophies above", btn("Sign Up Online", "/league-signup/", "gold") + btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone"))}
 <section class="section"><div class="wrap">
   {section_head("In-house pool leagues", "Weekday pool leagues in Fridley", "Played on our 9 ft Gabriel's tables. Click a flyer to see it full size.")}
   {"".join(lg)}
@@ -1272,19 +1287,71 @@ def p_leagues():
   </div>
   <p class="mt-2 muted">Ready to compete for money? Check the {L("/events/", "upcoming pool tournaments")} for FargoRate 8-ball shootouts.</p>
 </div></section>
-<section class="section" id="signup"><div class="wrap">
+{cta_band("Ready to join a league?", "Sign up online in a couple of minutes. Solo players are welcome, and we'll help you find a team.", btn("League Sign-Up", "/league-signup/", "gold") + btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone"))}'''
+    return page("leagues", body, extra_ld=league_event_nodes())
+
+
+LEAGUE_FAQ = [
+    ("Do I need a team to join a league?", "No. Solo players are welcome. Sign up and we'll help place you on a team or league night."),
+    ("What skill level do I need?", "Any. Our leagues are handicapped, so beginners and experienced players can compete on even terms."),
+    ("Which leagues can I join?", "Straight Pool on Tuesdays at 11 AM, 10-Ball on Thursdays at 11 AM, APA, UPL and in-house 8-ball pool leagues, plus dart leagues every day of the week."),
+    ("Can I sign up by phone?", "Yes. Call (763) 574-1399 and a team member will sign you up."),
+]
+
+
+def p_signup():
+    benefits = [
+        ("users", "Meet your people", "League night is the easiest way to meet other pool and dart players in Fridley and the north metro."),
+        ("trophy", "Compete for cash & bragging rights", "Play for standings, prizes and cash, and get ready for our FargoRate tournaments with money added."),
+        ("ball", "Every skill level", "Leagues are handicapped, so newer players and sharks can play together, and every match is competitive."),
+        ("target", "Get better every week", "Regular match play against new opponents sharpens your game faster than practice alone, and it builds your FargoRate."),
+        ("calendar", "A standing night out", "Same night, same crew, every week. It's a built-in reason to get out of the house."),
+        ("award", "Play on tournament tables", "Pool leagues are played on our 9 ft Gabriel's tables with new cloth and rails, in a room named a top ten billiard room in North America."),
+    ]
+    ben = "".join(f'<div class="tile"><span class="tile__icon">{icon(i)}</span><h3>{e(t)}</h3><p>{e(d)}</p></div>' for i, t, d in benefits)
+    leagues = [("Tuesdays · 11 AM", "Straight Pool League", "BCA rules · 3 races to 50 points"),
+               ("Thursdays · 11 AM", "10-Ball League", "3 sets, race to 5 · 9 ft Gabriel's"),
+               ("Your league night", "APA & UPL", "Handicapped pool leagues for all levels"),
+               ("Your league night", "In-house 8-Ball", "A great first league for newer players"),
+               ("Every day", "Dart Leagues", "Plus custom leagues for women, couples & teams")]
+    lg = "".join(f'<div class="schedule__item"><div class="schedule__day">{e(d)}</div><h3>{e(n)}</h3><p>{e(x)}</p></div>' for d, n, x in leagues)
+    steps = [("1", "Fill out the form", "Tell us whether you want pool or darts, which night works, and whether you have a team."),
+             ("2", "We'll place you", "A team member will contact you to confirm your league, team and start date."),
+             ("3", "Show up and play", "Grab a table, meet your team and rack 'em up.")]
+    st = "".join(f'<div class="step"><span class="step__num">{n}</span><div><h3>{e(t)}</h3><p>{e(d)}</p></div></div>' for n, t, d in steps)
+    faqs = "".join(f'<details class="faq"><summary><h3>{e(q)}</h3></summary><p>{e(a)}</p></details>' for q, a in LEAGUE_FAQ)
+    body = f'''{page_hero("signup", "League sign-up", "Join a league at <span class='grad-text'>Two Stooges Sports Bar</span>",
+        f"Sign up for a pool or dart league in Fridley. We have handicapped leagues for every skill level on our {L('/billiards/', '43 tables')} and {L('/darts/', 'dart boards')}. Solo players are welcome.",
+        "photos/player-lining-up-shot", "A league player lining up a shot at Two Stooges", btn("Sign Up Now", "#form", "gold", "trophy") + btn("See All Leagues", "/leagues/", "outline"))}
+<section class="section"><div class="wrap">
+  {section_head("Why join", "Benefits of joining a Two Stooges league", "More than just a game night. Here's what you get when you join a league in Fridley.", center=True)}
+  <div class="grid grid--3">{ben}</div>
+</div></section>
+<section class="section section--alt"><div class="wrap">
+  {section_head("Pick your league", "Pool &amp; dart leagues you can join", f"See full rules and flyers on the {L('/leagues/', 'leagues page')}, or check {L('/events/', 'upcoming tournaments')}.")}
+  <div class="schedule schedule--5">{lg}</div>
+</div></section>
+<section class="section"><div class="wrap">
+  {section_head("How it works", "Signing up takes about two minutes", center=True)}
+  <div class="steps">{st}</div>
+</div></section>
+<section class="section section--alt" id="form"><div class="wrap">
   <div class="split" style="align-items:start">
     <div>
-      <span class="eyebrow">League sign-up</span>
-      <h2>Sign up for a <span class="grad-text">Two Stooges league</span></h2>
+      <span class="eyebrow">League sign-up form</span>
+      <h2>Sign up for a <span class="grad-text">pool or dart league</span></h2>
       <p class="lead">Fill out the form and we'll get you placed on a team or league night. Prefer the phone? Call us and a team member will sign you up.</p>
       <ul class="check-list"><li>Pool or darts</li><li>Solo players welcome. We'll help find you a team.</li><li>Handicapped, so every skill level can compete</li></ul>
       {btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone")}
+      <div class="faq-list mt-2">{faqs}</div>
     </div>
     {cognito(FORM_LEAGUE, "League sign-up form")}
   </div>
 </div></section>'''
-    return page("leagues", body, extra_ld=league_event_nodes())
+    faq_node = {"@type": "FAQPage", "@id": SITE + "/league-signup/#faq", "isPartOf": {"@id": SITE + "/league-signup/#webpage"},
+                "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in LEAGUE_FAQ]}
+    return page("signup", body, extra_ld=league_event_nodes() + [faq_node], main_entity=SG.SERVICES["leagues"]["@id"])
+
 
 
 def league_block(L_):
@@ -1295,7 +1362,7 @@ def league_block(L_):
     <div class="event__date"><span>{e(L_["day"])}</span><span>{e(L_["time"])}</span></div>
     <h3>{e(L_["name"])} at Two Stooges</h3>
     <ul class="check-list">{pts}</ul>
-    <div class="event__contact">{btn("Call to sign up: " + BIZ["phone"], "tel:" + BIZ["tel"], "gold", "phone")}<a class="text-link" href="/leagues/#signup">Sign up for a league online</a></div>
+    <div class="event__contact">{btn("Call to sign up: " + BIZ["phone"], "tel:" + BIZ["tel"], "gold", "phone")}<a class="text-link" href="/league-signup/">Sign up for a league online</a></div>
   </div>
 </article>'''
 
@@ -1430,13 +1497,26 @@ def p_gallery():
 def p_contact():
     body = f'''{page_hero("contact", "Get in touch", "Contact <span class='grad-text'>Two Stooges Sports Bar</span> in Fridley, MN",
         "Questions about leagues, tournaments, parties or the menu? Give us a call or stop in. We're open every day from 11 AM to midnight.",
-        "photos/building-exterior", "The Two Stooges building on University Ave NE", btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "gold", "phone") + btn("Get Directions", DIRECTIONS, "outline", "nav", ' target="_blank" rel="noopener"'))}
+        "photos/building-exterior", "The Two Stooges building on University Ave NE", btn("Send a Message", "#form", "gold", "mail") + btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone") + btn("Get Directions", DIRECTIONS, "outline", "nav", ' target="_blank" rel="noopener"'))}
+<section class="section" id="form"><div class="wrap">
+  <div class="split" style="align-items:start">
+    <div>
+      <span class="eyebrow">Send a message</span>
+      <h2>Contact <span class="grad-text">Two Stooges</span></h2>
+      <p class="lead">Questions about leagues, tournaments, parties or the menu? Send us a note and a team member will get back to you. For anything urgent, call {BIZ["phone"]}.</p>
+      <div class="info-row mt-2"><span class="tile__icon">{icon("phone")}</span><div><h3>Phone</h3><p><a href="tel:{BIZ["tel"]}">{BIZ["phone"]}</a></p></div></div>
+      <div class="info-row mt-1"><span class="tile__icon">{icon("mail")}</span><div><h3>Email</h3><p><a href="mailto:{BIZ["email"]}">{BIZ["email"]}</a></p></div></div>
+      <div class="info-row mt-1"><span class="tile__icon">{icon("clock")}</span><div><h3>Hours</h3><p>Open every day, 11 AM – 12 AM</p></div></div>
+    </div>
+    {cognito(FORM_EVENT, "Contact form")}
+  </div>
+</div></section>
 {visit_section("Two Stooges address, hours &amp; phone")}
 <section class="section"><div class="wrap">
   {section_head("How can we help?", "Plan your visit to Two Stooges", center=True)}
   <div class="grid grid--3">
     <article class="card card--link"><div class="card__body"><span class="tile__icon">{icon("users")}</span><h3><a class="stretched" href="/private-parties/#request">Plan a private party</a></h3><p>Birthdays, office parties, banquets and more. Send us your event details.</p></div></article>
-    <article class="card card--link"><div class="card__body"><span class="tile__icon">{icon("trophy")}</span><h3><a class="stretched" href="/leagues/#signup">Join a pool or dart league</a></h3><p>Every skill level is welcome. Sign up online or by phone.</p></div></article>
+    <article class="card card--link"><div class="card__body"><span class="tile__icon">{icon("trophy")}</span><h3><a class="stretched" href="/league-signup/">Join a pool or dart league</a></h3><p>Every skill level is welcome. Sign up online or by phone.</p></div></article>
     <article class="card card--link"><div class="card__body"><span class="tile__icon">{icon("calendar")}</span><h3><a class="stretched" href="/events/">See upcoming tournaments</a></h3><p>See what's coming up and how to get on the bracket.</p></div></article>
   </div>
   <p class="center small muted mt-2">Find Two Stooges on Google Maps: {e(BIZ["plus_code"])}</p>
@@ -1452,7 +1532,7 @@ def p_privacy():
         "photos/billiard-room-rows", "The Two Stooges billiard room")}
 <section class="section"><div class="wrap prose" style="max-width:820px">
   <h2>Information we collect</h2>
-  <p>We only collect the information you choose to send us, such as your name, phone number, email address and event or league details when you fill out our {L("/private-parties/#request", "event request form")} or {L("/leagues/#signup", "league sign-up form")}. These forms are provided by Cognito Forms, which processes the information on our behalf.</p>
+  <p>We only collect the information you choose to send us, such as your name, phone number, email address and event or league details when you fill out our {L("/private-parties/#request", "event request form")} or {L("/league-signup/", "league sign-up form")}. These forms are provided by Cognito Forms, which processes the information on our behalf.</p>
   <h2>How we use it</h2>
   <p>We use your information to respond to your request, schedule your event or league, and contact you about it. We don't sell or rent your personal information.</p>
   <h2>Third-party services</h2>
@@ -1500,7 +1580,7 @@ def p_404():
 PAGES = {
     "index.html": p_home, "menu/index.html": p_menu, "specials/index.html": p_specials,
     "billiards/index.html": p_billiards, "darts/index.html": p_darts, "leagues/index.html": p_leagues,
-    "events/index.html": p_events, "private-parties/index.html": p_parties, "about/index.html": p_about,
+    "events/index.html": p_events, "league-signup/index.html": p_signup, "private-parties/index.html": p_parties, "about/index.html": p_about,
     "gallery/index.html": p_gallery, "contact/index.html": p_contact, "privacy-policy/index.html": p_privacy,
     "404.html": p_404,
 }
@@ -1514,7 +1594,7 @@ def main():
         print("wrote", rel)
     # Sitemap: canonical URLs only (matches <link rel=canonical> exactly)
     prio = {"/": "1.0", "/events/": "0.9", "/billiards/": "0.9", "/specials/": "0.8", "/menu/": "0.8", "/leagues/": "0.8",
-            "/darts/": "0.7", "/private-parties/": "0.8", "/about/": "0.6", "/gallery/": "0.5", "/contact/": "0.7", "/privacy-policy/": "0.2"}
+            "/darts/": "0.7", "/league-signup/": "0.8", "/private-parties/": "0.8", "/about/": "0.6", "/gallery/": "0.5", "/contact/": "0.7", "/privacy-policy/": "0.2"}
     urls = [m[0] for m in META.values()]
     sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + \
          "".join(f"  <url><loc>{SITE}{u}</loc><lastmod>{TODAY}</lastmod><priority>{prio.get(u, '0.5')}</priority></url>\n" for u in urls) + "</urlset>\n"
