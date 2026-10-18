@@ -294,7 +294,7 @@ META = {
              "photos/billiard-room-rows", "Rows of pool tables inside Two Stooges Sports Bar in Fridley, MN", None),
     "menu": ("/menu/", "Bar & Grill Menu in Fridley, MN | Two Stooges Sports Bar",
              "See the Two Stooges Sports Bar menu: burgers, wings, pizza, sandwiches and Stoogetizers in Fridley, MN, with 16 ice-cold taps. Call ahead or stop in today.",
-             "photos/pool-hall-interior", "Tables and booths at Two Stooges Sports Bar & Grill in Fridley", "Menu"),
+             "photos/tenders-and-beer", "Chicken tenders, fries and a cold beer at Two Stooges Sports Bar & Grill", "Menu"),
     "specials": ("/specials/", "Happy Hour & Daily Specials | Two Stooges Sports Bar",
                  "Two Stooges Sports Bar happy hour and daily specials in Fridley, MN: $1 wings Wednesday, $2 off burgers Monday, $3.50 domestics. See today's deals now.",
                  "photos/beers-on-bar", "Ice-cold pints on the bar, happy hour at Two Stooges", "Specials & Happy Hour"),
@@ -1118,7 +1118,7 @@ def p_menu():
   </section>''')
     body = f'''{page_hero("menu", "Eat &amp; drink", "The Two Stooges Sports Bar <span class='grad-text'>menu</span>",
         f"Classic American bar and grill food with our own twist, served in Fridley every day from 11 AM. There are burgers, wings, pizza, sandwiches and entrées, plus 16 beers on tap. Check the {L('/specials/', 'daily specials')} before you order.",
-        "photos/pool-hall-interior", "Tables and booths at Two Stooges Sports Bar & Grill", btn("Today's Specials", "/specials/", "gold") + btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone"))}
+        "photos/tenders-and-beer", "Crispy chicken tenders and fries next to an ice-cold pint of beer on a wood table", btn("Today's Specials", "/specials/", "gold") + btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone"))}
 <section class="section"><div class="wrap">
   <div class="menu-tabs" role="tablist" aria-label="Menu categories">{tabs}</div>
   {"".join(panels)}
