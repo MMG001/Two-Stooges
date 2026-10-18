@@ -28,7 +28,7 @@ IMG = ROOT / "assets" / "img"
 # Flip to True on launch day (removes noindex). pages.dev stays noindex via _headers.
 LAUNCH = False
 SITE = "https://twostooges.com"
-ASSET_VER = "20261017t"
+ASSET_VER = "20261018a"
 
 BIZ = {
     "name": "Two Stooges Sports Bar & Grill",
@@ -132,6 +132,26 @@ LEAGUES = [
      "flyer_alt": "Flyer: 10 Ball League, Thursdays at 11 AM. 3 sets, race to 5. No 10 ball break, spot the 10 ball. 3 foul rule in effect. Played on 9ft Gabriels with new cloth and rails. Starts early September. Call Two Stooges 763-574-1399.",
      "points": ["3 sets, race to 5", "No 10-ball on the break (spot the 10)", "3-foul rule in effect", "Played on 9 ft Gabriel's with new cloth & rails"]},
 ]
+
+
+# Day cards: (weekday 0=Sun, day, short, theme, headline price, headline item, note, time, extras, happy hour)
+DAY_DEALS = [
+    (1, "Monday", "Mon", "Burger Night", "$2 off", "any burger", "Excludes build-your-own & the Big Stooge", "All day",
+     [("2–5 PM", "$2 off appetizers (excl. wings)")], "2–6 PM"),
+    (2, "Tuesday", "Tue", "Entrée Night", "$3 off", "any entrée", "Pot roast, fish & chips, stir fry & more", "All day",
+     [("2–5 PM", "$2 off appetizers (excl. wings)")], "2–6 PM"),
+    (3, "Wednesday", "Wed", "Wing Night", "$1", "wings", "Minimum 10 · fresh, never frozen", "All day",
+     [("2–5 PM", "$2 off appetizers (excl. wings)")], "2–6 PM"),
+    (4, "Thursday", "Thu", "Appetizer Hour", "$2 off", "appetizers", "Excludes wings", "2–5 PM",
+     [], "2–6 PM"),
+    (5, "Friday", "Fri", "Early Happy Hour", "$2 off", "appetizers", "Excludes wings", "11 AM–7 PM",
+     [], "11 AM–7 PM"),
+    (6, "Saturday", "Sat", "Pizza & Sandwiches", "$3 off", "large pizza", "$2 off small pizzas too", "11 AM–7 PM",
+     [("11 AM–7 PM", "$2 off sandwiches & wraps")], "11 AM–7 PM"),
+    (0, "Sunday", "Sun", "Sunday Funday", "$1.50", "wings", "Minimum 8", "11 AM–7 PM",
+     [("11 AM–7 PM", "$3 off large · $2 off small pizza"), ("11 AM–7 PM", "$2 off any entrée"), ("Happy hour", "$1 off 22 oz craft beer")], "11 AM–7 PM"),
+]
+HH_DRINKS = [("$3.50", "Domestic bottles"), ("$3.50", "Domestic pints"), ("$4.25", "Domestic 22 oz"), ("$4", "Rail drinks")]
 
 SPECIALS = [  # weekday: 0=Sun … 6=Sat (matches JS getDay)
     (1, "Monday", [("All day", "$2 off any burger", "excludes build-your-own & the Big Stooge"),
@@ -452,6 +472,7 @@ ICONS = {
     "ball": '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="11" r="3.5"/>',
     "bag": '<path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>',
     "fork": '<path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/>',
+    "mug": '<path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" y1="2" x2="6" y2="4"/><line x1="10" y1="2" x2="10" y2="4"/><line x1="14" y1="2" x2="14" y2="4"/>',
     "sun": '<circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="6.34" y2="17.66"/><line x1="17.66" y1="6.34" x2="19.07" y2="4.93"/>',
     "trophy": '<path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>',
 }
@@ -1126,15 +1147,49 @@ def p_menu():
 
 def p_specials():
     days = []
-    for wd, name, deals in SPECIALS:
-        d = "".join(f'<div class="deal"><span class="deal__time">{e(t)}</span><span class="deal__what">{e(w)}{f"<br><small>{e(n)}</small>" if n else ""}</span></div>' for t, w, n in deals)
-        days.append(f'<article class="day-card" data-weekday="{wd}"><div class="day-card__day"><h3>{e(name)}</h3><span class="today-badge">Today</span></div>{d}</article>')
+    for wd, day, short, theme, price, item, note, when, extras, hh in DAY_DEALS:
+        ex = "".join(f'<li><span>{e(t)}</span>{e(w)}</li>' for t, w in extras)
+        days.append(f'''<article class="deal-card{" deal-card--sun" if wd == 0 else ""}" data-weekday="{wd}">
+      <header class="deal-card__head"><span class="deal-card__day">{e(day)}</span><span class="today-badge">Today</span></header>
+      <div class="deal-card__body">
+        <p class="deal-card__theme">{e(theme)}</p>
+        <p class="deal-card__price">{e(price)} <span>{e(item)}</span></p>
+        <p class="deal-card__note">{e(note)} · <strong>{e(when)}</strong></p>
+        {f'<ul class="deal-card__extras">{ex}</ul>' if ex else ""}
+      </div>
+      <footer class="deal-card__hh">{icon("mug")}Happy hour drinks {e(hh)}</footer>
+    </article>''')
+    drinks = "".join(f'<div class="hh-price"><span class="hh-price__num">{e(p_)}</span><span class="hh-price__lbl">{e(l_)}</span></div>' for p_, l_ in HH_DRINKS)
     body = f'''{page_hero("specials", "Daily deals", "Two Stooges Sports Bar <span class='grad-text'>specials &amp; happy hour</span>",
         f"There's a deal every day at Two Stooges in Fridley, and today's specials are highlighted below. Browse the {L('/menu/', 'full bar and grill menu')} or grab a table with our {L('#pool', 'daily pool specials')}.",
-        "photos/beers-on-bar", "Three ice-cold pints of beer lined up on the bar", btn("View the Menu", "/menu/", "gold") + btn("Pool Specials", "#pool", "outline"))}
-<section class="section"><div class="wrap">
-  {section_head("This week", "Daily food &amp; drink specials in Fridley", "Food specials, happy hour times and drink prices for each day of the week.")}
-  <div class="grid grid--4">{"".join(days)}</div>
+        "photos/beers-on-bar", "Three ice-cold pints of beer lined up on the bar", btn("Today's Deal", "#week", "gold") + btn("Pool Specials", "#pool", "outline"))}
+<section class="section section--felt on-dark hh-band"><div class="wrap">
+  <div class="hh">
+    <div class="hh__intro">
+      <span class="eyebrow">Happy hour</span>
+      <h2>Happy hour at <span class="grad-text">Two Stooges</span></h2>
+      <div class="hh__times">
+        <div><span class="hh__days">Mon–Thu</span><span class="hh__hours">2–6 PM</span></div>
+        <div><span class="hh__days">Fri–Sun</span><span class="hh__hours">11 AM–7 PM</span></div>
+      </div>
+      <p class="muted">Plus $2 off appetizers (excluding wings) Mon–Thu 2–5 PM and Friday 11 AM–7 PM.</p>
+    </div>
+    <div class="hh__prices">{drinks}</div>
+  </div>
+</div></section>
+<section class="section" id="week"><div class="wrap">
+  {section_head("This week", "Daily food &amp; drink specials in Fridley", "A different deal every day. Today's card is highlighted.")}
+  <div class="deal-grid">{"".join(days)}
+    <a class="deal-card deal-card--pool" href="#pool">
+      <header class="deal-card__head"><span class="deal-card__day">Every day</span></header>
+      <div class="deal-card__body">
+        <p class="deal-card__theme">Pool specials</p>
+        <p class="deal-card__price">$11 <span>table time</span></p>
+        <p class="deal-card__note">Seniors $10 · Premier $12 · <strong>11 AM–5 PM</strong></p>
+      </div>
+      <footer class="deal-card__hh">{icon("ball")}See pool specials →</footer>
+    </a>
+  </div>
   <p class="small muted mt-2">Prices don't include tax. Specials are dine-in only and can't be combined with other offers. Prices and times can change, so ask your server for today's deals.</p>
 </div></section>
 <section class="section section--alt" id="pool"><div class="wrap">
