@@ -1138,7 +1138,7 @@ def p_menu():
       </ul>
       <p class="small muted mt-1">Happy hour: Mon–Thu 2–6 PM · Fri–Sun 11 AM–7 PM.</p>
     </div>
-    <div class="split__media">{img("photos/billiard-room-hero", "The bar and billiard room at Two Stooges Sports Bar & Grill", sizes="(max-width:860px) 100vw, 50vw")}</div>
+    <div class="split__media">{img("photos/beer-taps", "A row of draft beer tap handles at the Two Stooges bar, including Grain Belt, Coors Light, Blue Moon, Samuel Adams, Budweiser and Michelob Golden Light", sizes="(max-width:860px) 100vw, 50vw")}</div>
   </div>
 </div></section>
 {cta_band("Feeding a crowd in Fridley?", "We put together custom menus for birthdays, office parties and banquets.", btn("Plan a Private Party", "/private-parties/", "gold"))}'''
