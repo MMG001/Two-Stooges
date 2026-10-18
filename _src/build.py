@@ -28,7 +28,7 @@ IMG = ROOT / "assets" / "img"
 # Flip to True on launch day (removes noindex). pages.dev stays noindex via _headers.
 LAUNCH = False
 SITE = "https://twostooges.com"
-ASSET_VER = "20261018b"
+ASSET_VER = "20261018c"
 
 BIZ = {
     "name": "Two Stooges Sports Bar & Grill",
@@ -1123,6 +1123,19 @@ def p_menu():
   <div class="menu-tabs" role="tablist" aria-label="Menu categories">{tabs}</div>
   {"".join(panels)}
   <p class="small muted mt-2">{e(MENU_DISCLAIMER)} Planning a group meal? We put together {L("/private-parties/", "custom party menus")}.</p>
+</div></section>
+<section class="section section--tight food-photos"><div class="wrap">
+  {section_head("From the kitchen", "Fresh off the Two Stooges grill", f"A look at what's coming out of the kitchen. Find your favorites on the menu above, and check the {L('/specials/', 'daily specials')} for deals.")}
+  <div class="food-grid">
+    {"".join(f'<figure class="gallery__item food-grid__item"><button type="button" data-lightbox="/assets/img/{p_}.webp" data-alt="{e(a_)}" data-caption="" aria-label="Enlarge photo: {e(a_)}">{img(p_, a_, sizes="(max-width:640px) 50vw, 33vw")}</button></figure>' for p_, a_ in [
+        ("photos/food-bacon-burger-onion-straws", "A bacon burger with onion straws and greens on a toasted bun, with fries and a pickle"),
+        ("photos/food-wings-two-sauces", "Bone-in wings in two sauces with celery"),
+        ("photos/food-club-sandwich", "A stacked club sandwich with kettle chips"),
+        ("photos/food-tater-tots-window", "A pile of crispy tater tots"),
+        ("photos/food-onion-rings", "Golden battered onion rings"),
+        ("photos/food-thin-crust-pizza", "Thin-crust pizza with sausage, mushrooms and red onion"),
+        ("photos/food-steak-bites-onion-rings", "Seared steak bites topped with onion rings")])}
+  </div>
 </div></section>
 <section class="section section--alt"><div class="wrap">
   <div class="split">
