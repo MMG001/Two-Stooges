@@ -28,7 +28,7 @@ IMG = ROOT / "assets" / "img"
 # Flip to True on launch day (removes noindex). pages.dev stays noindex via _headers.
 LAUNCH = False
 SITE = "https://twostooges.com"
-ASSET_VER = "20261018a"
+ASSET_VER = "20261018b"
 
 BIZ = {
     "name": "Two Stooges Sports Bar & Grill",
@@ -1192,23 +1192,26 @@ def p_specials():
   </div>
   <p class="small muted mt-2">Prices don't include tax. Specials are dine-in only and can't be combined with other offers. Prices and times can change, so ask your server for today's deals.</p>
 </div></section>
-<section class="section section--alt" id="pool"><div class="wrap">
-  <div class="split">
-    <div class="split__media">{img("photos/player-lining-up-shot", "A player lining up a shot at Two Stooges Sports Bar", sizes="(max-width:860px) 100vw, 50vw")}</div>
-    <div>
-      <span class="eyebrow">Daily pool specials</span>
-      <h2>Pool specials, <span class="grad-text">11 AM–5 PM daily</span></h2>
-      <p class="lead">Discounted table time every day from 11 AM to 5 PM on our {L("/billiards/", "43 Gabriel's and Diamond tables")}.</p>
+<section class="section section--photo on-dark pool-band" id="pool">
+  <div class="section__bg">{img("photos/friends-pool-beers", "Friends with beers laughing around a pool table as one lines up a shot", sizes="100vw")}</div>
+  <div class="wrap">
+    <div class="pool-band__inner">
+      <div class="pool-band__copy">
+        <span class="eyebrow">Daily pool specials</span>
+        <h2>Pool specials, <span class="grad-text">11 AM–5 PM daily</span></h2>
+        <p class="lead">Discounted table time every day from 11 AM to 5 PM on our {L("/billiards/", "43 Gabriel's and Diamond tables")}. Grab a table and balls at the billiard counter and pay when you're done.</p>
+        <div class="btn-row">{btn("About Our Tables", "/billiards/", "gold", "ball")}{btn("Join a Pool League", "/league-signup/", "outline")}</div>
+      </div>
       <!-- TODO(client): confirm pool special pricing (old site listed $11/$10/$12 on Billiards but $12/$11 on Specials). -->
-      <ul class="price-list">
-        <li><span>Regular</span><span class="price">$11</span></li>
-        <li><span>Seniors</span><span class="price">$10</span></li>
-        <li><span>Premier table</span><span class="price">$12</span></li>
-      </ul>
-      <p class="small muted mt-1">Plus tax. Grab a table and balls at the billiard counter. Want to play every week? {L("/leagues/", "Join a pool league")}.</p>
+      <div class="pool-prices">
+        <div class="pool-price"><span class="pool-price__lbl">Regular</span><span class="pool-price__num">$11</span></div>
+        <div class="pool-price"><span class="pool-price__lbl">Seniors</span><span class="pool-price__num">$10</span></div>
+        <div class="pool-price pool-price--hot"><span class="pool-price__lbl">Premier table</span><span class="pool-price__num">$12</span></div>
+        <p class="pool-prices__note">Plus tax · every day 11 AM–5 PM</p>
+      </div>
     </div>
   </div>
-</div></section>
+</section>
 {cta_band("Celebrating a birthday?", "Bring the crew. We'll set you up with tables, food and drinks for your group.", btn("Book a Party", "/private-parties/", "gold") + btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone"))}'''
     return page("specials", body)
 
