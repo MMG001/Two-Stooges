@@ -28,7 +28,7 @@ IMG = ROOT / "assets" / "img"
 # Flip to True on launch day (removes noindex). pages.dev stays noindex via _headers.
 LAUNCH = False
 SITE = "https://twostooges.com"
-ASSET_VER = "20261019a"
+ASSET_VER = "20261019b"
 
 BIZ = {
     "name": "Two Stooges Sports Bar & Grill",
@@ -976,14 +976,7 @@ def p_home():
       <div class="card__body"><span class="card__kicker">{k}</span><h3>{t}</h3><p>{d}</p><a class="text-link" href="{h}">{l}</a></div>
     </article>''' for i, a, k, t, h, d, l in pillars)
 
-    specials = [("Monday", "Burger Night", "$2 off any burger", "Excludes build-your-own and the Big Stooge."),
-                ("Tuesday", "Entrée Night", "$3 off any entrée", "Pot roast, fish & chips, stir fry and more."),
-                ("Wednesday", "Wing Night", "$1 wings", "Minimum 10. Bone-in, fresh, never frozen."),
-                ("Sunday Funday", "Wings & Pizza", "$1.50 wings · $3 off large pizza", "11 AM–7 PM, with weekend happy hour.")]
-    spec_html = "".join(f'''<article class="card{" card--feature on-dark" if i == 3 else ""}"><div class="card__body">
-      <span class="chip {"chip--gold" if i == 3 else "chip--green"}" style="align-self:flex-start;margin-bottom:.9rem">{e(d)}</span>
-      <h3>{e(t)}</h3><p style="font:600 1.15rem/1.3 var(--font-display);color:{"var(--gold)" if i == 3 else "var(--orange-ink)"};margin-bottom:.5rem">{e(deal)}</p><p>{e(n)}</p>
-    </div></article>''' for i, (d, t, deal, n) in enumerate(specials))
+    spec_html = "".join(deal_card(r) for r in DAY_DEALS if r[0] in (1, 2, 3, 0))
 
     picks = [("Big Stooge", "18", "Two patties, three cheeses, four strips of bacon, onion strings, A-1, BBQ and garlic basil aioli.", ["signature"]),
              ("Duck Bacon Wontons", "16", "Crispy wontons with sweet and spicy plum sauce.", []),
@@ -1030,14 +1023,14 @@ def p_home():
   <div class="grid grid--4">{cards}</div>
 </div></section>
 
-<section class="section section--photo on-dark">
+<section class="section section--photo section--specials on-dark">
   <div class="section__bg">{img("photos/friends-at-the-bar", "Friends sharing beers at the bar", sizes="100vw")}</div>
   <div class="wrap">
   <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:1rem;margin-bottom:2rem">
     <div class="section-head" style="margin:0"><span class="eyebrow">Nightly traditions</span><h2 class="mb-0">Daily specials at Two Stooges</h2></div>
     <p class="muted" style="max-width:420px;margin:0">Happy hour runs Mon–Thu 2–6 PM and Fri–Sun 11 AM–7 PM, and there's a food deal almost every day. {L("/specials/", "See every special")}.</p>
   </div>
-  <div class="grid grid--4 on-light">{spec_html}</div>
+  <div class="deal-grid on-light">{spec_html}</div>
 </div></section>
 
 <section class="section"><div class="wrap">
@@ -1158,11 +1151,10 @@ def p_menu():
     return page("menu", body, extra_ld=[menu_ld()], main_entity=SITE + "/menu/#menu")
 
 
-def p_specials():
-    days = []
-    for wd, day, short, theme, price, item, note, when, extras, hh in DAY_DEALS:
-        ex = "".join(f'<li><span>{e(t)}</span>{e(w)}</li>' for t, w in extras)
-        days.append(f'''<article class="deal-card{" deal-card--sun" if wd == 0 else ""}" data-weekday="{wd}">
+def deal_card(row):
+    wd, day, short, theme, price, item, note, when, extras, hh = row
+    ex = "".join(f'<li><span>{e(t)}</span>{e(w)}</li>' for t, w in extras)
+    return f'''<article class="deal-card{" deal-card--sun" if wd == 0 else ""}" data-weekday="{wd}">
       <header class="deal-card__head"><span class="deal-card__day">{e(day)}</span><span class="today-badge">Today</span></header>
       <div class="deal-card__body">
         <p class="deal-card__theme">{e(theme)}</p>
@@ -1171,7 +1163,11 @@ def p_specials():
         {f'<ul class="deal-card__extras">{ex}</ul>' if ex else ""}
       </div>
       <footer class="deal-card__hh">{icon("mug")}Happy hour drinks {e(hh)}</footer>
-    </article>''')
+    </article>'''
+
+
+def p_specials():
+    days = [deal_card(row) for row in DAY_DEALS]
     drinks = "".join(f'<div class="hh-price"><span class="hh-price__num">{e(p_)}</span><span class="hh-price__lbl">{e(l_)}</span></div>' for p_, l_ in HH_DRINKS)
     body = f'''{page_hero("specials", "Daily deals", "Two Stooges Sports Bar <span class='grad-text'>specials &amp; happy hour</span>",
         f"There's a deal every day at Two Stooges in Fridley, and today's specials are highlighted below. Browse the {L('/menu/', 'full bar and grill menu')} or grab a table with our {L('#pool', 'daily pool specials')}.",

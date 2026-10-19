@@ -485,9 +485,9 @@ address { font-style: normal; }
 .hero__bg img { width: 100%; height: 100%; object-fit: cover; object-position: center 45%; }
 .hero--full::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
   background:
-    linear-gradient(90deg, rgba(0,0,0,.78) 0%, rgba(0,0,0,.6) 30%, rgba(0,0,0,.2) 58%, rgba(0,0,0,0) 75%),
-    linear-gradient(0deg, rgba(0,0,0,.5) 0%, rgba(0,0,0,0) 30%),
-    rgba(0,0,0,.1); }
+    linear-gradient(90deg, rgba(0,0,0,.35) 0%, rgba(0,0,0,.2) 35%, rgba(0,0,0,0) 65%),
+    linear-gradient(0deg, rgba(0,0,0,.3) 0%, rgba(0,0,0,0) 30%),
+    rgba(0,0,0,.6); }
 .hero--full .hero__inner { display: flex; align-items: center; justify-content: space-between; gap: 2rem; width: 100%; padding-top: clamp(3rem, 6vw, 5rem); padding-bottom: clamp(3rem, 6vw, 5rem); }
 .hero--full .hero__copy { max-width: 610px; text-shadow: 0 2px 18px rgba(0,0,0,.35); }
 .hero--full .lead { color: #f1f5f2; }
@@ -498,7 +498,7 @@ address { font-style: normal; }
 }
 @media (max-width: 700px) {
   .hero--full { min-height: auto; }
-  .hero--full::after { background: linear-gradient(180deg, rgba(0,0,0,.3) 0%, rgba(0,0,0,.6) 45%, rgba(0,0,0,.88) 100%), rgba(0,0,0,.1); }
+  .hero--full::after { background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.2) 45%, rgba(0,0,0,.6) 100%), rgba(0,0,0,.6); }
   .hero--full .hero__inner { padding-top: 2.5rem; padding-bottom: 2rem; }
 }
 
@@ -642,3 +642,11 @@ address { font-style: normal; }
 .food-grid__item:nth-child(-n+3) button { aspect-ratio: 3 / 2; }
 .food-grid__item img { width: 100%; height: 100%; object-fit: cover; }
 @media (max-width: 760px) { .food-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .food-grid__item, .food-grid__item:nth-child(-n+3) { grid-column: span 1; } .food-grid__item:first-child { grid-column: 1 / -1; } .food-grid__item button, .food-grid__item:nth-child(-n+3) button { aspect-ratio: 4 / 3; } }
+
+/* Home: daily specials band (taller, cards pop off the photo) */
+.section--specials { padding-top: clamp(5rem, 10vw, 8.5rem); padding-bottom: clamp(5.5rem, 11vw, 9rem); }
+.section--specials::after { background: linear-gradient(180deg, rgba(0,0,0,.7) 0%, rgba(0,0,0,.5) 50%, rgba(0,0,0,.72) 100%); }
+.section--specials .deal-grid { align-items: stretch; }
+.section--specials .deal-card { border-color: transparent; box-shadow: 0 18px 40px rgba(0,0,0,.5), 0 0 0 1px rgba(255,206,81,.25); }
+.section--specials .deal-card:hover { box-shadow: 0 24px 50px rgba(0,0,0,.6), 0 0 0 2px var(--gold); }
+.section--specials .deal-card.is-today { box-shadow: 0 0 0 3px var(--gold), 0 24px 50px rgba(0,0,0,.6); }
