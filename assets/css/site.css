@@ -486,7 +486,8 @@ address { font-style: normal; }
 .hero--full::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
   background:
     linear-gradient(90deg, rgba(0,0,0,.78) 0%, rgba(0,0,0,.6) 30%, rgba(0,0,0,.2) 58%, rgba(0,0,0,0) 75%),
-    linear-gradient(0deg, rgba(0,0,0,.5) 0%, rgba(0,0,0,0) 30%); }
+    linear-gradient(0deg, rgba(0,0,0,.5) 0%, rgba(0,0,0,0) 30%),
+    rgba(0,0,0,.1); }
 .hero--full .hero__inner { display: flex; align-items: center; justify-content: space-between; gap: 2rem; width: 100%; padding-top: clamp(3rem, 6vw, 5rem); padding-bottom: clamp(3rem, 6vw, 5rem); }
 .hero--full .hero__copy { max-width: 610px; text-shadow: 0 2px 18px rgba(0,0,0,.35); }
 .hero--full .lead { color: #f1f5f2; }
@@ -497,7 +498,7 @@ address { font-style: normal; }
 }
 @media (max-width: 700px) {
   .hero--full { min-height: auto; }
-  .hero--full::after { background: linear-gradient(180deg, rgba(0,0,0,.3) 0%, rgba(0,0,0,.6) 45%, rgba(0,0,0,.88) 100%); }
+  .hero--full::after { background: linear-gradient(180deg, rgba(0,0,0,.3) 0%, rgba(0,0,0,.6) 45%, rgba(0,0,0,.88) 100%), rgba(0,0,0,.1); }
   .hero--full .hero__inner { padding-top: 2.5rem; padding-bottom: 2rem; }
 }
 
