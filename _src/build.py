@@ -28,7 +28,7 @@ IMG = ROOT / "assets" / "img"
 # Flip to True on launch day (removes noindex). pages.dev stays noindex via _headers.
 LAUNCH = False
 SITE = "https://twostooges.com"
-ASSET_VER = "20261019b"
+ASSET_VER = "20261019c"
 
 BIZ = {
     "name": "Two Stooges Sports Bar & Grill",
@@ -1049,7 +1049,9 @@ def p_home():
   </div>
 </div></section>
 
-<section class="section section--felt on-dark"><div class="wrap">
+<section class="section section--photo section--leagues on-dark">
+  <div class="section__bg">{img("photos/pool-rack-blue-felt", "A full rack of pool balls on blue felt with a player lining up the break at Two Stooges", sizes="100vw")}</div>
+  <div class="wrap">
   <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:1rem;margin-bottom:2rem">
     <div><span class="eyebrow">Every week</span><h2 class="mb-0">Pool &amp; dart league nights in Fridley</h2></div>
     <a class="text-link" href="/leagues/">League details &amp; sign-up</a>
