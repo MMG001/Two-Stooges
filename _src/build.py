@@ -28,7 +28,11 @@ IMG = ROOT / "assets" / "img"
 # Flip to True on launch day (removes noindex). pages.dev stays noindex via _headers.
 LAUNCH = False
 SITE = "https://twostooges.com"
-ASSET_VER = "20261019d"
+# Cache-busting version, computed from the CSS + JS contents so every change gets a new URL.
+import hashlib as _hashlib
+from pathlib import Path as _Path
+_ROOT = _Path(__file__).resolve().parent.parent
+ASSET_VER = _hashlib.sha1(b"".join((_ROOT / f).read_bytes() for f in ("assets/css/site.css", "assets/js/site.js"))).hexdigest()[:10]
 
 BIZ = {
     "name": "Two Stooges Sports Bar & Grill",
@@ -298,7 +302,7 @@ def byo_card(noun="burger", photo=None):
             return f'<li>{e(x[:-1])}<span class="advisory-mark" aria-hidden="true">*</span></li>'
         return f'<li>{e(x)}</li>'
     steps = "".join(f'''<li class="byo__step">
-          <span class="byo__icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">{BYO_ICONS[key]}</svg></span>
+          <span class="byo__icon"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">{BYO_ICONS[key]}</svg></span>
           <div class="byo__step-body"><h4>{e(label)} <span class="byo__price">{e(price)}</span></h4>
             <ul class="byo__chips">{"".join(chip(x) for x in items)}</ul></div>
         </li>''' for (key, label), (_, price, items) in zip(BYO_STEPS, BYO))
@@ -527,7 +531,7 @@ ICONS = {
 
 
 def icon(name, cls="icon"):
-    return f'<svg class="{cls}" viewBox="0 0 24 24" aria-hidden="true" focusable="false">{ICONS[name]}</svg>'
+    return f'<svg class="{cls}" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">{ICONS[name]}</svg>'
 
 
 def btn(label, href, style="gold", ic=None, extra=""):
