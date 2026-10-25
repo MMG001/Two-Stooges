@@ -194,21 +194,22 @@ BYO_NOTE = ("<strong>Build it your way:</strong> cheese $1 each (American, chedd
 MENU = [
     {"id": "stoogetizers", "name": "Stoogetizers", "note_top": "Shareable starters for the table, the bar or league night.",
      "items": [
-         ("Potstickers", "11", "Served with teriyaki sauce.", []),
-         ("Duck Bacon Wontons", "16", "Served with sweet and spicy plum sauce.", []),
-         ("Cheese Curds", "11", "Served with marinara.", []),
-         ("Chicken Tenders", "12", "Hand-breaded and fried, with french fries and your choice of dipping sauce.", []),
-         ("Quesadilla", "14", "Flour tortilla, seasoned chicken or beef, mixed cheese, pico de gallo, sour cream and salsa.", []),
-         ("Nachos", "14", "Corn tortilla chips, seasoned chicken or beef, lettuce, queso, pico de gallo, black olives, jalapeños, salsa and sour cream.", []),
-         ("Baskets", "7", "French fries, tater tots, or chips with salsa or queso. Waffle fries $8.", []),
+         ("Duck Bacon Wontons", "16", "Served with spicy plum sauce.", []),
+         ("Cheese Curds", "12", "Served with marinara.", []),
+         ("Chicken Tenders", "13", "Hand-breaded and fried chicken tenders, with french fries and your choice of dipping sauce.", []),
+         ("Quesadilla", "15", "Flour tortilla filled with your choice of seasoned chicken, carnitas or beef, mixed cheese and pico de gallo, served with sour cream and salsa.", []),
+         ("Nachos", "15", "Corn tortilla chips with your choice of seasoned chicken, carnitas or beef, topped with lettuce, queso, pico de gallo, black olives and jalapeños. Served with salsa and sour cream.", []),
+         ("Potato Skins", "10", "Fried skins stuffed with potato, shredded cheese, bacon and green onions.", ["new"]),
+         ("Garlic Cheese Bread", "12", "Five pieces of garlic bread topped with mozzarella, served with marinara.", []),
+         ("Baskets", "8", "French fries, tater tots, chips and salsa, or chips and queso. Waffle fries $9.", []),
      ],
      "notes": ["Fries and tots come with one dipping sauce. Add cheese &amp; bacon +$3 or Cajun spice +$1."]},
-    {"id": "wings", "name": "Wings", "note_top": "Our bone-in wings are fresh, never frozen.",
+    {"id": "wings", "name": "Wingin' It", "note_top": "Fresh, never frozen.",
      "items": [
          ("8 Bone-In Wings", "15", "Fresh, never frozen. Tossed in your choice of sauce or dry seasoning.", ["signature"]),
-         ("9 oz Boneless Wings", "15", "Tossed in your choice of sauce or dry seasoning.", []),
+         ("9 oz Boneless Wings", "15", "Hand-breaded and tossed in your choice of sauce or dry seasoning.", []),
      ],
-     "notes": ["<strong>Sauces:</strong> Teriyaki · Honey BBQ · Buffalo · Mango Habanero · Garlic Parmesan (signature) · Bourbon · Sweet Thai Chili · Devil's Rejects",
+     "notes": ["<strong>Sauces:</strong> Honey BBQ · Buffalo · Mango Habanero · Garlic Parmesan · Bourbon · Sweet Thai Chili · Signature Sauce",
                "<strong>Dry seasonings:</strong> Lemon Pepper · Dry Rub · Dill Pickle · Cajun",
                'Wing deals: <a href="/specials/">$1 wings on Wednesdays and $1.50 wings on Sunday Funday</a>.']},
     {"id": "burgers", "name": "Burgers", "note_top": SIDES_NOTE,
@@ -979,8 +980,8 @@ def p_home():
     spec_html = "".join(deal_card(r) for r in DAY_DEALS if r[0] in (1, 2, 3, 0))
 
     picks = [("Big Stooge", "18", "Two patties, three cheeses, four strips of bacon, onion strings, A-1, BBQ and garlic basil aioli.", ["signature"]),
-             ("Duck Bacon Wontons", "16", "Crispy wontons with sweet and spicy plum sauce.", []),
-             ("8 Bone-In Wings", "15", "Fresh, never frozen. Try the signature Garlic Parmesan.", ["signature"]),
+             ("Duck Bacon Wontons", "16", "Crispy wontons with spicy plum sauce.", []),
+             ("8 Bone-In Wings", "15", "Fresh, never frozen. Try them in our Signature Sauce.", ["signature"]),
              ("Walleye Sandwich", "18", "Battered walleye, lettuce, American and tartar on a toasted hoagie.", [])]
     picks_html = "".join(f'''<li class="menu-item"><h3>{e(n)} {tag_chips(t)}</h3><span class="menu-item__price">${p}</span><p>{e(d)}</p></li>''' for n, p, d, t in picks)
 
