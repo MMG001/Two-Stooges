@@ -377,6 +377,16 @@ address { font-style: normal; }
 .menu-feature__kicker { font: 700 .75rem/1 var(--font-body); letter-spacing: .14em; text-transform: uppercase; color: var(--gold); }
 .menu-feature strong { font: 600 clamp(1.2rem, 3vw, 1.5rem)/1.15 var(--font-display); letter-spacing: .04em; text-transform: uppercase; color: #fff; }
 
+/* Build-your-own card */
+.byo { margin-top: 1.5rem; padding: 1.25rem 1.35rem 1.4rem; background: var(--green-soft); border: 1px solid #a9cdb9; border-top: 4px solid var(--green); border-radius: var(--radius-lg); }
+.byo__title { margin: 0 0 1rem; font: 600 1.25rem/1.1 var(--font-display); letter-spacing: .05em; text-transform: uppercase; color: var(--green); }
+.byo__grid { display: grid; grid-template-columns: 1fr 2fr 1fr; gap: 1.25rem 2rem; }
+@media (max-width: 860px) { .byo__grid { grid-template-columns: minmax(0, 1fr); } }
+.byo__label { display: flex; justify-content: space-between; align-items: baseline; gap: .5rem; margin: 0 0 .6rem; padding-bottom: .4rem; border-bottom: 2px solid var(--gold); font: 600 .95rem/1.2 var(--font-display); letter-spacing: .08em; text-transform: uppercase; color: var(--green); }
+.byo__price { font: 700 1rem/1 var(--font-display); color: var(--green); white-space: nowrap; }
+.byo__list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .4rem; }
+.byo__list li { padding: .35rem .65rem; background: #fff; border: 1px solid #a9cdb9; border-radius: 999px; font-size: .85rem; line-height: 1.2; color: var(--text); }
+
 /* Consumer advisory (cooked-to-order items) */
 .advisory-mark { color: var(--red); font: 700 1.1rem/1 var(--font-body); }
 .menu-advisory { display: flex; flex-wrap: wrap; gap: .6rem 1.5rem; align-items: center; margin-top: 1rem; padding: .9rem 1.15rem; background: #fdf0f0; border-left: 4px solid var(--red); border-radius: var(--radius); font-size: .88rem; color: var(--text); }

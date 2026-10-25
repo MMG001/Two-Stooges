@@ -188,6 +188,12 @@ REVIEWS = [
 # Menu (from twostooges.com/menus, October 2026). Tags: "new", "signature".
 # ---------------------------------------------------------------------------
 SIDES_NOTE = "Served with fries, tater tots, chips & salsa or chips & queso. Substitute waffle fries +$2, or add a side salad or cup of soup +$3."
+BYO = [
+    ("Cheese", "$1 each", ["American", "Cheddar", "Pepper Jack", "Mozzarella", "Smokey Gouda", "Swiss"]),
+    ("Toppings", "$1 each", ["Onion Straws", "Sautéed Onions", "Raw Onions", "Sautéed Mushrooms", "Jalapeños", "Black Olives",
+                             "Green Olives", "Lettuce", "Tomato", "Pickles", "Pico de Gallo"]),
+    ("Add-ons", "$2 each", ["Bacon", "Ham", "Fried Egg (cooked to order)*"]),
+]
 BYO_NOTE = ("<strong>Build it your way:</strong> cheese $1 each (American, cheddar, pepper jack, mozzarella, smoked gouda, Swiss) · "
             "toppings $1 each (onion straws, sautéed or raw onions, sautéed mushrooms, jalapeños, black or green olives, lettuce, tomato, pickles, pico de gallo) · "
             "bacon, ham or fried egg $2 each.")
@@ -210,8 +216,7 @@ MENU = [
          ("9 oz Boneless Wings", "15", "Hand-breaded and tossed in your choice of sauce or dry seasoning.", []),
      ],
      "notes": ["<strong>Sauces:</strong> Honey BBQ · Buffalo · Mango Habanero · Garlic Parmesan · Bourbon · Sweet Thai Chili · Signature Sauce",
-               "<strong>Dry seasonings:</strong> Lemon Pepper · Dry Rub · Dill Pickle · Cajun",
-               'Wing deals: <a href="/specials/">$1 wings on Wednesdays and $1.50 wings on Sunday Funday</a>.']},
+               "<strong>Dry seasonings:</strong> Lemon Pepper · Dry Rub · Dill Pickle · Cajun"]},
     {"id": "burgers", "name": "Burgers",
      "note_top": "Fresh, never frozen, handcrafted black Angus patties, cooked to order. " + SIDES_NOTE,
      "feature": ("Ask your server", "About the Burger of the Month"),
@@ -225,8 +230,7 @@ MENU = [
          ("Smash Stuffed Curd Burger", "17", "Two 5 oz patties smashed with Wisconsin cheese curds and pepper jack, with chipotle ranch sauce.", ["raw"]),
          ("Build Your Own Burger", "12", "Start with a black Angus patty and add your favorites from the list below.", ["raw"]),
      ],
-     "notes": [BYO_NOTE.replace("fried egg $2 each", "fried egg (cooked to order) $2 each"),
-               'Monday special: <a href="/specials/">$2 off any burger</a> (excludes build-your-own and the Big Stooge).']},
+     "byo": True, "notes": []},
     {"id": "sandwiches", "name": "Sandwiches & Wraps", "note_top": SIDES_NOTE,
      "advisory": True,
      "items": [
@@ -241,7 +245,7 @@ MENU = [
          ("BBQ Pulled Pork", "14", "Smoked BBQ pulled pork with dill pickles and fried onion straws, served with coleslaw.", ["new"]),
          ("Build Your Own Chicken Sandwich", "12", "Your choice of grilled chicken breast or crispy chicken tenders, built your way with the add-ons below.", []),
      ],
-     "notes": [BYO_NOTE.replace("fried egg $2 each", 'fried egg (cooked to order)<span class="advisory-mark" aria-hidden="true">*</span> $2 each')]},
+     "byo": True, "notes": []},
     {"id": "pizza", "name": "Pizza", "note_top": "Specialty pizzas: small 9\" $16 · large 16\" $23 · gluten-free 10\" $23.",
      "items": [
          ("Meat Lovers", "16 / 23", "Pepperoni, sausage, ground beef and bacon.", []),
@@ -275,6 +279,16 @@ MENU = [
 ]
 ADVISORY = ("Consuming raw or undercooked meat, poultry, seafood, shellfish or eggs "
             "may increase your risk of foodborne illness.")
+
+
+def byo_card():
+    def item(x):
+        if x.endswith("*"):
+            return f'<li>{e(x[:-1])}<span class="advisory-mark" aria-hidden="true">*</span></li>'
+        return f'<li>{e(x)}</li>'
+    groups = "".join(f'''<div class="byo__group"><h4 class="byo__label">{e(label)} <span class="byo__price">{e(price)}</span></h4>
+        <ul class="byo__list">{"".join(item(x) for x in items)}</ul></div>''' for label, price, items in BYO)
+    return f'''<div class="byo"><h3 class="byo__title">Build it your way</h3><div class="byo__grid">{groups}</div></div>'''
 
 
 def advisory_legend():
@@ -1125,10 +1139,12 @@ def p_menu():
             k, t = s["feature"]
             feature = f'<aside class="menu-feature" aria-label="{e(t)}"><span class="menu-feature__icon" aria-hidden="true">{icon("fork")}</span><p><span class="menu-feature__kicker">{e(k)}</span><strong>{e(t)}</strong></p></aside>'
         legend = advisory_legend() if s.get("advisory") else ""
+        byo = byo_card() if s.get("byo") else ""
         panels.append(f'''<section class="menu-panel" id="{s["id"]}" role="tabpanel" aria-labelledby="tab-{s["id"]}" data-menu-panel>
     <div class="menu-panel__head"><h2>{e(s["name"])}</h2><p>{e(s["note_top"])}</p></div>
     {feature}
     <ul class="menu-items" style="list-style:none;padding:0;margin:0">{items}</ul>
+    {byo}
     {notes}
     {legend}
   </section>''')
