@@ -228,19 +228,20 @@ MENU = [
      "notes": [BYO_NOTE.replace("fried egg $2 each", "fried egg (cooked to order) $2 each"),
                'Monday special: <a href="/specials/">$2 off any burger</a> (excludes build-your-own and the Big Stooge).']},
     {"id": "sandwiches", "name": "Sandwiches & Wraps", "note_top": SIDES_NOTE,
+     "advisory": True,
      "items": [
-         ("Grilled Ham & Cheese", "13", "Sliced ham, cheddar, Swiss, caramelized onion and stone-ground mustard on sourdough toast. Add creamy horseradish +$1.50.", []),
-         ("Chicken Tender Melt", "13", "Crispy chicken tenders, bacon, melted cheddar and our signature chicken dippin' sauce on sourdough toast.", []),
-         ("Buffalo Chicken Wrap", "13", "Crispy chicken, lettuce, tomato, celery, shredded cheese, Buffalo sauce and ranch in a flour tortilla.", []),
-         ("Pot Roast French Dip", "15", "Pot roast and Swiss on a toasted hoagie with au jus. Make it Philly style with peppers and onions +$2.", []),
-         ("Crispy Buffalo Chicken Sandwich", "15", "Chicken tenders, Buffalo sauce, pepper jack and bacon on a hoagie roll with blue cheese dressing.", []),
-         ("Grilled Chicken Bacon Ranch", "14", "Grilled chicken, bacon, Swiss and ranch on a bun.", []),
-         ("Walleye Sandwich", "18", "Battered walleye, lettuce, American cheese and tartar or spicy tartar on a toasted hoagie.", ["signature"]),
-         ("Dagwood", "16", "Ham, turkey, roast beef, salami, bacon, cheddar, Swiss, lettuce, tomato, onion, pickles, mustard, mayo, and oil &amp; vinegar.", []),
-         ("Chicken Caesar Wrap", "13", "Grilled chicken, romaine, shredded parmesan and Caesar dressing in a flour tortilla.", []),
-         ("Build Your Own Chicken Sandwich", "12", "Grilled chicken breast or crispy chicken tenders, built your way.", []),
+         ("Chicken Tender Melt", "14", "Crispy chicken tenders topped with bacon, melted cheddar and our signature chicken dippin' sauce on sourdough toast.", []),
+         ("Buffalo Chicken Wrap", "14", "Crispy chicken, lettuce, tomatoes, celery, shredded cheese, Buffalo sauce and ranch dressing wrapped in a flour tortilla.", []),
+         ("Pot Roast French Dip", "15", "Tender pot roast and Swiss on a toasted hoagie, served with au jus. Make it Philly style with peppers and onions +$2.", []),
+         ("Grilled Chicken Bacon Ranch", "15", "Grilled chicken, bacon, Swiss cheese and ranch dressing on a bun.", []),
+         ("Walleye Sandwich", "19", "Battered walleye with lettuce, American cheese and tartar sauce (or try the spicy tartar) on a toasted hoagie.", ["signature"]),
+         ("Dagwood", "17", "Ham, turkey, roast beef, salami, bacon, cheddar and Swiss, topped with lettuce, tomatoes, onions, pickles, Dijon mustard, mayo and oil &amp; vinegar sauce.", []),
+         ("Chicken Caesar Wrap", "14", "Grilled chicken, romaine, shredded parmesan and Caesar dressing wrapped in a flour tortilla.", []),
+         ("Cuban", "14", "Smoked pork, ham, Swiss cheese, dill pickles and mustard aioli on a grilled and pressed ciabatta bun.", ["new"]),
+         ("BBQ Pulled Pork", "14", "Smoked BBQ pulled pork with dill pickles and fried onion straws, served with coleslaw.", ["new"]),
+         ("Build Your Own Chicken Sandwich", "12", "Your choice of grilled chicken breast or crispy chicken tenders, built your way with the add-ons below.", []),
      ],
-     "notes": [BYO_NOTE]},
+     "notes": [BYO_NOTE.replace("fried egg $2 each", 'fried egg (cooked to order)<span class="advisory-mark" aria-hidden="true">*</span> $2 each')]},
     {"id": "pizza", "name": "Pizza", "note_top": "Specialty pizzas: small 9\" $16 · large 16\" $23 · gluten-free 10\" $23.",
      "items": [
          ("Meat Lovers", "16 / 23", "Pepperoni, sausage, ground beef and bacon.", []),
@@ -993,7 +994,7 @@ def p_home():
     picks = [("Big Stooge", "19", "Two black Angus patties, three cheeses, four strips of bacon, onion strings, A-1, honey BBQ and garlic basil aioli.", ["raw", "signature"]),
              ("Duck Bacon Wontons", "16", "Crispy wontons with spicy plum sauce.", []),
              ("8 Bone-In Wings", "15", "Fresh, never frozen. Try them in our Signature Sauce.", ["signature"]),
-             ("Walleye Sandwich", "18", "Battered walleye, lettuce, American and tartar on a toasted hoagie.", [])]
+             ("Walleye Sandwich", "19", "Battered walleye, lettuce, American cheese and tartar on a toasted hoagie.", ["signature"])]
     picks_html = "".join(f'''<li class="menu-item"><h3>{e(n)} {tag_chips(t)}</h3><span class="menu-item__price">${p}</span><p>{e(d)}</p></li>''' for n, p, d, t in picks)
 
     quotes = "".join(f'''<figure class="quote"><div class="quote__stars" role="img" aria-label="{r} out of 5 stars">{"★" * r}{"☆" * (5 - r)}</div><blockquote>{e(q)}</blockquote><figcaption><span class="quote__avatar">{e(n[0])}</span><span>{e(n)}<small>Google review</small></span></figcaption></figure>''' for q, n, r in REVIEWS)
