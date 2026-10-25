@@ -203,6 +203,7 @@ BYO_NOTE = ("<strong>Build it your way:</strong> cheese $1 each (American, chedd
             "bacon, ham or fried egg $2 each.")
 MENU = [
     {"id": "stoogetizers", "name": "Stoogetizers", "note_top": "Shareable starters for the table, the bar or league night.",
+     "advisory": True,
      "items": [
          ("Duck Bacon Wontons", "16", "Served with spicy plum sauce.", []),
          ("Cheese Curds", "12", "Served with marinara.", []),
@@ -273,6 +274,7 @@ MENU = [
      ],
      "notes": []},
     {"id": "soup-salad", "name": "Soup & Salad", "note_top": "All soups are made from scratch.",
+     "advisory": True,
      "items": [
          ("House Salad", "7", "Spring mix, Roma tomatoes, red onion, black olives, shredded cheese and croutons.", []),
          ("Chef Salad", "15", "Heritage blend lettuce, diced ham, diced turkey, hard-boiled egg, diced tomatoes, shredded cheese, black olives and dressing. Served with a slice of garlic bread.", []),
@@ -319,9 +321,14 @@ def byo_card(noun="burger", photo=None):
     </div>'''
 
 
-def advisory_legend():
-    return (f'<p class="menu-advisory"><span class="menu-advisory__key"><span class="chip chip--gold">Signature</span> Signature item</span>'
-            f'<span class="menu-advisory__key"><span class="advisory-mark" aria-hidden="true">*</span> {ADVISORY}</span></p>')
+ALLERGEN = "Allergen warning: our menu items may contain milk, eggs, peanuts, tree nuts, fish, shellfish, soy and wheat."
+
+
+def advisory_legend(show_signature=False):
+    sig = ('<p class="menu-advisory__key"><span class="chip chip--gold">Signature</span> Signature item</p>' if show_signature else "")
+    return (f'<div class="menu-advisory">{sig}'
+            f'<p class="menu-advisory__key"><span class="advisory-mark" aria-hidden="true">*</span> {ADVISORY}</p>'
+            f'<p class="menu-advisory__key"><span class="menu-advisory__allergen" aria-hidden="true">!</span> <strong>Allergen warning:</strong> {ALLERGEN.split(": ", 1)[1]}</p></div>')
 
 
 MENU_DISCLAIMER = ("Consuming raw or undercooked meats, poultry, seafood, shellfish or eggs may increase your risk of foodborne illness. "
@@ -1166,7 +1173,7 @@ def p_menu():
         if s.get("feature"):
             k, t = s["feature"]
             feature = f'<aside class="menu-feature" aria-label="{e(t)}"><span class="menu-feature__icon" aria-hidden="true">{icon("fork")}</span><p><span class="menu-feature__kicker">{e(k)}</span><strong>{e(t)}</strong></p></aside>'
-        legend = advisory_legend() if s.get("advisory") else ""
+        legend = (advisory_legend(any("signature" in it[3] for it in s["items"])) if s.get("advisory") else "")
         byo = byo_card(**s["byo"]) if s.get("byo") else ""
         if s.get("toppings"):
             byo += ('<div class="menu-toppings"><h3>Toppings</h3><ul>'

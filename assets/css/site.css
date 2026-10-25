@@ -417,8 +417,9 @@ address { font-style: normal; }
 
 /* Consumer advisory (cooked-to-order items) */
 .advisory-mark { color: var(--red); font: 700 1.1rem/1 var(--font-body); }
-.menu-advisory { display: flex; flex-wrap: wrap; gap: .6rem 1.5rem; align-items: center; margin-top: 1rem; padding: .9rem 1.15rem; background: #fdf0f0; border-left: 4px solid var(--red); border-radius: var(--radius); font-size: .88rem; color: var(--text); }
-.menu-advisory__key { display: inline-flex; align-items: baseline; gap: .45rem; }
+.menu-advisory { display: grid; gap: .55rem; margin-top: 1.25rem; padding: 1rem 1.15rem; background: #fdf0f0; border-left: 4px solid var(--red); border-radius: var(--radius); font-size: .88rem; color: var(--text); }
+.menu-advisory__key { display: flex; align-items: baseline; gap: .55rem; margin: 0; }
+.menu-advisory__allergen { flex: none; display: inline-grid; place-items: center; width: 1.15rem; height: 1.15rem; border-radius: 50%; background: var(--red); color: #fff; font: 700 .72rem/1 var(--font-body); transform: translateY(-1px); }
 .sauce-list { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .5rem; }
 
 /* ---------- Gallery + lightbox ---------- */
