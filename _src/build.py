@@ -257,25 +257,28 @@ MENU = [
      ],
      "notes": ["<strong>Toppings:</strong> pepperoni, sausage, bacon, ham, chicken, ground beef, Canadian bacon, green peppers, red peppers, black olives, green olives, onions, red onions, mushrooms, jalapeños, pineapple, tomatoes, garlic, extra cheese.",
                'Weekend deal: <a href="/specials/">$3 off large and $2 off small pizzas</a> on Saturday and Sunday.']},
-    {"id": "entrees", "name": "Entrées", "note_top": "Add a side salad or cup of soup to any entrée +$4.",
+    {"id": "entrees", "name": "Entrées", "note_top": "Add a side salad or a cup of soup to any entrée for $4.",
+     "advisory": True,
      "items": [
-         ("Fish & Chips", "17", "Deep-fried whitefish with creamy coleslaw, fries and tartar sauce.", []),
-         ("Pot Roast", "17", "Pot roast and gravy with mashed potatoes, steamed veggies and a dinner roll.", []),
-         ("Fish Tacos", "15", "Fried whitefish, coleslaw, pico de gallo, mozzarella and chipotle ranch in flour tortillas.", []),
-         ("Chicken Stir Fry", "15", "Grilled chicken, carrots, broccoli, red and green peppers and onion in stir fry sauce over white rice.", []),
-         ("Mario's Spaghetti", "12", "Our signature meat sauce over spaghetti with garlic toast.", ["new"]),
-         ("Meatloaf", "14", "House-recipe meatloaf with mashed potatoes, gravy, steamed veggies and a dinner roll.", ["new"]),
+         ("Chicken Stir Fry", "16", "Grilled chicken, carrots, broccoli, red and green peppers and onion tossed in our signature stir fry sauce, served over jasmine rice.", []),
+         ("Mario's Spaghetti", "13", "Mario's signature meat sauce and spaghetti noodles, served with garlic toast.", []),
+         ("Meatloaf", "15", "Our own special recipe, served with mashed potatoes, gravy, steamed vegetables and a dinner roll.", []),
+         ("Loco Moco", "15", "Burger patty and a fried egg (cooked to order) with mushrooms, red and green onions and gravy, served over jasmine rice.", ["raw", "new"]),
      ],
-     "notes": ['Tuesday special: <a href="/specials/">$3 off any entrée</a>.']},
+     "notes": []},
     {"id": "soup-salad", "name": "Soup & Salad", "note_top": "All soups are made from scratch.",
      "items": [
-         ("House Salad", "6", "Spring mix, Roma tomatoes, red onion, black olives, shredded cheese and croutons.", []),
-         ("Chef Salad", "14", "Heritage blend lettuce, diced ham and turkey, hard-boiled egg, tomatoes, shredded cheese, black olives and garlic bread.", ["new"]),
-         ("Taco Salad", "13", "Seasoned chicken or beef, lettuce, shredded cheese, black olives, pico de gallo and jalapeños in a crispy tortilla shell, with salsa and sour cream.", ["new"]),
-         ("Chicken Caesar Salad", "13", "Grilled chicken, romaine, croutons, shredded parmesan, Caesar dressing and garlic bread.", ["new"]),
-         ("Soup: Chili, Creamy Chicken Wild Rice or Soup of the Day", "4 / 6", "Cup $4 · bowl $6. Ask your server for today's soup.", []),
+         ("House Salad", "7", "Spring mix, Roma tomatoes, red onion, black olives, shredded cheese and croutons.", []),
+         ("Chef Salad", "15", "Heritage blend lettuce, diced ham, diced turkey, hard-boiled egg, diced tomatoes, shredded cheese, black olives and dressing. Served with a slice of garlic bread.", []),
+         ("Taco Salad", "14", "Your choice of seasoned chicken, carnitas or beef. Lettuce topped with shredded cheese, black olives, pico de gallo and jalapeños in a crispy tortilla shell, with salsa and sour cream.", []),
+         ("Chicken Caesar Salad", "14", "Grilled chicken and romaine topped with croutons, shredded parmesan and Caesar dressing. Served with a slice of garlic bread.", []),
+         ("Chili, Creamy Chicken Wild Rice or Soup of the Day", "5 / 7", "Cup $5 · bowl $7. Ask your server for today's selection!", []),
      ],
-     "notes": ["<strong>Dressings:</strong> French · ranch · blue cheese · honey mustard · 1000 Island · Italian"]},
+     "notes": ["<strong>Dressings:</strong> French · Ranch · Blue Cheese · Honey Mustard · 1000 Island · Italian"]},
+    {"id": "desserts", "name": "Desserts", "note_top": "Save room for something sweet.",
+     "feature": ("Ask your server", "About dessert options"),
+     "items": [],
+     "notes": []},
 ]
 ADVISORY = ("Consuming raw or undercooked meat, poultry, seafood, shellfish or eggs "
             "may increase your risk of foodborne illness.")
@@ -987,7 +990,7 @@ def menu_ld():
             "hasMenuSection": [{"@type": "MenuSection", "name": sec["name"], "url": SITE + "/menu/#" + sec["id"],
                                 "hasMenuItem": [{"@type": "MenuItem", "name": n, "description": html.unescape(d),
                                                  "offers": {"@type": "Offer", "price": price(p), "priceCurrency": "USD"}}
-                                                for n, p, d, _ in sec["items"]]} for sec in MENU]}
+                                                for n, p, d, _ in sec["items"]]} for sec in MENU if sec["items"]]}
 
 
 def p_home():
@@ -1162,7 +1165,7 @@ def p_menu():
         panels.append(f'''<section class="menu-panel" id="{s["id"]}" role="tabpanel" aria-labelledby="tab-{s["id"]}" data-menu-panel>
     <div class="menu-panel__head"><h2>{e(s["name"])}</h2><p>{e(s["note_top"])}</p></div>
     {feature}
-    <ul class="menu-items" style="list-style:none;padding:0;margin:0">{items}</ul>
+    {f'<ul class="menu-items" style="list-style:none;padding:0;margin:0">{items}</ul>' if items else ""}
     {byo}
     {notes}
     {legend}
