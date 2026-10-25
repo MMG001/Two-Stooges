@@ -368,6 +368,19 @@ address { font-style: normal; }
 .menu-note { margin-top: 1.25rem; padding: 1rem 1.15rem; background: #fbf7ec; border-left: 4px solid var(--orange); border-radius: var(--radius); font-size: .9rem; color: var(--text-muted); }
 .menu-note strong { color: var(--text); }
 .menu-note + .menu-note { margin-top: .75rem; }
+
+/* Burger of the Month callout */
+.menu-feature { display: flex; align-items: center; gap: 1rem; margin: 1.25rem 0 .5rem; padding: 1rem 1.25rem; background: var(--green); border: 2px solid var(--gold); border-radius: var(--radius-lg); box-shadow: var(--shadow-2); color: #fff; }
+.menu-feature__icon { flex: none; display: grid; place-items: center; width: 48px; height: 48px; border-radius: 50%; background: var(--gold); color: var(--green); }
+.menu-feature__icon .icon { width: 24px; height: 24px; }
+.menu-feature p { margin: 0; display: flex; flex-direction: column; gap: .2rem; }
+.menu-feature__kicker { font: 700 .75rem/1 var(--font-body); letter-spacing: .14em; text-transform: uppercase; color: var(--gold); }
+.menu-feature strong { font: 600 clamp(1.2rem, 3vw, 1.5rem)/1.15 var(--font-display); letter-spacing: .04em; text-transform: uppercase; color: #fff; }
+
+/* Consumer advisory (cooked-to-order items) */
+.advisory-mark { color: var(--red); font: 700 1.1rem/1 var(--font-body); }
+.menu-advisory { display: flex; flex-wrap: wrap; gap: .6rem 1.5rem; align-items: center; margin-top: 1rem; padding: .9rem 1.15rem; background: #fdf0f0; border-left: 4px solid var(--red); border-radius: var(--radius); font-size: .88rem; color: var(--text); }
+.menu-advisory__key { display: inline-flex; align-items: baseline; gap: .45rem; }
 .sauce-list { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .5rem; }
 
 /* ---------- Gallery + lightbox ---------- */

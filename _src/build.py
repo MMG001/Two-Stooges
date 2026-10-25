@@ -212,20 +212,21 @@ MENU = [
      "notes": ["<strong>Sauces:</strong> Honey BBQ · Buffalo · Mango Habanero · Garlic Parmesan · Bourbon · Sweet Thai Chili · Signature Sauce",
                "<strong>Dry seasonings:</strong> Lemon Pepper · Dry Rub · Dill Pickle · Cajun",
                'Wing deals: <a href="/specials/">$1 wings on Wednesdays and $1.50 wings on Sunday Funday</a>.']},
-    {"id": "burgers", "name": "Burgers", "note_top": SIDES_NOTE,
+    {"id": "burgers", "name": "Burgers",
+     "note_top": "Fresh, never frozen, handcrafted black Angus patties, cooked to order. " + SIDES_NOTE,
+     "feature": ("Ask your server", "About the Burger of the Month"),
+     "advisory": True,
      "items": [
-         ("Bacon Cheeseburger", "14", "Cheddar and Applewood smoked bacon.", []),
-         ("Triple B", "15", "Pepper jack, three strips of Applewood smoked bacon, BBQ sauce and crispy onion strings.", []),
-         ("Big Stooge", "18", "Two beef patties, pepper jack, American and cheddar, four strips of bacon, crispy onion strings, A-1, BBQ sauce and garlic basil aioli.", ["signature"]),
-         ("Mushroom Swiss", "14", "Swiss cheese and sautéed mushrooms.", []),
-         ("Smash Burger", "15", "Two 5 oz patties smashed thin, American cheese, lettuce, tomato and mustard aioli.", []),
-         ("Bourbon Smokey Burger", "15", "Applewood smoked bacon, honey bourbon BBQ sauce, pickle and smoked gouda.", []),
-         ("Smash Stuffed Curd Burger", "16", "Two 5 oz patties with Wisconsin cheese curds, pepper jack and chipotle ranch.", []),
-         ("Banh Mi Burger", "15", "Vietnamese-inspired, with pickled carrots and daikon, cilantro, English cucumber, jalapeños and sriracha mayo on a ciabatta bun.", ["new"]),
-         ("Hangover Burger", "15", "Bacon, American cheese, hash browns, a fried egg and hot sauce.", ["new"]),
-         ("Build Your Own Burger", "12", "Start with a burger and add your favorites from the list below.", []),
+         ("Bacon Cheeseburger", "15", "Cheddar cheese and Applewood smoked bacon.", ["raw"]),
+         ("Triple B", "16", "Pepper jack, three strips of Applewood smoked bacon and honey BBQ sauce, topped with crispy onion strings.", ["raw"]),
+         ("Big Stooge", "19", "Our guest favorite: two black Angus patties with pepper jack, American and cheddar, four strips of bacon, crispy onion strings, A-1, honey BBQ sauce and garlic basil aioli.", ["raw", "signature"]),
+         ("Smash Burger", "16", "Two 5 oz patties smashed thin, topped with American cheese, lettuce, tomato and mustard aioli.", ["raw"]),
+         ("Bourbon Smokey Burger", "16", "Applewood smoked bacon, honey bourbon BBQ sauce, pickle and smoked gouda.", ["raw"]),
+         ("Smash Stuffed Curd Burger", "17", "Two 5 oz patties smashed with Wisconsin cheese curds and pepper jack, with chipotle ranch sauce.", ["raw"]),
+         ("Build Your Own Burger", "12", "Start with a black Angus patty and add your favorites from the list below.", ["raw"]),
      ],
-     "notes": [BYO_NOTE, 'Monday special: <a href="/specials/">$2 off any burger</a> (excludes build-your-own and the Big Stooge).']},
+     "notes": [BYO_NOTE.replace("fried egg $2 each", "fried egg (cooked to order) $2 each"),
+               'Monday special: <a href="/specials/">$2 off any burger</a> (excludes build-your-own and the Big Stooge).']},
     {"id": "sandwiches", "name": "Sandwiches & Wraps", "note_top": SIDES_NOTE,
      "items": [
          ("Grilled Ham & Cheese", "13", "Sliced ham, cheddar, Swiss, caramelized onion and stone-ground mustard on sourdough toast. Add creamy horseradish +$1.50.", []),
@@ -271,6 +272,15 @@ MENU = [
      ],
      "notes": ["<strong>Dressings:</strong> French · ranch · blue cheese · honey mustard · 1000 Island · Italian"]},
 ]
+ADVISORY = ("Consuming raw or undercooked meat, poultry, seafood, shellfish or eggs "
+            "may increase your risk of foodborne illness.")
+
+
+def advisory_legend():
+    return (f'<p class="menu-advisory"><span class="menu-advisory__key"><span class="chip chip--gold">Signature</span> Signature item</span>'
+            f'<span class="menu-advisory__key"><span class="advisory-mark" aria-hidden="true">*</span> {ADVISORY}</span></p>')
+
+
 MENU_DISCLAIMER = ("Consuming raw or undercooked meats, poultry, seafood, shellfish or eggs may increase your risk of foodborne illness. "
                    "Prices don't include tax and may change.")
 
@@ -930,7 +940,8 @@ def faq_ld():
 
 
 def tag_chips(tags):
-    m = {"new": '<span class="chip chip--orange">New</span>', "signature": '<span class="chip chip--gold">Signature</span>'}
+    m = {"new": '<span class="chip chip--orange">New</span>', "signature": '<span class="chip chip--gold">Signature</span>',
+         "raw": '<span class="advisory-mark" aria-hidden="true">*</span><span class="visually-hidden">(cooked to order, see consumer advisory)</span>'}
     return "".join(m[t] for t in tags)
 
 
@@ -979,7 +990,7 @@ def p_home():
 
     spec_html = "".join(deal_card(r) for r in DAY_DEALS if r[0] in (1, 2, 3, 0))
 
-    picks = [("Big Stooge", "18", "Two patties, three cheeses, four strips of bacon, onion strings, A-1, BBQ and garlic basil aioli.", ["signature"]),
+    picks = [("Big Stooge", "19", "Two black Angus patties, three cheeses, four strips of bacon, onion strings, A-1, honey BBQ and garlic basil aioli.", ["raw", "signature"]),
              ("Duck Bacon Wontons", "16", "Crispy wontons with spicy plum sauce.", []),
              ("8 Bone-In Wings", "15", "Fresh, never frozen. Try them in our Signature Sauce.", ["signature"]),
              ("Walleye Sandwich", "18", "Battered walleye, lettuce, American and tartar on a toasted hoagie.", [])]
@@ -1045,6 +1056,7 @@ def p_home():
       <h2>Burgers, wings &amp; <span class="grad-text">bar favorites</span></h2>
       <p class="lead">Classic American bar food with our own twist, plus 16 beers poured ice-cold from our iced cobra taps.</p>
       <ul class="menu-items" style="grid-template-columns:1fr;list-style:none;padding:0;margin:0 0 1.5rem">{picks_html}</ul>
+      <p class="small muted" style="margin:-.75rem 0 1.5rem"><span class="advisory-mark" aria-hidden="true">*</span> Cooked to order. {ADVISORY}</p>
       <div class="btn-row">{btn("View the Full Menu", "/menu/", "green")}{btn("Today's Specials", "/specials/", "outline")}</div>
     </div>
   </div>
@@ -1107,10 +1119,17 @@ def p_menu():
     for i, s in enumerate(MENU):
         items = "".join(f'''<li class="menu-item"><h3>{e(n)} {tag_chips(t)}</h3><span class="menu-item__price">${e(p)}</span><p>{d}</p></li>''' for n, p, d, t in s["items"])
         notes = "".join(f'<p class="menu-note">{n}</p>' for n in s["notes"])
+        feature = ""
+        if s.get("feature"):
+            k, t = s["feature"]
+            feature = f'<aside class="menu-feature" aria-label="{e(t)}"><span class="menu-feature__icon" aria-hidden="true">{icon("fork")}</span><p><span class="menu-feature__kicker">{e(k)}</span><strong>{e(t)}</strong></p></aside>'
+        legend = advisory_legend() if s.get("advisory") else ""
         panels.append(f'''<section class="menu-panel" id="{s["id"]}" role="tabpanel" aria-labelledby="tab-{s["id"]}" data-menu-panel>
     <div class="menu-panel__head"><h2>{e(s["name"])}</h2><p>{e(s["note_top"])}</p></div>
+    {feature}
     <ul class="menu-items" style="list-style:none;padding:0;margin:0">{items}</ul>
     {notes}
+    {legend}
   </section>''')
     body = f'''{page_hero("menu", "Eat &amp; drink", "The Two Stooges Sports Bar <span class='grad-text'>menu</span>",
         f"Classic American bar and grill food with our own twist, served in Fridley every day from 11 AM. There are burgers, wings, pizza, sandwiches and entrées, plus 16 beers on tap. Check the {L('/specials/', 'daily specials')} before you order.",
