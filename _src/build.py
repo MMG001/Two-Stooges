@@ -230,7 +230,7 @@ MENU = [
          ("Smash Stuffed Curd Burger", "17", "Two 5 oz patties smashed with Wisconsin cheese curds and pepper jack, with chipotle ranch sauce.", ["raw"]),
          ("Build Your Own Burger", "12", "Start with a black Angus patty and add your favorites from the list below.", ["raw"]),
      ],
-     "byo": True, "notes": []},
+     "byo": {"noun": "burger", "photo": ("photos/burger-and-fries", "A Two Stooges double bacon cheeseburger stacked with onion strings, served in a basket with fries and pickles")}, "notes": []},
     {"id": "sandwiches", "name": "Sandwiches & Wraps", "note_top": SIDES_NOTE,
      "advisory": True,
      "items": [
@@ -245,7 +245,7 @@ MENU = [
          ("BBQ Pulled Pork", "14", "Smoked BBQ pulled pork with dill pickles and fried onion straws, served with coleslaw.", ["new"]),
          ("Build Your Own Chicken Sandwich", "12", "Your choice of grilled chicken breast or crispy chicken tenders, built your way with the add-ons below.", []),
      ],
-     "byo": True, "notes": []},
+     "byo": {"noun": "sandwich"}, "notes": []},
     {"id": "pizza", "name": "Pizza", "note_top": "Specialty pizzas: small 9\" $16 · large 16\" $23 · gluten-free 10\" $23.",
      "items": [
          ("Meat Lovers", "16 / 23", "Pepperoni, sausage, ground beef and bacon.", []),
@@ -281,14 +281,33 @@ ADVISORY = ("Consuming raw or undercooked meat, poultry, seafood, shellfish or e
             "may increase your risk of foodborne illness.")
 
 
-def byo_card():
-    def item(x):
+BYO_ICONS = {
+    "cheese": '<path d="M3 18 21 8v10H3Z"/><path d="M3 18 13 9.5c2 .3 5.5-1 8-1.5"/><circle cx="15" cy="14.5" r="1.3"/><circle cx="9" cy="15.5" r=".9"/><circle cx="18.5" cy="11.8" r=".8"/>',
+    "toppings": '<path d="M4 20c0-9 6.5-16 16-16 0 9.5-7 16-16 16Z"/><path d="M4 20 14 10"/><path d="M9.5 14.5h4.5M12 12V8.5"/>',
+    "bold": '<path d="M12 3c.8 3.6 5 5.4 5 10.5a5 5 0 0 1-10 0c0-2.2 1.2-3.6 2.3-4.5 0 2 1 3.2 2.2 3.4-.4-3.3-.7-6.1.5-9.4Z"/>',
+}
+BYO_STEPS = [("cheese", "Choose your cheese"), ("toppings", "Add your toppings"), ("bold", "Make it extra bold")]
+
+
+def byo_card(noun="burger", photo=None):
+    def chip(x):
         if x.endswith("*"):
             return f'<li>{e(x[:-1])}<span class="advisory-mark" aria-hidden="true">*</span></li>'
         return f'<li>{e(x)}</li>'
-    groups = "".join(f'''<div class="byo__group"><h4 class="byo__label">{e(label)} <span class="byo__price">{e(price)}</span></h4>
-        <ul class="byo__list">{"".join(item(x) for x in items)}</ul></div>''' for label, price, items in BYO)
-    return f'''<div class="byo"><h3 class="byo__title">Build it your way</h3><div class="byo__grid">{groups}</div></div>'''
+    steps = "".join(f'''<li class="byo__step">
+          <span class="byo__icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">{BYO_ICONS[key]}</svg></span>
+          <div class="byo__step-body"><h4>{e(label)} <span class="byo__price">{e(price)}</span></h4>
+            <ul class="byo__chips">{"".join(chip(x) for x in items)}</ul></div>
+        </li>''' for (key, label), (_, price, items) in zip(BYO_STEPS, BYO))
+    media = (f'<div class="byo__media">{img(photo[0], photo[1], sizes="(max-width:860px) 100vw, 42vw")}</div>' if photo else "")
+    return f'''<div class="byo{" byo--photo" if photo else ""}">
+      {media}
+      <div class="byo__body">
+        <h3 class="byo__title"><span class="byo__title-a">build it</span> <span class="byo__title-b">your way</span></h3>
+        <p class="byo__sub">Start with the base, then stack it however you like. <strong>It's your {e(noun)}.</strong></p>
+        <ol class="byo__steps">{steps}</ol>
+      </div>
+    </div>'''
 
 
 def advisory_legend():
@@ -1139,7 +1158,7 @@ def p_menu():
             k, t = s["feature"]
             feature = f'<aside class="menu-feature" aria-label="{e(t)}"><span class="menu-feature__icon" aria-hidden="true">{icon("fork")}</span><p><span class="menu-feature__kicker">{e(k)}</span><strong>{e(t)}</strong></p></aside>'
         legend = advisory_legend() if s.get("advisory") else ""
-        byo = byo_card() if s.get("byo") else ""
+        byo = byo_card(**s["byo"]) if s.get("byo") else ""
         panels.append(f'''<section class="menu-panel" id="{s["id"]}" role="tabpanel" aria-labelledby="tab-{s["id"]}" data-menu-panel>
     <div class="menu-panel__head"><h2>{e(s["name"])}</h2><p>{e(s["note_top"])}</p></div>
     {feature}
