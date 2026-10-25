@@ -409,6 +409,12 @@ address { font-style: normal; }
   .byo__media::after { background: linear-gradient(180deg, transparent 55%, #161616 100%); }
 }
 
+/* Pizza toppings card */
+.menu-toppings { margin-top: 1.5rem; padding: 1.25rem 1.35rem; background: var(--green); border-radius: var(--radius-lg); border-top: 4px solid var(--gold); }
+.menu-toppings h3 { margin: 0 0 .85rem; font: 600 1.2rem/1 var(--font-display); letter-spacing: .08em; text-transform: uppercase; color: var(--gold); }
+.menu-toppings ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .4rem; }
+.menu-toppings li { padding: .35rem .7rem; border: 1px solid rgba(255,255,255,.25); background: rgba(255,255,255,.08); border-radius: 999px; font-size: .86rem; line-height: 1.2; color: #fff; }
+
 /* Consumer advisory (cooked-to-order items) */
 .advisory-mark { color: var(--red); font: 700 1.1rem/1 var(--font-body); }
 .menu-advisory { display: flex; flex-wrap: wrap; gap: .6rem 1.5rem; align-items: center; margin-top: 1rem; padding: .9rem 1.15rem; background: #fdf0f0; border-left: 4px solid var(--red); border-radius: var(--radius); font-size: .88rem; color: var(--text); }

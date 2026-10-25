@@ -250,17 +250,19 @@ MENU = [
          ("Build Your Own Chicken Sandwich", "12", "Your choice of grilled chicken breast or crispy chicken tenders, built your way with the add-ons below.", []),
      ],
      "byo": {"noun": "sandwich"}, "notes": []},
-    {"id": "pizza", "name": "Pizza", "note_top": "Specialty pizzas: small 9\" $16 · large 16\" $23 · gluten-free 10\" $23.",
+    {"id": "pizza", "name": "Pizza", "note_top": "Specialty pizzas: small 9\" $16 · large 16\" $24 · gluten-free 10\" $23.",
+     "feature": ("Ask your server", "About today's special"),
      "items": [
-         ("Meat Lovers", "16 / 23", "Pepperoni, sausage, ground beef and bacon.", []),
-         ("Crowd Pleaser", "16 / 23", "Pepperoni, sausage, green peppers, mushrooms and black olives.", []),
-         ("Taco Pizza", "16 / 23", "Seasoned chicken or beef, shredded cheese, lettuce, pico de gallo, black olives, sour cream and salsa.", ["new"]),
+         ("Meat Lovers", "16 / 24", "Pepperoni, sausage, ground beef, bacon and salami.", []),
+         ("Crowd Pleaser", "16 / 24", "Pepperoni, sausage, green peppers, mushrooms and black olives.", []),
          ("Build Your Own — Small 9\"", "11", "Plus $1.50 per topping.", []),
-         ("Build Your Own — Large 16\"", "15", "Plus $2.50 per topping.", []),
+         ("Build Your Own — Large 16\"", "16", "Plus $2.50 per topping.", []),
          ("Build Your Own — Gluten-Free 10\"", "15", "Plus $1.50 per topping.", []),
      ],
-     "notes": ["<strong>Toppings:</strong> pepperoni, sausage, bacon, ham, chicken, ground beef, Canadian bacon, green peppers, red peppers, black olives, green olives, onions, red onions, mushrooms, jalapeños, pineapple, tomatoes, garlic, extra cheese.",
-               'Weekend deal: <a href="/specials/">$3 off large and $2 off small pizzas</a> on Saturday and Sunday.']},
+     "toppings": ["Pepperoni", "Sausage", "Bacon", "Ham", "Chicken", "Ground Beef", "Canadian Bacon", "Salami",
+                  "Green Peppers", "Red Peppers", "Black Olives", "Green Olives", "Onions", "Red Onions", "Mushrooms",
+                  "Jalapeños", "Pineapple", "Tomatoes", "Garlic", "Extra Cheese"],
+     "notes": []},
     {"id": "entrees", "name": "Entrées", "note_top": "Add a side salad or a cup of soup to any entrée for $4.",
      "advisory": True,
      "items": [
@@ -1166,6 +1168,9 @@ def p_menu():
             feature = f'<aside class="menu-feature" aria-label="{e(t)}"><span class="menu-feature__icon" aria-hidden="true">{icon("fork")}</span><p><span class="menu-feature__kicker">{e(k)}</span><strong>{e(t)}</strong></p></aside>'
         legend = advisory_legend() if s.get("advisory") else ""
         byo = byo_card(**s["byo"]) if s.get("byo") else ""
+        if s.get("toppings"):
+            byo += ('<div class="menu-toppings"><h3>Toppings</h3><ul>'
+                    + "".join(f"<li>{e(t)}</li>" for t in s["toppings"]) + "</ul></div>")
         panels.append(f'''<section class="menu-panel" id="{s["id"]}" role="tabpanel" aria-labelledby="tab-{s["id"]}" data-menu-panel>
     <div class="menu-panel__head"><h2>{e(s["name"])}</h2><p>{e(s["note_top"])}</p></div>
     {feature}
