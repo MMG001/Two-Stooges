@@ -251,7 +251,8 @@ MENU = [
          ("Build Your Own Chicken Sandwich", "12", "Your choice of grilled chicken breast or crispy chicken tenders, built your way with the add-ons below.", []),
      ],
      "byo": {"noun": "sandwich"}, "notes": []},
-    {"id": "pizza", "name": "Pizza", "note_top": "Specialty pizzas: small 9\" $16 · large 16\" $24 · gluten-free 10\" $23.",
+    {"id": "pizza", "name": "Pizza", "note_top": "Hand-tossed specialty pies or build your own, with gluten-free crust available.",
+     "sizes": ("Specialty pizza", [("Small", '9"', "16"), ("Large", '16"', "24"), ("Gluten-free", '10"', "23")]),
      "feature": ("Ask your server", "About today's special"),
      "items": [
          ("Meat Lovers", "16 / 24", "Pepperoni, sausage, ground beef, bacon and salami.", []),
@@ -1175,11 +1176,21 @@ def p_menu():
             feature = f'<aside class="menu-feature" aria-label="{e(t)}"><span class="menu-feature__icon" aria-hidden="true">{icon("fork")}</span><p><span class="menu-feature__kicker">{e(k)}</span><strong>{e(t)}</strong></p></aside>'
         legend = (advisory_legend(any("signature" in it[3] for it in s["items"])) if s.get("advisory") else "")
         byo = byo_card(**s["byo"]) if s.get("byo") else ""
+        toppings = ""
         if s.get("toppings"):
-            byo += ('<div class="menu-toppings"><h3>Toppings</h3><ul>'
-                    + "".join(f"<li>{e(t)}</li>" for t in s["toppings"]) + "</ul></div>")
+            toppings = ('<div class="menu-toppings"><h3>Toppings</h3><ul>'
+                        + "".join(f"<li>{e(t)}</li>" for t in s["toppings"]) + "</ul></div>")
+        sizes = ""
+        if s.get("sizes"):
+            label, tiles = s["sizes"]
+            sizes = (f'<div class="menu-sizes"><h3 class="menu-sizes__label">{e(label)}</h3><ul class="menu-sizes__list">'
+                     + "".join(f'<li class="menu-size"><span class="menu-size__name">{e(n)}</span><span class="menu-size__inch">{e(inch)}</span>'
+                               f'<span class="menu-size__price"><sup>$</sup>{e(pr)}</span></li>' for n, inch, pr in tiles)
+                     + "</ul></div>")
         panels.append(f'''<section class="menu-panel" id="{s["id"]}" role="tabpanel" aria-labelledby="tab-{s["id"]}" data-menu-panel>
     <div class="menu-panel__head"><h2>{e(s["name"])}</h2><p>{e(s["note_top"])}</p></div>
+    {sizes}
+    {toppings}
     {feature}
     {f'<ul class="menu-items" style="list-style:none;padding:0;margin:0">{items}</ul>' if items else ""}
     {byo}
