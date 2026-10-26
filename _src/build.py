@@ -1663,8 +1663,16 @@ def p_about():
 
 
 def p_gallery():
-    # TODO(client): new, current photos coming. Food photos kept for now.
-    photos = [("photos/food-steak-bites-onion-rings", "Steak bites topped with onion rings"),
+    photos = [("photos/gallery-league-night", "League night in the billiard room, with players at rows of blue-felt Diamond tables"),
+              ("photos/gallery-gabriels-racking", "Racking a game on a Gabriel's table while a player waits with his cue"),
+              ("photos/gallery-brick-booths", "Brick-walled dining room with red booths, pendant lights and TVs by the windows"),
+              ("photos/gallery-diamond-tables-sardo", "Diamond tables with Sardo racks, with the raised bar and high-tops behind"),
+              ("photos/gallery-center-bar", "The elevated center bar with neon signs, TVs and a high-top table in front"),
+              ("photos/gallery-bar-taps-tvs", "The bar: beer taps, a full back bar and games on the TVs"),
+              ("photos/gallery-billiard-room-diamond", "The billiard room: rows of Diamond tables under wood-trimmed lights"),
+              ("photos/gallery-storefront", "Outside Two Stooges on University Ave NE in Fridley, with the green awning and window signs"),
+              ("photos/gallery-dining-room", "The dining room with wood tables and chairs, looking toward the bar"),
+              ("photos/food-steak-bites-onion-rings", "Steak bites topped with onion rings"),
               ("photos/food-thin-crust-pizza", "Thin-crust pizza with sausage, mushrooms and red onion"),
               ("photos/food-tater-tots", "A pile of hot, crispy tater tots")]
     g = "".join(f'<figure class="gallery__item"><button type="button" data-lightbox="/assets/img/{p}.webp" data-alt="{e(a)}" data-caption="{e(a)}" aria-label="Enlarge photo: {e(a)}">{img(p, a + " at Two Stooges Sports Bar", sizes="(max-width:640px) 100vw, (max-width:1000px) 50vw, 33vw")}</button><figcaption>{e(a)}</figcaption></figure>' for p, a in photos)
