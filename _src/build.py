@@ -377,7 +377,7 @@ META = {
                "photos/player-shooting", "A tournament player shooting at Two Stooges Sports Bar", "Events"),
     "parties": ("/private-parties/", "Private Party Venue in Fridley, MN | Two Stooges",
                 "Host a birthday, office party, banquet or draft party at Two Stooges Sports Bar in Fridley, MN, with custom menus, pool tables and darts. Request a date.",
-                "photos/pool-hall-interior", "Party space at Two Stooges Sports Bar & Grill in Fridley", "Private Parties"),
+                "photos/hero-private-parties", "Friends playing pool at a party at Two Stooges Sports Bar & Grill in Fridley", "Private Parties"),
     "about": ("/about/", "About Two Stooges Sports Bar | Fridley, MN Since 1988",
               "Two Stooges Sports Bar & Grill opened in Fridley, MN in 1988 as University Billiards. Meet the award-winning billiard room and sports bar. Read our story.",
               "photos/storefront-two-stooges", "The Two Stooges Sports Bar & Grill storefront on University Ave NE, Fridley", "About"),
@@ -1576,7 +1576,7 @@ def p_parties():
     occ = "".join(f"<li>{e(o)}</li>" for o in occasions)
     body = f'''{page_hero("parties", "Private parties &amp; events", "Private parties at <span class='grad-text'>Two Stooges Sports Bar</span>",
         "Two Stooges is ready for your next birthday, holiday party, office outing or banquet in Fridley. We'll customize the menu and the space for your group.",
-        "photos/private-party-banquet-wide", "Two Stooges set up for a private party: round tables with white and black linens, roses and place settings, with the bar and dart boards behind", btn("Request a Date", "#request", "gold") + btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone"))}
+        "photos/hero-private-parties", "Friends laughing around a pool table as one of them lines up a shot during a party at Two Stooges", btn("Request a Date", "#request", "gold") + btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone"))}
 <section class="section"><div class="wrap">
   <div class="split">
     <div>
