@@ -1405,9 +1405,11 @@ def p_darts():
     </div>
   </div>
 </div></section>
-<section class="section section--alt"><div class="wrap">
+<section class="section section--photo section--photo-strong on-dark section--dart-leagues">
+  <div class="section__bg">{img("photos/dart-bullseye-green-flight", "A green-flighted dart in the bullseye of a dartboard under warm bar lights", sizes="100vw")}</div>
+  <div class="wrap">
   {section_head("Dart leagues", "Dart leagues every day of the week", "Meet other players, sharpen your game and win cash. There's a league for every skill level.")}
-  <div class="grid grid--3">
+  <div class="grid grid--3 on-light">
     <div class="tile"><span class="tile__icon">{icon("calendar")}</span><h3>Every night</h3><p>Leagues run every day of the week, so pick the night that works for you.</p></div>
     <div class="tile"><span class="tile__icon">{icon("users")}</span><h3>Custom leagues</h3><p>We can set up leagues for women, couples or teams. Just ask.</p></div>
     <div class="tile"><span class="tile__icon">{icon("award")}</span><h3>Win cash</h3><p>Compete for prize money and bragging rights all season long.</p></div>

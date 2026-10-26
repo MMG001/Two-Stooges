@@ -741,6 +741,7 @@ address { font-style: normal; }
 
 /* Home: league nights band over the pool-rack photo */
 .section--leagues .section__bg img { object-position: center 62%; }
+.section--dart-leagues .section__bg img { object-position: 70% 50%; }
 .section--leagues::after { background: rgba(0,0,0,.7); }
 .section--leagues h2, .section--leagues .league-cta p { text-shadow: 0 2px 14px rgba(0,0,0,.6); }
 .section--leagues .deal-tile:not(.deal-tile--hot) { background: rgba(8,20,16,.72); border-color: rgba(255,206,81,.35); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
