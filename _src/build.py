@@ -362,7 +362,7 @@ META = {
                  "photos/beers-on-bar", "Ice-cold pints on the bar, happy hour at Two Stooges", "Specials & Happy Hour"),
     "billiards": ("/billiards/", "Pool Tables & Billiards in Fridley, MN | Two Stooges",
                   "Play pool at Two Stooges Sports Bar in Fridley, MN: 43 Gabriel's and Diamond tables, daily pool specials, leagues, tournaments and a Pro Shop. Rack up today.",
-                  "photos/billiard-hall-tables", "The 43-table billiard room at Two Stooges Sports Bar in Fridley", "Billiards"),
+                  "photos/billiard-room-gabriels-wide", "The 43-table billiard room at Two Stooges Sports Bar in Fridley", "Billiards"),
     "darts": ("/darts/", "Darts & Dart Leagues in Fridley, MN | Two Stooges",
               "Throw darts at Two Stooges Sports Bar in Fridley, MN. Electronic dart boards, high-tops, a big screen and dart leagues every day of the week. Sign up today.",
               "photos/dart-room", "Electronic dart boards at Two Stooges Sports Bar in Fridley", "Darts"),
@@ -1310,7 +1310,7 @@ def p_billiards():
     g = "".join(f'<figure class="gallery__item"><button type="button" data-lightbox="/assets/img/{p}.webp" data-alt="{e(a)}" data-caption="{e(a)}" aria-label="Enlarge photo: {e(a)}">{img(p, a, sizes="(max-width:640px) 100vw, 33vw")}</button></figure>' for p, a in gallery)
     body = f'''{page_hero("billiards", "43 tables · since 1988", "Billiards at Two Stooges Sports Bar in <span class='grad-text'>Fridley</span>",
         "Two Stooges has been named a top ten billiard room in North America, and City Pages voted it the best place to shoot pool. There are 43 Gabriel's and Diamond tables in 9 ft and 7 ft, with room to play around every one.",
-        "photos/billiard-hall-tables", "The Two Stooges billiard hall with rows of blue-felt pool tables", btn("Daily Pool Specials", "#rates", "gold") + btn("Join a Pool League", "/leagues/", "outline"))}
+        "photos/billiard-room-gabriels-wide", "The Two Stooges billiard room in Fridley: rows of blue-felt Gabriel's pool tables under wood-trimmed lights, with players at the tables", btn("Daily Pool Specials", "#rates", "gold") + btn("Join a Pool League", "/leagues/", "outline"))}
 <section class="section"><div class="wrap">
   {section_head("The billiard room", "Fridley's award-winning pool hall", f"Pool has been the heart of Two Stooges since 1988, when it opened as University Billiards. {L('/about/', 'Read the full story')}.")}
   <div class="grid grid--3">
@@ -1352,7 +1352,7 @@ def p_billiards():
 </div></section>
 <section class="section section--alt" id="pro-shop"><div class="wrap">
   <div class="split split--rev">
-    <div class="split__media">{img("photos/pro-shop-cues-and-stuff", "The Two Stooges Pro Shop counter: racks of pool cues under a lit Cues & Stuff sign, with chalk, gloves and accessories in glass cases and apparel on the wall", sizes="(max-width:860px) 100vw, 50vw")}<div class="split__badge">Cues &amp; Stuff<small>Pro Shop · cue repair</small></div></div>
+    <div class="split__media">{img("photos/pro-shop-counter-cue-wall", "The Two Stooges Pro Shop: glass display cases of cue accessories, a wall of pool cues and cue cases, and the billiard counter, with the pool tables beyond", sizes="(max-width:860px) 100vw, 50vw")}<div class="split__badge">Cues &amp; Stuff<small>Pro Shop · cue repair</small></div></div>
     <div>
       <span class="eyebrow">Pro Shop</span>
       <h2>Two Stooges Pro Shop <span class="grad-text">&amp; cue repair</span></h2>
