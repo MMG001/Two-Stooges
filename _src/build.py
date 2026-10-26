@@ -1030,9 +1030,9 @@ def p_home():
          f"Gabriel's and Diamond tables in 9 ft and 7 ft, {L('/specials/#pool', 'daily pool specials')} and a full Pro Shop.", "Explore the billiard room"),
         ("photos/home-card-darts-bullseye", "A blue-flighted dart in the bullseye of a dartboard, with warm bar lights behind", "Leagues every day", "Darts", "/darts/",
          f"Electronic dart boards, high-tops and {L('/leagues/', 'dart leagues')} for every skill level.", "See the dart area"),
-        ("photos/home-card-leagues-player", "A league player lining up a shot on a blue-felt Diamond table at Two Stooges", "Weekly play", "Leagues & Tournaments", "/leagues/",
+        ("photos/home-card-leagues-cues", "Two polished pool cues resting beside a rack of billiard balls", "Weekly play", "Leagues & Tournaments", "/leagues/",
          f"Straight pool, 10-ball, APA and UPL leagues, plus {L('/events/', 'FargoRate tournaments')}.", "Join a pool league"),
-        ("photos/pool-hall-interior", "The warmly lit Two Stooges billiard room set up for a group", "Groups welcome", "Private Parties", "/private-parties/",
+        ("photos/home-card-private-parties", "A group of friends cheering as one of them lines up a shot at the pool table", "Groups welcome", "Private Parties", "/private-parties/",
          f"Birthdays, office parties and banquets with {L('/menu/', 'custom menus')} and pool tables included.", "Plan a private party"),
     ]
     cards = "".join(f'''<article class="card card--link">
