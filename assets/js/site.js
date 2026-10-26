@@ -89,22 +89,52 @@
     if (card.getAttribute('data-next-up') < now.ymd) card.remove();
   });
 
-  /* ---------- Lightbox for flyers + gallery ---------- */
+  /* ---------- Lightbox for flyers + gallery (X, arrows, keys, swipe) ---------- */
   var dlg = document.getElementById('lightbox');
   if (dlg && typeof dlg.showModal === 'function') {
     var img = dlg.querySelector('img');
     var cap = dlg.querySelector('p');
+    var count = dlg.querySelector('.lightbox__count');
+    var prev = dlg.querySelector('.lightbox__nav--prev');
+    var next = dlg.querySelector('.lightbox__nav--next');
+    var group = [], idx = 0;
+    var show = function (i) {
+      idx = (i + group.length) % group.length;
+      var t = group[idx];
+      img.src = t.getAttribute('data-lightbox');
+      img.alt = t.getAttribute('data-alt') || '';
+      cap.textContent = t.getAttribute('data-caption') || '';
+      var many = group.length > 1;
+      prev.hidden = next.hidden = !many;
+      count.textContent = many ? (idx + 1) + ' / ' + group.length : '';
+      if (many) { var pre = new Image(); pre.src = group[(idx + 1) % group.length].getAttribute('data-lightbox'); }
+    };
     document.addEventListener('click', function (e) {
       var trigger = e.target.closest('[data-lightbox]');
-      if (!trigger) return;
+      if (!trigger || dlg.contains(trigger)) return;
       e.preventDefault();
-      img.src = trigger.getAttribute('data-lightbox');
-      img.alt = trigger.getAttribute('data-alt') || '';
-      cap.textContent = trigger.getAttribute('data-caption') || '';
+      var box = trigger.closest('.gallery, .photo-grid, .mosaic, .food-grid, section') || document.body;
+      group = Array.prototype.slice.call(box.querySelectorAll('[data-lightbox]'));
+      show(group.indexOf(trigger));
       dlg.showModal();
     });
+    prev.addEventListener('click', function () { show(idx - 1); });
+    next.addEventListener('click', function () { show(idx + 1); });
     dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
     dlg.querySelector('.lightbox__close').addEventListener('click', function () { dlg.close(); });
+    dlg.addEventListener('keydown', function (e) {
+      if (group.length < 2) return;
+      if (e.key === 'ArrowLeft') { e.preventDefault(); show(idx - 1); }
+      if (e.key === 'ArrowRight') { e.preventDefault(); show(idx + 1); }
+    });
+    var x0 = null;
+    dlg.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; }, { passive: true });
+    dlg.addEventListener('touchend', function (e) {
+      if (x0 === null || group.length < 2) return;
+      var dx = e.changedTouches[0].clientX - x0; x0 = null;
+      if (Math.abs(dx) > 40) show(idx + (dx < 0 ? 1 : -1));
+    });
+    dlg.addEventListener('close', function () { img.src = 'data:,'; });
   }
 
   /* ---------- Menu tabs (all panels show without JS) ---------- */

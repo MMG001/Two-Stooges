@@ -714,8 +714,9 @@ def footer():
 </nav>
 <dialog id="lightbox" class="lightbox" aria-label="Image viewer">
   <button class="lightbox__close" type="button" aria-label="Close image">×</button>
-  <img src="data:," alt="">
-  <p></p>
+  <button class="lightbox__nav lightbox__nav--prev" type="button" aria-label="Previous photo">‹</button>
+  <figure class="lightbox__stage"><img src="data:," alt=""><figcaption><p></p><span class="lightbox__count" aria-live="polite"></span></figcaption></figure>
+  <button class="lightbox__nav lightbox__nav--next" type="button" aria-label="Next photo">›</button>
 </dialog>'''
 
 
