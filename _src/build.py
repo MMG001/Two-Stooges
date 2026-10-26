@@ -1379,7 +1379,7 @@ def p_darts():
         "photos/dart-bullseye-neon", "A dart hitting the bullseye under colorful bar lights", btn("Join a Dart League", "/league-signup/", "gold") + btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone"))}
 <section class="section"><div class="wrap">
   <div class="split">
-    <div class="split__media">{img("photos/dart-room", "The Two Stooges dart area with a row of electronic dart boards", sizes="(max-width:860px) 100vw, 50vw")}</div>
+    <div class="split__media">{img("photos/dart-room-bullshooter-boards", "The Two Stooges dart room in Fridley: six lit Bullshooter electronic dart boards under a big projection screen, with high-top tables", sizes="(max-width:860px) 100vw, 50vw")}</div>
     <div>
       <span class="eyebrow">The dart area</span>
       <h2>Electronic dart boards <span class="grad-text">in Fridley</span></h2>
@@ -1399,7 +1399,7 @@ def p_darts():
 </div></section>
 <section class="section section--alt"><div class="wrap">
   <div class="split split--rev">
-    <div class="split__media">{img("photos/dart-red-black", "A red dart in the bullseye of a dartboard", sizes="(max-width:860px) 100vw, 50vw")}</div>
+    <div class="split__media">{img("photos/dart-players-league-night", "Dart league players in team shirts throwing at the Bullshooter boards while the game plays on the big screen", sizes="(max-width:860px) 100vw, 50vw")}</div>
     <div>
       <span class="eyebrow">New to darts?</span>
       <h2>Easy to start, <span class="grad-text">hard to put down</span></h2>
