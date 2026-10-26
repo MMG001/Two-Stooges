@@ -1052,8 +1052,8 @@ def p_home():
 
     body = f'''<section class="hero hero--full on-dark">
   <picture class="hero__bg">
-    <source media="(max-width: 700px)" srcset="/assets/img/photos/hero-billiard-room-mobile.webp" width="800" height="1000">
-    <img src="/assets/img/photos/hero-billiard-room-1920.webp" srcset="/assets/img/photos/hero-billiard-room-1280.webp 1280w, /assets/img/photos/hero-billiard-room-1920.webp 1920w" sizes="100vw" width="1920" height="800" alt="The Two Stooges billiard room in Fridley, MN: rows of blue-felt Diamond pool tables under wood-trimmed lights, with the bar behind" fetchpriority="high">
+    <source media="(max-width: 700px)" srcset="/assets/img/photos/hero-pool-tables-mobile.webp" width="800" height="1000">
+    <img src="/assets/img/photos/hero-pool-tables-1536.webp" srcset="/assets/img/photos/hero-pool-tables-1280.webp 1280w, /assets/img/photos/hero-pool-tables-1536.webp 1536w" sizes="100vw" width="1536" height="640" alt="The Two Stooges billiard room in Fridley, MN: rows of blue-felt Gabriel's pool tables under wood-trimmed lights, with the bar behind" fetchpriority="high">
   </picture>
   <div class="wrap hero__inner">
     <div class="hero__copy">
