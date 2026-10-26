@@ -1663,20 +1663,10 @@ def p_about():
 
 
 def p_gallery():
-    photos = [("photos/sports-bar-game-day", "The sports bar on game day: a long high-top table in front of the center bar, with games on the TVs and Packers on the big screen"),
-              ("photos/sports-bar-center-bar", "The center bar with wood bar top, stools, TVs and a full back bar"),
-              ("photos/pro-shop-counter-wide", "The Pro Shop counter in front of lit racks of pool cues and cue cases"),
-              ("photos/sports-bar-booths", "Booths and high-tops along the bar, overlooking the billiard room"),
-              ("photos/dart-boards-bullshooter", "The row of six electronic Bullshooter dart boards"),
-              ("photos/event-pool-tournament-crowd", "A crowd watching a shot during a group event on a Gabriel's table"),
-              ("photos/food-steak-bites-onion-rings", "Steak bites topped with onion rings"),
+    # TODO(client): new, current photos coming. Food photos kept for now.
+    photos = [("photos/food-steak-bites-onion-rings", "Steak bites topped with onion rings"),
               ("photos/food-thin-crust-pizza", "Thin-crust pizza with sausage, mushrooms and red onion"),
-              ("photos/food-tater-tots", "A pile of hot, crispy tater tots"),
-              ("photos/billiard-room-rows", "Rows of blue-felt pool tables in the billiard room"), ("photos/player-shooting", "A player taking a shot"),
-              ("photos/dart-room", "The dart area with electronic boards and a big screen"), ("photos/pool-hall-interior", "The billiard room under warm lights"),
-              ("photos/player-racking", "Racking up a game"), ("photos/building-exterior", "Outside Two Stooges on University Ave NE, Fridley"),
-              ("photos/tournament-table-trophies", "Tournament table and trophies"), ("photos/player-lining-up-shot", "Lining up the shot"),
-              ("photos/billiard-hall-tables", "The billiard hall"), ("photos/pro-shop-cues-and-stuff", "The Pro Shop: cues, cases and accessories"), ("photos/pool-balls-rack", "A fresh rack on blue felt")]
+              ("photos/food-tater-tots", "A pile of hot, crispy tater tots")]
     g = "".join(f'<figure class="gallery__item"><button type="button" data-lightbox="/assets/img/{p}.webp" data-alt="{e(a)}" data-caption="{e(a)}" aria-label="Enlarge photo: {e(a)}">{img(p, a + " at Two Stooges Sports Bar", sizes="(max-width:640px) 100vw, (max-width:1000px) 50vw, 33vw")}</button><figcaption>{e(a)}</figcaption></figure>' for p, a in photos)
     body = f'''{page_hero("gallery", "Take a look", "Photos of <span class='grad-text'>Two Stooges Sports Bar</span>",
         f"Inside the {L('/billiards/', 'billiard room')}, the {L('/darts/', 'dart area')} and the bar in Fridley. Click any photo to see it full size.",
