@@ -1136,7 +1136,7 @@ def p_home():
 <section class="section"><div class="wrap">
   <div class="split split--rev">
     <div class="split__media">
-      {img("photos/billiard-room-gabriels", "Rows of blue-felt Gabriel's tournament tables under wood-trimmed lights in the Two Stooges billiard room", sizes="(max-width:860px) 100vw, 50vw")}
+      {img("photos/billiard-room-diamond-tables", "The wide-open Two Stooges billiard room in Fridley: rows of blue-felt Diamond pool tables under wood-trimmed lights, with players at the tables", sizes="(max-width:860px) 100vw, 50vw")}
       <div class="split__badge">Since 1988<small>Locally owned in Fridley</small></div>
     </div>
     <div>
