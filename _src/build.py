@@ -1672,6 +1672,11 @@ def p_gallery():
               ("photos/gallery-billiard-room-diamond", "The billiard room: rows of Diamond tables under wood-trimmed lights"),
               ("photos/gallery-storefront", "Outside Two Stooges on University Ave NE in Fridley, with the green awning and window signs"),
               ("photos/gallery-dining-room", "The dining room with wood tables and chairs, looking toward the bar"),
+              ("photos/pro-shop-display-case-accessories", "The Pro Shop display case: cue balls, chalk holders, grips and racks on glass shelves"),
+              ("photos/pro-shop-billiards-counter", "The Pro Shop counter under the red Billiards neon sign, with the cue wall and glass cases"),
+              ("photos/dart-room-bullshooter-boards", "The dart room: six lit Bullshooter boards under the big screen, with high-top tables"),
+              ("photos/billiard-room-diamond-apa", "Diamond tables, including an APA tournament table, with the raised bar behind"),
+              ("photos/billiard-room-diamond-lounge", "Rows of Diamond tables and high-top seating in the billiard room"),
               ("photos/food-steak-bites-onion-rings", "Steak bites topped with onion rings"),
               ("photos/food-thin-crust-pizza", "Thin-crust pizza with sausage, mushrooms and red onion"),
               ("photos/food-tater-tots", "A pile of hot, crispy tater tots")]
