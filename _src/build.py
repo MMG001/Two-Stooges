@@ -345,7 +345,6 @@ LOCATION = "Fridley, Minnesota"
 ENTITY_DESC = ("Two Stooges Sports Bar & Grill is a locally owned sports bar, restaurant and billiard room at "
                "7178 University Ave NE in Fridley, Minnesota. Open since 1988, it has 43 pool tables, dart boards, "
                "34 TV screens and 16 beers on tap.")
-FOUNDERS = ["Ty Wilson", "Greg Asproth"]
 AREA_SERVED = ["Fridley", "Columbia Heights", "Spring Lake Park", "New Brighton", "Mounds View", "Coon Rapids", "Blaine", "Minneapolis"]
 AWARDS = ["Top Ten Billiard Room in North America", "Best Place to Shoot Pool – City Pages (2017)",
           "Business of the Year", "Billiards Digest “Best of” Architectural Design"]
@@ -720,7 +719,6 @@ def footer():
 </dialog>'''
 
 
-PERSONS = [("ty-wilson", "Ty Wilson"), ("greg-asproth", "Greg Asproth")]
 AWARDS_VISIBLE = AWARDS
 AMENITIES = ["43 pool tables", "6 dart boards", "2 patios", "Pool leagues", "30 HD TVs and 4 monster screens", "NFL Sunday Ticket",
              "16 beers on tap", "Pro shop and cue repair", "Private event space"]
@@ -728,16 +726,10 @@ PAGE_TYPES = {"contact": "ContactPage", "about": "AboutPage", "gallery": "Collec
 SERVICE_PAGES = {"billiards": "billiards", "darts": "darts", "leagues": "leagues", "parties": "parties"}
 
 
-def person_nodes():
-    return [{"@type": "Person", "@id": f"{SITE}/about/#{pid}", "name": n, "jobTitle": "Owner", "worksFor": {"@id": SG.BID}}
-            for pid, n in PERSONS]
-
-
 def biz_extras(key):
     """Enrichment properties only on pages where the fact is visible (Rule 3)."""
     x = {}
     if key in ("home", "about"):
-        x["founder"] = [{"@id": f"{SITE}/about/#{pid}"} for pid, _ in PERSONS]
         x["award"] = AWARDS_VISIBLE
         x["amenityFeature"] = [{"@type": "LocationFeatureSpecification", "name": a, "value": True} for a in AMENITIES]
     if key == "home":
@@ -778,8 +770,6 @@ def build_graph(key, body, title, desc, og_url, og_alt, extra_nodes, main_entity
             nodes.append(SG.service_node(k, "card"))
         else:
             nodes.append(SG.service_node(k, "nav"))
-    if key in ("home", "about"):
-        nodes += person_nodes()
     nodes += [{k: v for k, v in n.items() if k != "@context"} for n in (extra_nodes or [])]
     g = SG.graph(nodes)
     errs = SG.check_graph(g, path)
@@ -1142,7 +1132,7 @@ def p_home():
     <div>
       <span class="eyebrow">Award-winning billiards</span>
       <h2>A top ten billiard room in <span class="grad-text">North America</span></h2>
-      <p class="lead">Owners Ty Wilson and Greg Asproth opened University Billiards in 1988 with 17 tables. Today Two Stooges has 43 tables, a full sports bar with NFL Sunday Ticket on 34 screens, and City Pages named it the best place to shoot pool in 2017.</p>
+      <p class="lead">University Billiards opened in 1988 with 17 tables. Today Two Stooges has 43 tables, a full sports bar with NFL Sunday Ticket on 34 screens, and City Pages named it the best place to shoot pool in 2017.</p>
       <ul class="check-list check-list--2col"><li>NFL Sunday Ticket</li><li>30 HD TVs + 4 big screens</li><li>Elevated center bar</li><li>Pro Shop &amp; cue repair</li></ul>
       <a class="text-link" href="/about/">Read the Two Stooges story</a>
     </div>
@@ -1609,7 +1599,7 @@ def p_parties():
 
 
 def p_about():
-    tl = [("1988", "University Billiards opens", "Owners Ty Wilson and Greg Asproth open the doors in April 1988 with 17 pool tables and a snack bar."),
+    tl = [("1988", "University Billiards opens", "University Billiards opens its doors in April 1988 with 17 pool tables and a snack bar."),
           ("1990s", "Room to grow", "The room grows to 56 pool tables and a full-service American restaurant."),
           ("1998", "Billiard Street Café", "A new name for a growing destination. You can still spot the sign out front."),
           ("2006", "Two Stooges is born", "A full sports bar joins the billiard room, and the business becomes Two Stooges Sports Bar & Grill."),
