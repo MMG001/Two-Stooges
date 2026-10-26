@@ -11,3 +11,19 @@
 /reservations/    /private-parties/    301
 /event            /events/             301
 /event/*          /events/             301
+
+# Old WordPress URLs found in Google's index (site:twostooges.com, 2026-10-26)
+/services/happy-hour             /specials/           301
+/services/happy-hour/            /specials/           301
+/services/billiards-and-darts    /billiards/          301
+/services/billiards-and-darts/   /billiards/          301
+/services/food                   /menu/               301
+/services/food/                  /menu/               301
+/services                        /                    301
+/services/*                      /                    301
+/service-plus                    /                    301
+/service-plus/                   /                    301
+/tag/*                           /                    301
+/category/*                      /                    301
+/events/:date/                   /events/             301
+/events/:date                    /events/             301
