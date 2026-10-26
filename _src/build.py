@@ -1412,9 +1412,9 @@ def p_darts():
   {section_head("Pro Shop", "Darts, cues &amp; gear at the Two Stooges Pro Shop", f"Pick up darts, flights, cues, cases, chalk, gloves and accessories right on site, and bring your cue in for repair. More on the {L('/billiards/#pro-shop', 'Pro Shop & cue repair')}.")}
   <div class="mosaic">
     {"".join(f'<figure class="gallery__item mosaic__item"><button type="button" data-lightbox="/assets/img/{p_}.webp" data-alt="{e(a_)}" data-caption="{e(a_)}" aria-label="Enlarge photo: {e(a_)}">{img(p_, a_, sizes=sz)}</button></figure>' for p_, a_, sz in [
-        ("photos/pro-shop-counter-wide", "The Two Stooges Pro Shop: a wood-and-glass counter of accessories in front of lit racks of pool cues and a wall of cue cases", "(max-width:860px) 100vw, 60vw"),
-        ("photos/pro-shop-cue-wall", "A lit wall of pool cues above a row of cue cases in the Pro Shop", "(max-width:860px) 50vw, 30vw"),
-        ("photos/pro-shop-display-case", "Glass display cases with colorful cue holders, gloves, chalk holders and cue cases", "(max-width:860px) 50vw, 30vw")])}
+        ("photos/pro-shop-display-case-accessories", "The Two Stooges Pro Shop display case: cue balls, chalk holders, grips, racks and accessories on glass shelves", "(max-width:860px) 100vw, 60vw"),
+        ("photos/pro-shop-counter-cue-wall", "The Pro Shop counter with a wall of pool cues and cue cases, and the billiard room beyond", "(max-width:860px) 50vw, 30vw"),
+        ("photos/pro-shop-billiards-counter", "The Pro Shop counter under a red Billiards neon sign, with cue racks, cue cases and glass cases of gear", "(max-width:860px) 50vw, 30vw")])}
   </div>
   <div class="btn-row mt-2">{btn("Visit the Pro Shop", "/billiards/#pro-shop", "green", "bag")}{btn("Call the Pro Shop", "tel:" + BIZ["tel"], "outline", "phone")}</div>
 </div></section>
