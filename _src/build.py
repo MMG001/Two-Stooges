@@ -371,7 +371,7 @@ META = {
                 "photos/league-night-pool-players", "League night at Two Stooges Sports Bar in Fridley", "Leagues & Tournaments"),
     "signup": ("/league-signup/", "League Sign-Up in Fridley, MN | Two Stooges Sports Bar",
                "Sign up for a pool or dart league at Two Stooges Sports Bar in Fridley, MN. Straight pool, 10-ball, APA, UPL and darts for every skill level. Join today.",
-               "photos/player-lining-up-shot", "A league player lining up a shot at Two Stooges Sports Bar", "League Sign-Up"),
+               "photos/league-player-gabriels-table", "A league player lining up a shot at Two Stooges Sports Bar", "League Sign-Up"),
     "events": ("/events/", "Pool Tournaments & Events in Fridley | Two Stooges",
                "Upcoming pool tournaments, FargoRate 8-ball shootouts, league nights and special events at Two Stooges Sports Bar in Fridley, MN. See dates and sign up.",
                "photos/player-shooting", "A tournament player shooting at Two Stooges Sports Bar", "Events"),
@@ -1486,7 +1486,7 @@ def p_signup():
     faqs = "".join(f'<details class="faq"><summary><h3>{e(q)}</h3></summary><p>{e(a)}</p></details>' for q, a in LEAGUE_FAQ)
     body = f'''{page_hero("signup", "League sign-up", "Join a league at <span class='grad-text'>Two Stooges Sports Bar</span>",
         f"Sign up for a pool or dart league in Fridley. We have handicapped leagues for every skill level on our {L('/billiards/', '43 tables')} and {L('/darts/', 'dart boards')}. Solo players are welcome.",
-        "photos/player-lining-up-shot", "A league player lining up a shot at Two Stooges", btn("Sign Up Now", "#form", "gold", "trophy") + btn("See All Leagues", "/leagues/", "outline"))}
+        "photos/league-player-gabriels-table", "A pool league player lining up a shot on a blue-felt Gabriel's table at Two Stooges in Fridley", btn("Sign Up Now", "#form", "gold", "trophy") + btn("See All Leagues", "/leagues/", "outline"))}
 <section class="section"><div class="wrap">
   {section_head("Why join", "Benefits of joining a Two Stooges league", "More than just a game night. Here's what you get when you join a league in Fridley.", center=True)}
   <div class="grid grid--3">{ben}</div>
