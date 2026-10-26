@@ -493,6 +493,23 @@ def img(rel, alt, sizes="100vw", cls="", eager=False, srcset=True):
     return f'<img src="{src}"{ss}{wh} alt="{e(alt)}"{load}{c}>'
 
 
+def logo_img(alt, sizes, eager=False):
+    """Header/footer logo: 240w copy for 1x/1.75x screens, 400w for 2x+."""
+    w, h = dims("brand/two-stooges-logo.webp")
+    load = ' fetchpriority="high"' if eager else ' loading="lazy" decoding="async"'
+    return (f'<img src="/assets/img/brand/two-stooges-logo.webp" srcset="/assets/img/brand/two-stooges-logo-240.webp 240w, '
+            f'/assets/img/brand/two-stooges-logo.webp {w}w" sizes="{sizes}" width="{w}" height="{h}" alt="{e(alt)}"{load}>')
+
+
+def flyer_img(rel, alt, sizes):
+    """Event flyer with -thumb (240w) and -sm (480w) copies made by images.py."""
+    w, h = dims(rel)
+    base = rel[:-5]
+    parts = [f"/assets/img/{base}{suf}.webp {dims(base + suf + '.webp')[0]}w" for suf in ("-thumb", "-sm") if (IMG / f"{base}{suf}.webp").exists()]
+    ss = f' srcset="{", ".join(parts + [f"/assets/img/{rel} {w}w"])}" sizes="{sizes}"' if parts else ""
+    return f'<img src="/assets/img/{rel}"{ss} width="{w}" height="{h}" alt="{e(alt)}" loading="lazy" decoding="async">'
+
+
 def make_og(key, src_rel):
     """1200x630 Open Graph image: cover-cropped photo + logo. Written to assets/img/og/<key>.jpg"""
     out = IMG / "og" / f"{key}.jpg"
@@ -640,7 +657,7 @@ def header(path):
 </div>
 <header class="site-header on-dark">
   <div class="wrap header-inner">
-    <a class="brand" href="/">{img("brand/two-stooges-logo.webp", "Two Stooges Sports Bar & Grill, Fridley MN – home", eager=True, srcset=False)}</a>
+    <a class="brand" href="/">{logo_img("Two Stooges Sports Bar & Grill, Fridley MN – home", "(max-width: 900px) 120px, 150px", eager=True)}</a>
     <nav class="site-nav" aria-label="Main"><ul class="nav">{"".join(items)}</ul></nav>
     <div class="header-cta">
       <a class="btn btn--outline btn--sm" href="tel:{BIZ["tel"]}">{icon("phone")}Call</a>
@@ -668,7 +685,7 @@ def footer():
   <div class="wrap">
     <div class="footer-grid" style="padding-top:3rem">
       <div class="footer-brand">
-        {img("brand/two-stooges-logo.webp", "Two Stooges Sports Bar & Grill", srcset=False)}
+        {logo_img("Two Stooges Sports Bar & Grill", "190px")}
         <p>{e(BIZ["name"])} has been Fridley's home for pool, darts, cold beer and game day since 1988.</p>
       </div>
       <div>
@@ -842,9 +859,8 @@ def page(key, body, extra_ld=None, og_type="website", main_entity=None):
 <meta name="twitter:image:alt" content="{e(og_alt)}">
 <link rel="icon" type="image/png" sizes="48x48" href="/assets/img/brand/favicon-48.png">
 <link rel="apple-touch-icon" href="/assets/img/brand/apple-touch-icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="preload" href="/assets/fonts/oswald-latin-var-v5.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/inter-latin-var-v5.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/css/site.css?v={ASSET_VER}">
 {ld_html}
 </head>
@@ -926,7 +942,7 @@ def event_block(ev):
     big = f"/assets/img/{ev['flyer']}"
     return f'''<article class="event event--feature" id="{ev["id"]}" data-event-end="{ev["end"]}" data-past-card="past-{ev["id"]}">
   <button class="event__flyer" type="button" data-lightbox="{big}" data-alt="{e(ev["flyer_alt"])}" data-caption="{e(ev["title"])} · {e(ev["date"])}" aria-label="View full flyer: {e(ev["title"])}">
-    {img(ev["flyer"], ev["flyer_alt"], srcset=False)}
+    {flyer_img(ev["flyer"], ev["flyer_alt"], "(max-width:820px) min(380px, 100vw), 320px")}
   </button>
   <div>
     <div class="event__date"><span>{e(ev["dow"])}</span><span>{e(ev["date"])}</span></div>
@@ -946,7 +962,7 @@ def event_block(ev):
 def past_card(ev):
     big = f"/assets/img/{ev['flyer']}"
     return f'''<article class="past-card">
-  <button type="button" data-lightbox="{big}" data-alt="{e(ev["flyer_alt"])}" data-caption="{e(ev["title"])} · {e(ev["date"])}" aria-label="View flyer: {e(ev["title"])}">{img(ev["flyer"], ev["flyer_alt"], srcset=False)}</button>
+  <button type="button" data-lightbox="{big}" data-alt="{e(ev["flyer_alt"])}" data-caption="{e(ev["title"])} · {e(ev["date"])}" aria-label="View flyer: {e(ev["title"])}">{flyer_img(ev["flyer"], ev["flyer_alt"], "(max-width:640px) 50vw, 260px")}</button>
   <div><span class="chip">Past event</span><h3>{e(ev["title"])}</h3><p>{e(ev["dow"])} · {e(ev["date"])}</p></div>
 </article>'''
 
@@ -1024,7 +1040,7 @@ def p_home():
         next_card = f'''<aside class="next-up" data-next-up="{nxt["end"]}" aria-label="Next event at Two Stooges">
         <div class="next-up__label">{icon("calendar")}Next up · {e(nxt["short_date"])}</div>
         <div class="next-up__body">
-          {img(nxt["flyer"], nxt["flyer_alt"], srcset=False)}
+          {flyer_img(nxt["flyer"], nxt["flyer_alt"], "84px")}
           <div>
             <p class="next-up__title">{e(nxt["title"])}</p>
             <p>{e(nxt["facts"][0][1])} · {e(nxt["facts"][3][1])} · starts {e(nxt["facts"][5][1])}</p>
@@ -1061,7 +1077,7 @@ def p_home():
 
     body = f'''<section class="hero hero--full on-dark">
   <picture class="hero__bg">
-    <source media="(max-width: 700px)" srcset="/assets/img/photos/hero-pool-tables-mobile.webp" width="800" height="1000">
+    <source media="(max-width: 700px)" srcset="/assets/img/photos/hero-pool-tables-mobile.webp" width="720" height="900">
     <img src="/assets/img/photos/hero-pool-tables-1536.webp" srcset="/assets/img/photos/hero-pool-tables-1280.webp 1280w, /assets/img/photos/hero-pool-tables-1536.webp 1536w" sizes="100vw" width="1536" height="640" alt="The Two Stooges billiard room in Fridley, MN: rows of blue-felt Gabriel's pool tables under wood-trimmed lights, with the bar behind" fetchpriority="high">
   </picture>
   <div class="wrap hero__inner">
@@ -1821,9 +1837,8 @@ def p_404():
 <title>Page Not Found | Two Stooges Sports Bar</title>
 <meta name="robots" content="noindex, follow">
 <link rel="icon" type="image/png" sizes="48x48" href="/assets/img/brand/favicon-48.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="preload" href="/assets/fonts/oswald-latin-var-v5.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/inter-latin-var-v5.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/css/site.css?v={ASSET_VER}">
 </head>
 <body>

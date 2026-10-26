@@ -1,3 +1,7 @@
+/* Self-hosted variable fonts (latin), no third-party render-blocking request */
+@font-face { font-family: "Inter"; font-style: normal; font-display: swap; font-weight: 100 900; src: url("/assets/fonts/inter-latin-var-v5.woff2") format("woff2"); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+@font-face { font-family: "Oswald"; font-style: normal; font-display: swap; font-weight: 200 700; src: url("/assets/fonts/oswald-latin-var-v5.woff2") format("woff2"); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+
 /* ==========================================================================
    Two Stooges Sports Bar & Grill — site styles
    Built on the Stitch "Craft & Cue Clubhouse" system: light stone canvas,
@@ -158,7 +162,7 @@ address { font-style: normal; }
 .subnav a small { display: block; color: #6b736e; font-size: .78rem; font-weight: 400; }
 .subnav a:hover, .subnav a[aria-current="page"] { background: var(--green-soft); color: var(--green); }
 .header-cta { display: flex; align-items: center; gap: .5rem; }
-.menu-toggle { display: none; margin-left: auto; align-items: center; gap: .55rem; min-height: 44px; padding: .5rem .9rem; background: transparent; color: #fff; border: 1px solid rgba(255,255,255,.35); border-radius: var(--radius); font: 600 .9rem/1 var(--font-display); letter-spacing: .1em; text-transform: uppercase; cursor: pointer; }
+.menu-toggle { display: none; margin-left: auto; align-items: center; gap: .55rem; min-height: 44px; padding: .5rem .9rem; background: var(--green); color: #fff; border: 1px solid rgba(255,255,255,.35); border-radius: var(--radius); font: 600 .9rem/1 var(--font-display); letter-spacing: .1em; text-transform: uppercase; cursor: pointer; }
 .menu-toggle__bars { position: relative; width: 18px; height: 2px; background: currentColor; }
 .menu-toggle__bars::before, .menu-toggle__bars::after { content: ""; position: absolute; left: 0; width: 18px; height: 2px; background: currentColor; transition: transform .2s; }
 .menu-toggle__bars::before { top: -6px; } .menu-toggle__bars::after { top: 6px; }
@@ -340,7 +344,7 @@ address { font-style: normal; }
 .event h3 { font-size: clamp(1.45rem, 2.8vw, 2rem); color: var(--green); margin-bottom: .75rem; }
 .event__facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .65rem; margin: 1.25rem 0; }
 .fact { background: var(--card-alt); border: 1px solid var(--line); border-radius: var(--radius); padding: .75rem .85rem; }
-.fact__label { display: block; font-size: .68rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--text-dim); margin-bottom: .25rem; }
+.fact__label { display: block; font-size: .68rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: .25rem; }
 .fact__value { font: 600 1.1rem/1.15 var(--font-display); color: var(--green); }
 .event__contact { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1.25rem; margin-top: 1.25rem; }
 .event__note { font-size: .88rem; color: var(--text-dim); margin-top: 1rem; }
@@ -553,7 +557,7 @@ address { font-style: normal; }
 .action-bar { display: none; }
 @media (max-width: 760px) {
   .action-bar { display: grid; grid-template-columns: repeat(3, 1fr); position: fixed; left: 0; right: 0; bottom: 0; z-index: 90; background: var(--green); border-top: 2px solid var(--gold); padding: .4rem .4rem calc(.4rem + env(safe-area-inset-bottom)); }
-  .action-bar a { display: flex; flex-direction: column; align-items: center; gap: .2rem; padding: .45rem; color: #fff; text-decoration: none; font: 600 .72rem/1 var(--font-body); letter-spacing: .06em; text-transform: uppercase; border-radius: var(--radius); }
+  .action-bar a { display: flex; flex-direction: column; align-items: center; gap: .2rem; padding: .45rem; color: #fff; text-decoration: none; font: 600 .72rem/1 var(--font-body); letter-spacing: .06em; text-transform: uppercase; border-radius: var(--radius); background: var(--green); }
   .action-bar a:first-child { background: var(--gold); color: var(--green); }
   .action-bar .icon { width: 22px; height: 22px; }
   body { padding-bottom: 66px; }

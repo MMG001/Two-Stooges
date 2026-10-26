@@ -1,3 +1,4 @@
+# Every CSS/JS/image URL carries ?v=<content hash>, so long immutable caching is safe.
 # Launched 2026-10-26: the main site (two-stooges.pages.dev and twostooges.com) is indexable.
 # Branch/commit preview URLs (e.g. preview.two-stooges.pages.dev) stay out of search engines.
 https://:version.:project.pages.dev/*
@@ -10,13 +11,16 @@ https://:version.:project.pages.dev/*
   Permissions-Policy: camera=(), microphone=(), geolocation=()
 
 /assets/img/*
-  Cache-Control: public, max-age=2592000
+  Cache-Control: public, max-age=31536000, immutable
 
 /assets/css/*
-  Cache-Control: public, max-age=86400
+  Cache-Control: public, max-age=31536000, immutable
 
 /assets/js/*
-  Cache-Control: public, max-age=86400
+  Cache-Control: public, max-age=31536000, immutable
 
 /_src/*
   X-Robots-Tag: noindex
+
+/assets/fonts/*
+  Cache-Control: public, max-age=31536000, immutable

@@ -104,6 +104,27 @@ def optimize(verbose=True):
                 im = _fit(im, PHOTO_SM[0])
                 q = _encode(im, sm, PHOTO_SM[1], PHOTO_SM[2], q_start=76)
                 log.append(f"made {sm.name} ({sm.stat().st_size // KB} KB, q{q})")
+    # 3b. event flyers: -thumb (180w, "next up" card) and -sm (480w, event cards)
+    d = IMG / "events"
+    for p in sorted(d.glob("*.webp")):
+        if p.stem.endswith(("-thumb", "-sm")):
+            continue
+        for suf, w, q0 in (("-thumb", 180, 70), ("-sm", 480, 72)):
+            out = p.with_name(p.stem + suf + ".webp")
+            if out.exists() and out.stat().st_mtime >= p.stat().st_mtime:
+                continue
+            im = _open_rgb(p)
+            im = im.resize((w, round(im.size[1] * w / im.size[0])), Image.LANCZOS)
+            im.save(out, "WEBP", quality=q0, method=6)
+            log.append(f"made events/{out.name} ({out.stat().st_size // KB} KB)")
+    # 3c. logo 240w copy (header on phones/laptops)
+    logo240 = IMG / "brand" / "two-stooges-logo-240.webp"
+    src_logo = IMG / "brand" / "two-stooges-logo.webp"
+    if src_logo.exists() and not logo240.exists():
+        with Image.open(src_logo) as im:
+            im = im.convert("RGBA").resize((240, round(im.size[1] * 240 / im.size[0])), Image.LANCZOS)
+            im.save(logo240, "WEBP", quality=76, method=6, alpha_quality=78)
+            log.append(f"made brand/{logo240.name} ({logo240.stat().st_size // KB} KB)")
     # 4. header/footer logo (every page): 2× its 190px max display width
     logo = IMG / "brand" / "two-stooges-logo.webp"
     if logo.exists() and logo.stat().st_size > LOGO_HEADER:
