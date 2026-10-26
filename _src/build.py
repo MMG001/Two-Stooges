@@ -1505,7 +1505,9 @@ def p_signup():
   {section_head("Why join", "Benefits of joining a Two Stooges league", "More than just a game night. Here's what you get when you join a league in Fridley.", center=True)}
   <div class="grid grid--3">{ben}</div>
 </div></section>
-<section class="section section--alt"><div class="wrap">
+<section class="section section--photo section--photo-strong on-dark section--pick-league">
+  <div class="section__bg">{img("photos/league-friends-pool-table", "Friends laughing around a pool table as one lines up a shot", sizes="100vw")}</div>
+  <div class="wrap">
   {section_head("Pick your league", "Pool &amp; dart leagues you can join", f"See full rules and flyers on the {L('/leagues/', 'leagues page')}, or check {L('/events/', 'upcoming tournaments')}.")}
   <div class="schedule schedule--5">{lg}</div>
 </div></section>
@@ -1831,12 +1833,28 @@ PAGES = {
 }
 
 
+_IMG_REF = re.compile(r'/assets/img/([\w./-]+\.(?:webp|png|jpe?g|svg|ico))(?![?\w])')
+_IMG_HASH = {}
+
+
+def bust_images(html_text):
+    """Add ?v=<content hash> to every image URL, so a replaced photo is never served from a stale cache."""
+    def sub(m):
+        rel = m.group(1)
+        if rel not in _IMG_HASH:
+            f = IMG / rel
+            _IMG_HASH[rel] = _hashlib.md5(f.read_bytes()).hexdigest()[:8] if f.exists() else ""
+        h = _IMG_HASH[rel]
+        return m.group(0) + (f"?v={h}" if h else "")
+    return _IMG_REF.sub(sub, html_text)
+
+
 def main():
     IMGS.optimize()  # image rule: every photo web-ready before pages read their sizes
     for rel, fn in PAGES.items():
         out = ROOT / rel
         out.parent.mkdir(parents=True, exist_ok=True)
-        out.write_text(fn(), encoding="utf-8")
+        out.write_text(bust_images(fn()), encoding="utf-8")
         print("wrote", rel)
     # Sitemap: canonical URLs only (matches <link rel=canonical> exactly)
     prio = {"/": "1.0", "/events/": "0.9", "/billiards/": "0.9", "/specials/": "0.8", "/menu/": "0.8", "/leagues/": "0.8",
