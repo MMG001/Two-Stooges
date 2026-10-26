@@ -1500,7 +1500,7 @@ def p_signup():
     faqs = "".join(f'<details class="faq"><summary><h3>{e(q)}</h3></summary><p>{e(a)}</p></details>' for q, a in LEAGUE_FAQ)
     body = f'''{page_hero("signup", "League sign-up", "Join a league at <span class='grad-text'>Two Stooges Sports Bar</span>",
         f"Sign up for a pool or dart league in Fridley. We have handicapped leagues for every skill level on our {L('/billiards/', '43 tables')} and {L('/darts/', 'dart boards')}. Solo players are welcome.",
-        "photos/hero-league-signup", "A pool league player lining up a shot on a blue-felt Gabriel's table at Two Stooges in Fridley", btn("Sign Up Now", "#form", "gold", "trophy") + btn("See All Leagues", "/leagues/", "outline"))}
+        "photos/hero-league-signup", "Players racking and waiting their turn at blue-felt Gabriel\'s tables in the Two Stooges billiard room in Fridley", btn("Sign Up Now", "#form", "gold", "trophy") + btn("See All Leagues", "/leagues/", "outline"))}
 <section class="section"><div class="wrap">
   {section_head("Why join", "Benefits of joining a Two Stooges league", "More than just a game night. Here's what you get when you join a league in Fridley.", center=True)}
   <div class="grid grid--3">{ben}</div>

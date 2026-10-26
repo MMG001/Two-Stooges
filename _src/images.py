@@ -90,7 +90,7 @@ def optimize(verbose=True):
             for p in sorted(d.glob("*.webp")):
                 if p.stem.endswith(("-sm", "-md")) or re.search(r"-(\d+|mobile)$", p.stem):
                     continue
-                if p.stem.startswith("hero-"):  # banner: laptop copy too
+                if p.stem.startswith("hero-") and Image.open(p).size[0] > HERO_MD[0]:  # big banner: laptop copy too
                     md = p.with_name(p.stem + "-md.webp")
                     if not (md.exists() and md.stat().st_mtime >= p.stat().st_mtime):
                         im = _fit(_open_rgb(p), HERO_MD[0])
