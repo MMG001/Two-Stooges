@@ -1585,9 +1585,8 @@ def p_parties():
       <p class="lead">We have spaces for small and large groups, with {L("/billiards/", "pool tables")}, {L("/darts/", "dart boards")} and big screens included.</p>
       <ul class="check-list check-list--2col">{occ}</ul>
     </div>
-    <div class="split__media collage">
-      {img("photos/private-party-string-lights", "A Two Stooges banquet setup with string lights and draped fabric overhead, linen-covered round tables and roses", sizes="(max-width:860px) 100vw, 50vw")}
-      {img("photos/private-party-buffet", "A buffet line of chafing dishes with roasted potatoes, vegetables and entrées for a catered event", sizes="(max-width:860px) 60vw, 25vw", cls="collage__inset")}
+    <div class="split__media">
+      {img("photos/party-food-spread", "A party spread of cheeseburgers, fries, pizza and salad with cold beers", sizes="(max-width:860px) 100vw, 50vw")}
       <div class="split__badge">Custom menus<small>Buffets &amp; party packages</small></div>
     </div>
   </div>
