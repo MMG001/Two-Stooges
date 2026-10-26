@@ -342,53 +342,53 @@ MENU_DISCLAIMER = ("Consuming raw or undercooked meats, poultry, seafood, shellf
 # ---------------------------------------------------------------------------
 KEYWORD = "Two Stooges Sports Bar"
 LOCATION = "Fridley, Minnesota"
-ENTITY_DESC = ("Two Stooges Sports Bar & Grill is a locally owned sports bar, restaurant and billiard room at "
-               "7178 University Ave NE in Fridley, Minnesota. Open since 1988, it has 43 pool tables, dart boards, "
-               "34 TV screens and 16 beers on tap.")
+ENTITY_DESC = ("Two Stooges Sports Bar & Grill is a sports bar, billiards hall and darts room at 7178 University Ave NE "
+               "in Fridley, Minnesota, in the Twin Cities north metro. Open since 1988, it has 43 pool tables, electronic "
+               "dart boards, 34 TV screens and 16 beers on tap.")
 AREA_SERVED = ["Fridley", "Columbia Heights", "Spring Lake Park", "New Brighton", "Mounds View", "Coon Rapids", "Blaine", "Minneapolis"]
 AWARDS = ["Top Ten Billiard Room in North America", "Best Place to Shoot Pool – City Pages (2017)",
           "Business of the Year", "Billiards Digest “Best of” Architectural Design"]
 
 # key: (path, title ≤60, description 150–160, og source photo, og alt, breadcrumb name)
 META = {
-    "home": ("/", "Two Stooges Sports Bar - Fridley, MN | Pool, Darts & Grill",
-             "Two Stooges Sports Bar & Grill in Fridley, MN: 43 pool tables, darts, 34 screens, 16 taps and daily specials since 1988. See events and plan your visit today.",
+    "home": ("/", "Sports Bar, Billiards & Darts - Twin Cities | Two Stooges",
+             "Two Stooges is the Twin Cities sports bar for billiards and darts: 43 pool tables, electronic dart boards, 34 screens and 16 taps in Fridley. Plan your visit.",
              "photos/billiard-room-rows", "Rows of pool tables inside Two Stooges Sports Bar in Fridley, MN", None),
-    "menu": ("/menu/", "Bar & Grill Menu in Fridley, MN | Two Stooges Sports Bar",
-             "See the Two Stooges Sports Bar menu: burgers, wings, pizza, sandwiches and Stoogetizers in Fridley, MN, with 16 ice-cold taps. Call ahead or stop in today.",
+    "menu": ("/menu/", "Sports Bar & Grill Menu - Fridley, MN | Two Stooges",
+             "The Two Stooges sports bar menu in Fridley: burgers, wings, pizza and Stoogetizers served to your pool table or dart board, with 16 taps. See the full menu.",
              "photos/tenders-and-beer", "Chicken tenders, fries and a cold beer at Two Stooges Sports Bar & Grill", "Menu"),
-    "specials": ("/specials/", "Happy Hour & Daily Specials | Two Stooges Sports Bar",
-                 "Two Stooges Sports Bar happy hour and daily specials in Fridley, MN: $1 wings Wednesday, $2 off burgers Monday, $3.50 domestics. See today's deals now.",
+    "specials": ("/specials/", "Sports Bar Happy Hour & Specials - Fridley | Two Stooges",
+                 "Happy hour and daily specials at Two Stooges, the Twin Cities sports bar with billiards and darts: $1 wings Wednesday and $3.50 domestics. See today's deals.",
                  "photos/beers-on-bar", "Ice-cold pints on the bar, happy hour at Two Stooges", "Specials & Happy Hour"),
-    "billiards": ("/billiards/", "Pool Tables & Billiards in Fridley, MN | Two Stooges",
-                  "Play pool at Two Stooges Sports Bar in Fridley, MN: 43 Gabriel's and Diamond tables, daily pool specials, leagues, tournaments and a Pro Shop. Rack up today.",
+    "billiards": ("/billiards/", "Billiards & Pool Hall - Twin Cities | Two Stooges",
+                  "Shoot pool at Two Stooges, a Twin Cities billiards hall in Fridley with 43 Gabriel's and Diamond tables, daily pool specials, leagues and a Pro Shop. Rack up.",
                   "photos/billiard-room-gabriels-wide", "The 43-table billiard room at Two Stooges Sports Bar in Fridley", "Billiards"),
-    "darts": ("/darts/", "Darts & Dart Leagues in Fridley, MN | Two Stooges",
-              "Throw darts at Two Stooges Sports Bar in Fridley, MN. Electronic dart boards, high-tops, a big screen and dart leagues every day of the week. Sign up today.",
+    "darts": ("/darts/", "Darts & Dart Leagues - Twin Cities | Two Stooges",
+              "Throw darts at Two Stooges in Fridley, a Twin Cities sports bar with electronic Bullshooter dart boards, a big screen and dart leagues every day. Sign up today.",
               "photos/dart-room", "Electronic dart boards at Two Stooges Sports Bar in Fridley", "Darts"),
-    "leagues": ("/leagues/", "Pool & Dart Leagues in Fridley, MN | Two Stooges",
-                "Join a pool or dart league at Two Stooges Sports Bar in Fridley, MN: Straight Pool Tuesdays, 10-Ball Thursdays, APA, UPL and daily darts. Sign up online.",
+    "leagues": ("/leagues/", "Pool & Dart Leagues - Twin Cities | Two Stooges",
+                "Join a pool or dart league at Two Stooges in Fridley, MN: Straight Pool Tuesdays, 10-Ball Thursdays, APA, UPL and daily darts in the Twin Cities. Sign up now.",
                 "photos/league-night-pool-players", "League night at Two Stooges Sports Bar in Fridley", "Leagues & Tournaments"),
-    "signup": ("/league-signup/", "League Sign-Up in Fridley, MN | Two Stooges Sports Bar",
-               "Sign up for a pool or dart league at Two Stooges Sports Bar in Fridley, MN. Straight pool, 10-ball, APA, UPL and darts for every skill level. Join today.",
+    "signup": ("/league-signup/", "Join a Pool or Dart League - Twin Cities | Two Stooges",
+               "Sign up for a pool or dart league at Two Stooges in Fridley, the Twin Cities sports bar for billiards and darts. All skill levels and solo players welcome.",
                "photos/hero-league-signup", "A league player lining up a shot at Two Stooges Sports Bar", "League Sign-Up"),
-    "events": ("/events/", "Pool Tournaments & Events in Fridley | Two Stooges",
-               "Upcoming pool tournaments, FargoRate 8-ball shootouts, league nights and special events at Two Stooges Sports Bar in Fridley, MN. See dates and sign up.",
+    "events": ("/events/", "Pool Tournaments & Events - Twin Cities | Two Stooges",
+               "Pool tournaments, FargoRate 8-ball shootouts and league nights at Two Stooges, the Twin Cities sports bar for billiards and darts in Fridley. See dates.",
                "photos/player-shooting", "A tournament player shooting at Two Stooges Sports Bar", "Events"),
-    "parties": ("/private-parties/", "Private Party Venue in Fridley, MN | Two Stooges",
-                "Host a birthday, office party, banquet or draft party at Two Stooges Sports Bar in Fridley, MN, with custom menus, pool tables and darts. Request a date.",
+    "parties": ("/private-parties/", "Private Party Venue - Twin Cities | Two Stooges Sports Bar",
+                "Host a birthday, office party or banquet at Two Stooges, a Twin Cities sports bar in Fridley with custom menus, pool tables and dart boards. Request a date.",
                 "photos/hero-private-parties", "Friends playing pool at a party at Two Stooges Sports Bar & Grill in Fridley", "Private Parties"),
-    "about": ("/about/", "About Two Stooges Sports Bar | Fridley, MN Since 1988",
-              "Two Stooges Sports Bar & Grill opened in Fridley, MN in 1988 as University Billiards. Meet the award-winning billiard room and sports bar. Read our story.",
+    "about": ("/about/", "About Two Stooges: Twin Cities Sports Bar Since 1988",
+              "Two Stooges Sports Bar & Grill opened in Fridley in 1988 as University Billiards and grew into a Twin Cities sports bar for billiards and darts. Read our story.",
               "photos/storefront-two-stooges", "The Two Stooges Sports Bar & Grill storefront on University Ave NE, Fridley", "About"),
-    "gallery": ("/gallery/", "Photos of Two Stooges Sports Bar | Fridley, MN",
-                "Photos of Two Stooges Sports Bar in Fridley, MN: the 43-table billiard room, dart area, sports bar and building on University Ave NE. Take a look inside.",
+    "gallery": ("/gallery/", "Photos: Sports Bar, Billiards & Darts | Two Stooges",
+                "Photos of Two Stooges, the Twin Cities sports bar in Fridley: the 43-table billiard room, Bullshooter dart boards, center bar and food. Take a look inside.",
                 "photos/billiard-room-rows", "Inside the Two Stooges Sports Bar billiard room", "Gallery"),
-    "contact": ("/contact/", "Contact & Directions | Two Stooges Sports Bar, Fridley",
-                "Contact Two Stooges Sports Bar & Grill at 7178 University Ave NE, Fridley, MN 55432. Call (763) 574-1399. Open daily 11 AM to midnight. Get directions.",
+    "contact": ("/contact/", "Contact & Directions - Fridley, MN | Two Stooges Sports Bar",
+                "Contact Two Stooges Sports Bar & Grill, 7178 University Ave NE, Fridley, MN 55432, in the Twin Cities. Call (763) 574-1399. Open daily 11 AM to midnight.",
                 "photos/hero-contact-storefront", "Two Stooges Sports Bar & Grill, 7178 University Ave NE, Fridley MN", "Contact"),
-    "faq": ("/faq/", "FAQ | Two Stooges Sports Bar & Grill, Fridley MN",
-            "Answers about Two Stooges Sports Bar in Fridley, MN: hours, location, pool tables, darts, leagues, tournaments, food, happy hour and private parties. Read more.",
+    "faq": ("/faq/", "FAQ: Sports Bar, Billiards & Darts | Two Stooges, Fridley",
+            "Answers about Two Stooges, the Twin Cities sports bar for billiards and darts in Fridley: hours, pool tables, dart boards, leagues, food and parties. Read more.",
             "photos/billiard-room-gabriels", "The Two Stooges billiard room in Fridley, MN", "FAQ"),
     "privacy": ("/privacy-policy/", "Privacy Policy | Two Stooges Sports Bar",
                 "Read the Two Stooges Sports Bar & Grill privacy policy: what information our Fridley, MN website collects through forms and maps, and how we use and protect it.",
@@ -426,6 +426,9 @@ RELATED = {
 }
 
 FAQ = [
+    ("Is Two Stooges in the Twin Cities?",
+     'Yes. Two Stooges Sports Bar &amp; Grill is in Fridley, a first-ring suburb in the Minneapolis–Saint Paul (Twin Cities) metro, just north of Minneapolis on University Avenue. It\'s a sports bar with <a href="/billiards/">43 pool tables</a> and <a href="/darts/">electronic dart boards</a> under one roof.',
+     "Yes. Two Stooges Sports Bar & Grill is in Fridley, a first-ring suburb in the Minneapolis–Saint Paul (Twin Cities) metro, just north of Minneapolis on University Avenue. It's a sports bar with 43 pool tables and electronic dart boards under one roof."),
     ("Where is Two Stooges Sports Bar located?",
      f'Two Stooges Sports Bar &amp; Grill is at 7178 University Ave NE, Fridley, MN 55432, on University Avenue (Highway 47) just north of Minneapolis. <a href="/contact/">Get directions and parking info</a>.',
      "Two Stooges Sports Bar & Grill is at 7178 University Ave NE, Fridley, MN 55432, on University Avenue (Highway 47) just north of Minneapolis."),
@@ -891,7 +894,7 @@ def cta_band(title, text, actions):
 
 def visit_section(title="Visit Two Stooges Sports Bar in Fridley, MN"):
     return f'''<section class="section section--alt" id="visit"><div class="wrap">
-  {section_head("Find us", title, f"We're on University Avenue NE (Highway 47) in Fridley, just north of Minneapolis, serving guests within about 30 miles, from Columbia Heights and Spring Lake Park to New Brighton, Coon Rapids, Blaine and the rest of the north metro. Walk-ins are always welcome. Planning ahead? {L('/private-parties/', 'Reserve space for a group')}.")}
+  {section_head("Find us", title, f"We're on University Avenue NE (Highway 47) in Fridley, just north of Minneapolis, serving the Twin Cities within about 30 miles, from Minneapolis and St. Paul to Columbia Heights, Spring Lake Park, New Brighton, Coon Rapids, Blaine and the rest of the north metro. Walk-ins are always welcome. Planning ahead? {L('/private-parties/', 'Reserve space for a group')}.")}
   <div class="visit">
     <div class="visit__info">
       <div class="info-row"><span class="tile__icon">{icon("pin")}</span><div><h3>Address</h3><p><a href="{DIRECTIONS}" target="_blank" rel="noopener">{e(BIZ["street"])}<br>{e(BIZ["city"])}, {e(BIZ["region"])} {e(BIZ["zip"])}</a></p></div></div>
@@ -1063,8 +1066,8 @@ def p_home():
   <div class="wrap hero__inner">
     <div class="hero__copy">
       <span class="hero__badge">{icon("pin")}Fridley, MN · Since 1988</span>
-      <h1>Two Stooges Sports Bar &amp; Grill in <span class="grad-text">Fridley, MN</span></h1>
-      <p class="lead">The most fun you can have under one roof: 43 pool tables, dart boards, 34 TV screens, 16 ice-cold taps and a full bar &amp; grill.</p>
+      <h1>Two Stooges Sports Bar: <span class="grad-text">billiards &amp; darts</span> in the Twin Cities</h1>
+      <p class="lead">The most fun you can have under one roof. Two Stooges Sports Bar &amp; Grill has been the Twin Cities spot for pool and darts since 1988: 43 pool tables, electronic dart boards, 34 TV screens, 16 ice-cold taps and a full bar &amp; grill in Fridley.</p>
       <div class="btn-row">{btn("Upcoming Events", "/events/", "gold", "calendar")}{btn("See the Menu", "/menu/", "outline")}</div>
       <div class="stat-row">
         <div><span class="stat__num">43</span><span class="stat__label">Pool tables</span></div>
@@ -1087,7 +1090,7 @@ def p_home():
 </div></section>
 
 <section class="section"><div class="wrap">
-  {section_head("Pick your game", "Pool, darts &amp; more at Two Stooges", f"Two Stooges is Fridley's all-in-one sports bar, restaurant and {L('/billiards/', 'billiard room')}. Come for one game and stay for all of them.", center=True)}
+  {section_head("Pick your game", "Billiards, darts &amp; a sports bar under one roof", f"Two Stooges is the Twin Cities' all-in-one sports bar, restaurant and {L('/billiards/', 'billiard room')}, with {L('/darts/', 'electronic dart boards')} in Fridley. Come for one game and stay for all of them. {L('/gallery/', 'See photos of the room')} or {L('/contact/', 'get directions')}.", center=True)}
   <div class="grid grid--4">{cards}</div>
 </div></section>
 
@@ -1122,7 +1125,7 @@ def p_home():
   <div class="section__bg">{img("photos/pool-rack-blue-felt", "A full rack of pool balls on blue felt with a player lining up the break at Two Stooges", sizes="100vw")}</div>
   <div class="wrap">
   <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:1rem;margin-bottom:2rem">
-    <div><span class="eyebrow">Every week</span><h2 class="mb-0">Pool &amp; dart league nights in Fridley</h2></div>
+    <div><span class="eyebrow">Every week</span><h2 class="mb-0">Pool &amp; dart league nights in the Twin Cities</h2></div>
     <a class="text-link" href="/leagues/">League details &amp; sign-up</a>
   </div>
   <div class="grid grid--4">
@@ -1211,7 +1214,7 @@ def p_menu():
   <p class="small muted mt-2">{e(MENU_DISCLAIMER)} Planning a group meal? We put together {L("/private-parties/", "custom party menus")}.</p>
 </div></section>
 <section class="section section--tight food-photos"><div class="wrap">
-  {section_head("From the kitchen", "Fresh off the Two Stooges grill", f"A look at what's coming out of the kitchen. Find your favorites on the menu above, and check the {L('/specials/', 'daily specials')} for deals.")}
+  {section_head("From the kitchen", "Fresh off the Two Stooges grill", f"A look at what's coming out of the kitchen. Find your favorites on the menu above, and check the {L('/specials/', 'daily specials')} for deals. We'll bring it to you while you shoot {L('/billiards/', 'pool')}, throw {L('/darts/', 'darts')} or play in a {L('/leagues/', 'league')}.")}
   <div class="food-grid">
     {"".join(f'<figure class="gallery__item food-grid__item"><button type="button" data-lightbox="/assets/img/{p_}.webp" data-alt="{e(a_)}" data-caption="" aria-label="Enlarge photo: {e(a_)}">{img(p_, a_, sizes="(max-width:640px) 50vw, 33vw")}</button></figure>' for p_, a_ in [
         ("photos/food-bacon-burger-onion-straws", "A bacon burger with onion straws and greens on a toasted bun, with fries and a pickle"),
@@ -1240,7 +1243,7 @@ def p_menu():
     <div class="split__media">{img("photos/beer-taps", "A row of draft beer tap handles at the Two Stooges bar, including Grain Belt, Coors Light, Blue Moon, Samuel Adams, Budweiser and Michelob Golden Light", sizes="(max-width:860px) 100vw, 50vw")}</div>
   </div>
 </div></section>
-{cta_band("Feeding a crowd in Fridley?", "We put together custom menus for birthdays, office parties and banquets.", btn("Plan a Private Party", "/private-parties/", "gold"))}'''
+{cta_band("Feeding a crowd in Fridley?", f"We put together custom menus for birthdays, office parties and banquets. {L('/faq/', 'See party and food FAQs')}.", btn("Plan a Private Party", "/private-parties/", "gold"))}'''
     return page("menu", body, extra_ld=[menu_ld()], main_entity=SITE + "/menu/#menu")
 
 
@@ -1324,11 +1327,11 @@ def p_billiards():
                ("photos/billiard-room-diamond-apa", "Diamond tables, including an APA tournament table, with the dart boards behind"),
                ("photos/billiard-room-diamond-lounge", "Diamond tables and high-top seating in the Two Stooges billiard room")]
     g = "".join(f'<figure class="gallery__item"><button type="button" data-lightbox="/assets/img/{p}.webp" data-alt="{e(a)}" data-caption="{e(a)}" aria-label="Enlarge photo: {e(a)}">{img(p, a, sizes="(max-width:640px) 100vw, 33vw")}</button></figure>' for p, a in gallery)
-    body = f'''{page_hero("billiards", "43 tables · since 1988", "Billiards at Two Stooges Sports Bar in <span class='grad-text'>Fridley</span>",
-        "Two Stooges has been named a top ten billiard room in North America, and City Pages voted it the best place to shoot pool. There are 43 Gabriel's and Diamond tables in 9 ft and 7 ft, with room to play around every one.",
+    body = f'''{page_hero("billiards", "43 tables · since 1988", "Billiards at Two Stooges Sports Bar in the <span class='grad-text'>Twin Cities</span>",
+        "Two Stooges, in Fridley, has been named a top ten billiard room in North America, and City Pages voted it the best place to shoot pool in the Twin Cities. There are 43 Gabriel's and Diamond tables in 9 ft and 7 ft, with room for league players, casual groups and first-timers around every one.",
         "photos/billiard-room-gabriels-wide", "The Two Stooges billiard room in Fridley: rows of blue-felt Gabriel's pool tables under wood-trimmed lights, with players at the tables", btn("Daily Pool Specials", "#rates", "gold") + btn("Join a Pool League", "/leagues/", "outline"))}
 <section class="section"><div class="wrap">
-  {section_head("The billiard room", "Fridley's award-winning pool hall", f"Pool has been the heart of Two Stooges since 1988, when it opened as University Billiards. {L('/about/', 'Read the full story')}.")}
+  {section_head("The billiard room", "The Twin Cities' award-winning pool hall", f"Pool has been the heart of Two Stooges since 1988, when it opened as University Billiards. {L('/about/', 'Read the full story')}.")}
   <div class="grid grid--3">
     <div class="tile"><span class="tile__icon">{icon("ball")}</span><h3>43 tournament tables</h3><p>9 ft and 7 ft Gabriel's and Diamond tables on Simonis 860 cloth, with good lighting and comfortable seating at every table.</p></div>
     <div class="tile"><span class="tile__icon">{icon("trophy")}</span><h3>Leagues &amp; tournaments</h3><p>APA, UPL, in-house 8-ball, straight pool and 10-ball {L("/leagues/", "pool leagues")}, plus {L("/events/", "FargoRate tournaments")} throughout the year.</p></div>
@@ -1387,8 +1390,8 @@ def p_billiards():
 
 
 def p_darts():
-    body = f'''{page_hero("darts", "Darts at Stooges", "Darts at Two Stooges Sports Bar in <span class='grad-text'>Fridley</span>",
-        f"Electronic dart boards, high-top tables and a big screen. Bring friends for a casual game or join one of our {L('/leagues/', 'dart leagues')}, which run every day of the week.",
+    body = f'''{page_hero("darts", "Darts at Stooges", "Darts at Two Stooges Sports Bar in the <span class='grad-text'>Twin Cities</span>",
+        f"Electronic Bullshooter dart boards, high-top tables and a big screen in Fridley, just north of Minneapolis. Bring friends for a casual game or join one of our {L('/leagues/', 'dart leagues')}, which run every day of the week.",
         "photos/dart-bullseye-neon", "A dart hitting the bullseye under colorful bar lights", btn("Join a Dart League", "/league-signup/", "gold") + btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone"))}
 <section class="section"><div class="wrap">
   <div class="split">
@@ -1431,7 +1434,7 @@ def p_darts():
   </div>
   <div class="btn-row mt-2">{btn("Visit the Pro Shop", "/billiards/#pro-shop", "green", "bag")}{btn("Call the Pro Shop", "tel:" + BIZ["tel"], "outline", "phone")}</div>
 </div></section>
-{cta_band("Dart night for your group?", f"Birthdays, office outings and team nights. We'll reserve boards and put together food for your group.", btn("Plan a Private Party", "/private-parties/", "gold"))}'''
+{cta_band("Dart night for your group?", f"Birthdays, office outings and team nights. We'll reserve boards and put together food for your group. {L('/gallery/', 'See the dart room in our gallery')}.", btn("Plan a Private Party", "/private-parties/", "gold"))}'''
     return page("darts", body)
 
 
@@ -1449,14 +1452,14 @@ def p_leagues():
   </div>
 </article>''')
     body = f'''{page_hero("leagues", "Pool &amp; dart leagues", "Pool &amp; dart leagues at <span class='grad-text'>Two Stooges Sports Bar</span>",
-        f"Leagues at Two Stooges are a great way to meet other pool and dart players in Fridley, sharpen your skills and win cash. There's a league for every skill level on our {L('/billiards/', '43 tables')} and {L('/darts/', 'dart boards')}.",
+        f"Leagues at Two Stooges are a great way to meet other pool and dart players in Fridley and across the Twin Cities, sharpen your skills and win cash. There's a league for every skill level on our {L('/billiards/', '43 tables')} and {L('/darts/', 'dart boards')}.",
         "photos/league-night-pool-players", "League night at Two Stooges in Fridley: pool league players in team shirts at rows of blue-felt Diamond tables", btn("Sign Up Online", "/league-signup/", "gold") + btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone"))}
 <section class="section"><div class="wrap">
   {section_head("In-house pool leagues", "Weekday pool leagues in Fridley", "Played on our 9 ft Gabriel's tables. Click a flyer to see it full size.")}
   {"".join(lg)}
 </div></section>
 <section class="section section--alt"><div class="wrap">
-  {section_head("More leagues", "APA, UPL &amp; dart leagues")}
+  {section_head("More leagues", "APA, UPL &amp; dart leagues in the Twin Cities")}
   <div class="grid grid--3">
     <div class="tile"><span class="tile__icon">{icon("ball")}</span><h3>APA &amp; UPL</h3><p>We host APA and UPL handicapped pool leagues, open to all skill levels.</p></div>
     <div class="tile"><span class="tile__icon">{icon("ball")}</span><h3>In-house 8-Ball</h3><p>Our own handicapped 8-ball league, a great first league for newer players.</p></div>
@@ -1464,7 +1467,7 @@ def p_leagues():
   </div>
   <p class="mt-2 muted">Ready to compete for money? Check the {L("/events/", "upcoming pool tournaments")} for FargoRate 8-ball shootouts.</p>
 </div></section>
-{cta_band("Ready to join a league?", "Sign up online in a couple of minutes. Solo players are welcome, and we'll help you find a team.", btn("League Sign-Up", "/league-signup/", "gold") + btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone"))}'''
+{cta_band("Ready to join a league?", f"Sign up online in a couple of minutes. Solo players are welcome, and we'll help you find a team. Check {L('/specials/', 'league-night drink specials')}, the {L('/menu/', 'bar and grill menu')} and our {L('/faq/', 'league FAQ')}, or {L('/private-parties/', 'book your end-of-season party')}.", btn("League Sign-Up", "/league-signup/", "gold") + btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone"))}'''
     return page("leagues", body, extra_ld=league_event_nodes())
 
 
@@ -1554,7 +1557,7 @@ def p_events():
         f"Pool tournaments, weekly league nights and special events at Two Stooges in Fridley. Click any flyer to see it full size. Want your own event? {L('/private-parties/', 'Book a private party')}.",
         "photos/billiard-room-hero", "The Two Stooges billiard room", btn("Upcoming Tournament", "#upcoming", "gold") + btn("Weekly Leagues", "#weekly", "outline") + btn("Recent Events", "#recent", "outline"))}
 <section class="section" id="upcoming"><div class="wrap">
-  {section_head("Coming up", "Upcoming pool tournaments in Fridley", f"FargoRate events on our {L('/billiards/', 'tournament tables')}. Spots are limited, so call to sign up.")}
+  {section_head("Coming up", "Upcoming pool tournaments in the Twin Cities", f"FargoRate events on our {L('/billiards/', 'tournament tables')}. Spots are limited, so call to sign up.")}
   <div data-upcoming>{up_html}</div>
   <div class="empty-note{"" if ups else " is-visible"}" data-empty-note>New events are on the way. Call <a href="tel:{BIZ["tel"]}">{BIZ["phone"]}</a> to find out what's coming up next, or {L("/leagues/", "join a weekly league")}.</div>
 </div></section>
@@ -1574,14 +1577,14 @@ def p_parties():
     occasions = ["Birthdays", "Office parties", "Draft parties", "Holiday parties", "Celebrations of life", "Banquets & league parties", "Business meetings", "Reunions & receptions"]
     occ = "".join(f"<li>{e(o)}</li>" for o in occasions)
     body = f'''{page_hero("parties", "Private parties &amp; events", "Private parties at <span class='grad-text'>Two Stooges Sports Bar</span>",
-        "Two Stooges is ready for your next birthday, holiday party, office outing or banquet in Fridley. We'll customize the menu and the space for your group.",
+        "Two Stooges is ready for your next birthday, holiday party, office outing or banquet in Fridley, for groups from across the Twin Cities. We'll customize the menu and the space for your group.",
         "photos/hero-private-parties", "Friends laughing around a pool table as one of them lines up a shot during a party at Two Stooges", btn("Request a Date", "#request", "gold") + btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone"))}
 <section class="section"><div class="wrap">
   <div class="split">
     <div>
       <span class="eyebrow">Perfect for</span>
       <h2>A Fridley party venue for <span class="grad-text">any occasion</span></h2>
-      <p class="lead">We have spaces for small and large groups, with {L("/billiards/", "pool tables")}, {L("/darts/", "dart boards")} and big screens included.</p>
+      <p class="lead">We have spaces for small and large groups, with {L("/billiards/", "pool tables")}, {L("/darts/", "dart boards")} and big screens included. {L("/gallery/", "See photos of the space")}, read our {L("/faq/", "party FAQ")} or {L("/leagues/", "book a league banquet")}.</p>
       <ul class="check-list check-list--2col">{occ}</ul>
     </div>
     <div class="split__media">
@@ -1633,7 +1636,7 @@ def p_about():
     <div>
       <span class="eyebrow">How it started</span>
       <h2>The history of <span class="grad-text">Two Stooges</span></h2>
-      <p class="lead">What began as a neighborhood {L("/billiards/", "billiard room")} became one of the best-known pool and darts destinations in Minnesota, with a full sports bar and {L("/menu/", "kitchen")} to match.</p>
+      <p class="lead">What began as a neighborhood {L("/billiards/", "billiard room")} became one of the best-known pool and darts destinations in the Twin Cities and Minnesota, with a full sports bar and {L("/menu/", "kitchen")} to match.</p>
       <ol class="timeline mt-2">{tl_html}</ol>
     </div>
     <div class="split__media split__media--stack">
@@ -1687,7 +1690,7 @@ def p_gallery():
         f"Inside the {L('/billiards/', 'billiard room')}, the {L('/darts/', 'dart area')} and the bar in Fridley. Click any photo to see it full size.",
         "photos/pool-hall-interior", "The Two Stooges billiard room")}
 <section class="section"><div class="wrap">
-  {section_head("Gallery", "Inside the Fridley pool hall &amp; sports bar", f"Every photo was taken at Two Stooges. Like what you see? {L('/private-parties/', 'Host your next party here')}.")}
+  {section_head("Gallery", "Inside the sports bar, billiards hall &amp; dart room", f"Every photo was taken at Two Stooges. Like what you see? {L('/private-parties/', 'Host your next party here')}.")}
   <div class="gallery">{g}</div>
 </div></section>
 {cta_band("See it in person", "Open every day from 11 AM to midnight at 7178 University Ave NE in Fridley.", btn("Get Directions", DIRECTIONS, "gold", "nav", ' target="_blank" rel="noopener"'))}'''
@@ -1726,19 +1729,19 @@ def p_contact():
 
 FAQ_GROUPS = [
     ("Visiting Two Stooges", [
-        FAQ[0][:2], FAQ[1][:2],
+        FAQ[1][:2], FAQ[0][:2], FAQ[2][:2],
         ("Does Two Stooges have outdoor seating?", "Yes. Two Stooges has two patios."),
         ("Is there parking?", 'Yes, there is a parking lot right outside the front doors on University Ave NE. <a href="/contact/">Get directions</a>.'),
-        FAQ[5][:2],
+        FAQ[6][:2],
     ]),
     ("Pool, darts & the Pro Shop", [
-        FAQ[2][:2],
+        FAQ[3][:2],
         ("How do I rent a pool table?", 'Stop at the billiard counter and the attendant will set you up with a table and a set of balls. Play as long as you like, then bring the balls back and settle up. <a href="/billiards/#rates">Daily pool specials</a> run 11 AM–5 PM.'),
         ("How many dart boards are there?", 'Two Stooges has 6 electronic dart boards with high-top seating right next to them. <a href="/darts/">See the dart area</a>.'),
         ("Is there a pro shop?", 'Yes. The Pro Shop carries cues, cases, chalk, gloves, darts and accessories, and we do cue repair on site. <a href="/billiards/#pro-shop">Visit the Pro Shop</a>.'),
     ]),
     ("Leagues & tournaments", [
-        FAQ[3][:2],
+        FAQ[4][:2],
         ("Do I need a team to join a league?", 'No. Solo players are welcome, and we will help place you on a team or league night. <a href="/league-signup/">Sign up for a league</a>.'),
         ("What skill level do I need?", "Any. Our leagues are handicapped, so beginners and experienced players can compete on even terms."),
         ("Does Two Stooges host pool tournaments?", 'Yes. We host FargoRate 8-ball tournaments and bar box shootouts with money added. <a href="/events/">See upcoming tournaments</a>.'),
@@ -1749,7 +1752,7 @@ FAQ_GROUPS = [
         ("How many beers are on tap?", "Two Stooges pours 16 beers on tap, ice-cold from our iced cobra taps."),
     ]),
     ("Parties & contact", [
-        FAQ[4][:2],
+        FAQ[5][:2],
         ("How do I book a private party?", 'Send your date, guest count and occasion with the <a href="/private-parties/#request">event request form</a>, or call (763) 574-1399.'),
         ("How do I contact Two Stooges?", 'Call (763) 574-1399, email info@twostooges.com, or use the <a href="/contact/#form">contact form</a>.'),
     ]),

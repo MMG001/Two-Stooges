@@ -71,16 +71,20 @@ def ep(url):
 # Services (three-level rule). `home` = exact visible blurb on the home page card.
 SERVICES = {
     "billiards": {"@id": SITE + "/billiards/#service", "name": "Billiards & pool table rental", "serviceType": "Pool table rental",
+                  "audience": "League players, casual groups and first-time pool players",
                   "url": SITE + "/billiards/", "category": "cue", "output": "Pool table time",
                   "home": "Gabriel's and Diamond tables in 9 ft and 7 ft, daily pool specials and a full Pro Shop."},
     "darts": {"@id": SITE + "/darts/#service", "name": "Darts", "serviceType": "Electronic dart boards",
-              "url": SITE + "/darts/", "category": "darts", "output": "Dart board play",
+              "audience": "Casual dart players, groups of friends and dart league teams",
+                  "url": SITE + "/darts/", "category": "darts", "output": "Dart board play",
               "home": "Electronic dart boards, high-tops and dart leagues for every skill level."},
     "leagues": {"@id": SITE + "/leagues/#service", "name": "Pool & dart leagues", "serviceType": "Pool and dart leagues",
-                "url": SITE + "/leagues/", "category": "league", "output": "League membership",
+                "audience": "Pool and dart players of every skill level, including solo players",
+                  "url": SITE + "/leagues/", "category": "league", "output": "League membership",
                 "home": "Straight pool, 10-ball, APA and UPL leagues, plus FargoRate tournaments."},
     "parties": {"@id": SITE + "/private-parties/#service", "name": "Private parties & events", "serviceType": "Private event hosting",
-                "url": SITE + "/private-parties/", "category": "party", "output": "Private party",
+                "audience": "Groups planning birthdays, office parties, banquets and holiday parties",
+                  "url": SITE + "/private-parties/", "category": "party", "output": "Private party",
                 "home": "Birthdays, office parties and banquets with custom menus and pool tables included."},
 }
 SERVICE_BY_URL = {v["url"]: k for k, v in SERVICES.items()}
@@ -101,6 +105,7 @@ def service_node(key, level, page_desc=None, related=(), offers=None, webpage_id
         return n
     n["description"] = page_desc
     n["serviceOutput"] = {"@type": "Thing", "name": s["output"]}
+    n["audience"] = {"@type": "Audience", "audienceType": s["audience"]}  # audience + intent (visible in page lead)
     rel = [SERVICES[SERVICE_BY_URL[SITE + h]]["@id"] for h in related if SITE + h in SERVICE_BY_URL]
     if rel:
         n["isRelatedTo"] = [{"@id": r} for r in rel]
@@ -140,6 +145,10 @@ def business_node(biz, page_key, extras=None):
              "geoRadius": SERVICE_RADIUS_M},
             {"@type": "State", "name": STATE, "sameAs": "https://en.wikipedia.org/wiki/Minnesota"},
             {"@type": "City", "name": ANCHOR_CITY, "sameAs": ["https://en.wikipedia.org/wiki/Fridley,_Minnesota", WIKIDATA["fridley"]]},
+            {"@type": "Place", "name": "Twin Cities (Minneapolis–Saint Paul metropolitan area)",
+             "sameAs": "https://en.wikipedia.org/wiki/Minneapolis%E2%80%93Saint_Paul"},
+            {"@type": "City", "name": "Minneapolis", "sameAs": "https://en.wikipedia.org/wiki/Minneapolis"},
+            {"@type": "City", "name": "Saint Paul", "sameAs": "https://en.wikipedia.org/wiki/Saint_Paul,_Minnesota"},
         ],
         "knowsAbout": [thing(k) for k in ("cue", "darts", "pool", "straight", "eightball", "tenball", "sportsbar")],
         "hasOfferCatalog": {"@type": "OfferCatalog", "name": "Games, leagues & events at Two Stooges",
@@ -192,7 +201,7 @@ KNOWN_TYPES = {"BarOrPub", "SportsActivityLocation", "WebSite", "WebPage", "Cont
                "BreadcrumbList", "ListItem", "Service", "Thing", "OfferCatalog", "Offer", "EntryPoint", "CommunicateAction",
                "AskAction", "JoinAction", "GeoCircle", "GeoCoordinates", "State", "City", "PostalAddress", "ImageObject",
                "OpeningHoursSpecification", "LocationFeatureSpecification", "Person", "FAQPage", "Question", "Answer",
-               "Event", "Schedule", "Menu", "MenuSection", "MenuItem"}
+               "Event", "Schedule", "Place", "Audience", "Menu", "MenuSection", "MenuItem"}
 ENTRYPOINT_KEYS = {"@type", "urlTemplate", "actionPlatform"}
 
 
