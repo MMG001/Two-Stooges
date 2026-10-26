@@ -1,7 +1,5 @@
-# Keep preview/pages.dev URLs out of search engines (production domain unaffected)
-https://:project.pages.dev/*
-  X-Robots-Tag: noindex
-
+# Launched 2026-10-26: the main site (two-stooges.pages.dev and twostooges.com) is indexable.
+# Branch/commit preview URLs (e.g. preview.two-stooges.pages.dev) stay out of search engines.
 https://:version.:project.pages.dev/*
   X-Robots-Tag: noindex
 

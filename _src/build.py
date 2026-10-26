@@ -27,7 +27,7 @@ ROOT = Path(__file__).resolve().parent.parent
 IMG = ROOT / "assets" / "img"
 
 # Flip to True on launch day (removes noindex). pages.dev stays noindex via _headers.
-LAUNCH = False
+LAUNCH = True
 SITE = "https://twostooges.com"
 # Cache-busting version, computed from the CSS + JS contents so every change gets a new URL.
 import hashlib as _hashlib
