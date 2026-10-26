@@ -368,7 +368,7 @@ META = {
               "photos/dart-room", "Electronic dart boards at Two Stooges Sports Bar in Fridley", "Darts"),
     "leagues": ("/leagues/", "Pool & Dart Leagues in Fridley, MN | Two Stooges",
                 "Join a pool or dart league at Two Stooges Sports Bar in Fridley, MN: Straight Pool Tuesdays, 10-Ball Thursdays, APA, UPL and daily darts. Sign up online.",
-                "photos/tournament-table-trophies", "League table and trophies at Two Stooges Sports Bar", "Leagues & Tournaments"),
+                "photos/league-night-pool-players", "League night at Two Stooges Sports Bar in Fridley", "Leagues & Tournaments"),
     "signup": ("/league-signup/", "League Sign-Up in Fridley, MN | Two Stooges Sports Bar",
                "Sign up for a pool or dart league at Two Stooges Sports Bar in Fridley, MN. Straight pool, 10-ball, APA, UPL and darts for every skill level. Join today.",
                "photos/player-lining-up-shot", "A league player lining up a shot at Two Stooges Sports Bar", "League Sign-Up"),
@@ -1437,7 +1437,7 @@ def p_leagues():
 </article>''')
     body = f'''{page_hero("leagues", "Pool &amp; dart leagues", "Pool &amp; dart leagues at <span class='grad-text'>Two Stooges Sports Bar</span>",
         f"Leagues at Two Stooges are a great way to meet other pool and dart players in Fridley, sharpen your skills and win cash. There's a league for every skill level on our {L('/billiards/', '43 tables')} and {L('/darts/', 'dart boards')}.",
-        "photos/tournament-table-trophies", "Tournament table with trophies above", btn("Sign Up Online", "/league-signup/", "gold") + btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone"))}
+        "photos/league-night-pool-players", "League night at Two Stooges in Fridley: pool league players in team shirts at rows of blue-felt Diamond tables", btn("Sign Up Online", "/league-signup/", "gold") + btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone"))}
 <section class="section"><div class="wrap">
   {section_head("In-house pool leagues", "Weekday pool leagues in Fridley", "Played on our 9 ft Gabriel's tables. Click a flyer to see it full size.")}
   {"".join(lg)}
