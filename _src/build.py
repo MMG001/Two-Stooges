@@ -251,7 +251,7 @@ MENU = [
          ("BBQ Pulled Pork", "14", "Smoked BBQ pulled pork with dill pickles and fried onion straws, served with coleslaw.", ["new"]),
          ("Build Your Own Chicken Sandwich", "12", "Your choice of grilled chicken breast or crispy chicken tenders, built your way with the add-ons below.", []),
      ],
-     "byo": {"noun": "sandwich"}, "notes": []},
+     "byo": {"noun": "sandwich", "photo": ("photos/build-your-own-double-cheeseburger", "A double cheeseburger stacked with lettuce, tomato, red onion and melted cheese on a sesame bun")}, "notes": []},
     {"id": "pizza", "name": "Pizza", "note_top": "Hand-tossed specialty pies or build your own, with gluten-free crust available.",
      "sizes": ("Specialty pizza", [("Small", '9"', "16"), ("Large", '16"', "24"), ("Gluten-free", '10"', "23")]),
      "feature": ("Ask your server", "About today's special"),

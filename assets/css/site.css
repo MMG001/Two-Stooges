@@ -420,6 +420,7 @@ address { font-style: normal; }
   .byo--photo { grid-template-columns: minmax(0, 1fr); }
   .byo__media { min-height: 0; }
   .byo__media img { position: static; display: block; height: auto; aspect-ratio: 16 / 10; object-position: 40% 20%; }
+  .byo__media img[src*="build-your-own-double-cheeseburger"] { object-position: 50% 58%; }
   .byo__media::after { background: linear-gradient(180deg, transparent 55%, #161616 100%); }
 }
 
