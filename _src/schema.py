@@ -145,10 +145,6 @@ def business_node(biz, page_key, extras=None):
              "geoRadius": SERVICE_RADIUS_M},
             {"@type": "State", "name": STATE, "sameAs": "https://en.wikipedia.org/wiki/Minnesota"},
             {"@type": "City", "name": ANCHOR_CITY, "sameAs": ["https://en.wikipedia.org/wiki/Fridley,_Minnesota", WIKIDATA["fridley"]]},
-            {"@type": "Place", "name": "Twin Cities (Minneapolis–Saint Paul metropolitan area)",
-             "sameAs": "https://en.wikipedia.org/wiki/Minneapolis%E2%80%93Saint_Paul"},
-            {"@type": "City", "name": "Minneapolis", "sameAs": "https://en.wikipedia.org/wiki/Minneapolis"},
-            {"@type": "City", "name": "Saint Paul", "sameAs": "https://en.wikipedia.org/wiki/Saint_Paul,_Minnesota"},
         ],
         "knowsAbout": [thing(k) for k in ("cue", "darts", "pool", "straight", "eightball", "tenball", "sportsbar")],
         "hasOfferCatalog": {"@type": "OfferCatalog", "name": "Games, leagues & events at Two Stooges",
@@ -201,7 +197,7 @@ KNOWN_TYPES = {"BarOrPub", "SportsActivityLocation", "WebSite", "WebPage", "Cont
                "BreadcrumbList", "ListItem", "Service", "Thing", "OfferCatalog", "Offer", "EntryPoint", "CommunicateAction",
                "AskAction", "JoinAction", "GeoCircle", "GeoCoordinates", "State", "City", "PostalAddress", "ImageObject",
                "OpeningHoursSpecification", "LocationFeatureSpecification", "Person", "FAQPage", "Question", "Answer",
-               "Event", "Schedule", "Place", "Audience", "Menu", "MenuSection", "MenuItem"}
+               "Event", "Schedule", "Audience", "Menu", "MenuSection", "MenuItem"}
 ENTRYPOINT_KEYS = {"@type", "urlTemplate", "actionPlatform"}
 
 
@@ -233,6 +229,9 @@ def check_graph(g, where):
                     errs.append(f"{where}: '{bad}' on business node")
             if "Organization" in types:
                 errs.append(f"{where}: Organization smuggled into business @type")
+            area = n.get("areaServed", [])
+            if set(n) != {"@id"} and [x.get("@type") for x in area] != ["GeoCircle", "State", "City"]:
+                errs.append(f"{where}: areaServed must be exactly GeoCircle + State + anchor City (v3), got {[x.get('@type') for x in area]}")
         if "Service" in types:
             for bad in ("about", "inLanguage"):
                 if bad in n:

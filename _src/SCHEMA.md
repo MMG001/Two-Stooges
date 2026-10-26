@@ -12,7 +12,6 @@ Built by `_src/schema.py` (Universal Prompt v3.1). Every page carries **one** `<
 | BreadcrumbList | `<page>#breadcrumb` | every inner page |
 | Service ×4 (billiards, darts, leagues, parties) | `/<service>/#service` | every page (three-level rule: full on its own page, card on home, nav elsewhere) |
 | GeoCircle service area | `/#service-area` | inside business `areaServed`, referenced by every Service |
-| Person ×2 (owners) | `/about/#ty-wilson`, `/about/#greg-asproth` | home + about (where the names are visible) |
 | Event (dated tournament) | `/events/#<event-id>` | home (next-up card) + events |
 | Event (weekly leagues, `eventSchedule`) | `/events/#straight-pool-league`, `/events/#10-ball-league` | events + leagues |
 | Menu → MenuSection → MenuItem | `/menu/#menu` | menu |
@@ -21,11 +20,12 @@ Built by `_src/schema.py` (Universal Prompt v3.1). Every page carries **one** `<
 ## Business facts
 
 - Geo: plus code `3PXP+85 Fridley` → `86Q83PXP+85` → **45.098312, -93.264562** (decoded, matches the Google Maps embed).
-- `areaServed`: GeoCircle **30 mi (`48280` m)** anchored on Fridley (client-confirmed) + State Minnesota + City Fridley (Wikipedia + Wikidata Q985235). Visible copy in the Visit section states the 30-mile radius.
+- `areaServed`: exactly three nodes (v3): GeoCircle **30 mi (`48280` m)** anchored on Fridley (client-confirmed) + State Minnesota + City Fridley (Wikipedia + Wikidata Q985235). **Do not add Twin Cities / Minneapolis / St. Paul or other city nodes**; the radius covers them, and the build fails if `areaServed` is anything other than GeoCircle + State + City. The Twin Cities targeting lives in visible copy (titles, H1/H2s, the Visit section, which states the 30-mile radius and names Minneapolis and St. Paul) and in the business `description`.
 - `sameAs` (client-supplied, verified): Google Business Profile `maps?cid=347673670564063440` (CID 0x4d32f5c7fba28d0, matches the client's Google `ludocid`), Instagram, Yelp, Tripadvisor, Apple Maps. Facebook omitted: the supplied link is a search page, not the business page.
 - Wikidata IDs, each confirmed by two independent sources (DBpedia owl:sameAs + Wikidata/OSM/museum-digital): Billiards/cue sports **Q3341285**, Darts **Q131471**, Fridley **Q985235**. Used in `knowsAbout`, Service `category` and `areaServed` City.
 - Hours: 11:00–23:59 daily ("11 AM – 12 AM" on the old site and in the brief).
-- Enrichment used (true + visible): alternateName, slogan (home), foundingDate 1988, publicAccess, hasMenu, tourBookingPage, servesCuisine (home/menu), amenityFeature/award/founder (home/about), knowsAbout (Wikipedia-linked concepts, mirrored onto Services as `category`).
+- Enrichment used (true + visible): alternateName, slogan (home), foundingDate 1988, publicAccess, hasMenu, tourBookingPage, servesCuisine (home/menu), keywords (home, terms visible in home copy), amenityFeature/award (home/about), knowsAbout (Wikipedia-linked concepts, mirrored onto Services as `category`). Each Service's own page adds `audience` (Audience + audienceType mirroring the page lead; valid on Service, never on the business node).
+- **No founder/Person nodes.** The business has new owners (2026-10-25); the previous owners' names were removed from the site and the graph. Add Person nodes only when the client supplies names that are shown on the page.
 
 ## Actions (form/conversion wiring)
 
@@ -34,7 +34,7 @@ Built by `_src/schema.py` (Universal Prompt v3.1). Every page carries **one** `<
 | Call | CommunicateAction | `tel:+17635741399` |
 | Email | CommunicateAction | `mailto:info@twostooges.com` |
 | Private party / event request (Cognito form #96) | AskAction | `/private-parties/#request` |
-| League sign-up (Cognito form #99) | JoinAction | `/leagues/#signup` |
+| League sign-up (Cognito form #99) | JoinAction | `/league-signup/#form` |
 
 EntryPoints carry only `urlTemplate` + `actionPlatform`. Form fields are managed in Cognito Forms (key `e5A6hQ7FG0We3U_f7oZrng`) and documented there, not in markup.
 
@@ -47,8 +47,8 @@ EntryPoints carry only `urlTemplate` + `actionPlatform`. Form fields are managed
 
 ## Validation
 
-- Build-time (`_src/build.py` fails on error): @id integrity (referenced ⊆ defined), one business node, no Organization in the type array, Rule-11 placement traps (no audience/inLanguage on business, no about/inLanguage on Service, EntryPoint keys only urlTemplate/actionPlatform, no `-input` outside SearchAction).
-- Property-level lint (`python3 _src/schema_lint.py schemaorg-current-https.jsonld .`) against the official schema.org vocabulary v29.3: **0 errors, 1,810 property placements checked** across 12 pages.
+- Build-time (`_src/build.py` fails on error): @id integrity (referenced ⊆ defined), one business node, no Organization in the type array, Rule-11 placement traps (areaServed = GeoCircle + State + City only, no audience/inLanguage on business, no about/inLanguage on Service, EntryPoint keys only urlTemplate/actionPlatform, no `-input` outside SearchAction).
+- Property-level lint (`python3 _src/schema_lint.py schemaorg-current-https.jsonld .`) against the official schema.org vocabulary v29.3: **0 errors, 2168 property placements checked** across 14 pages (2026-10-26).
 - Still to run after the domain is live: Google Rich Results Test + validator.schema.org on home, /billiards/, /events/, /menu/ (start a fresh crawl, CDN propagation 1–3 min).
 
 ## Visible enhancement vs machine-readable only
@@ -57,6 +57,8 @@ EntryPoints carry only `urlTemplate` + `actionPlatform`. Form fields are managed
 - Machine-readability / AI answers only: Service, FAQPage, Menu, areaServed, knowsAbout, potentialAction.
 
 ## Example rendered JSON-LD
+
+Regenerated from the built pages on 2026-10-26.
 
 ### Homepage (/)
 
@@ -88,11 +90,11 @@ EntryPoints carry only `urlTemplate` + `actionPlatform`. Form fields are managed
       "url": "https://twostooges.com/",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://twostooges.com/assets/img/brand/two-stooges-logo-1200.png",
+        "url": "https://twostooges.com/assets/img/brand/two-stooges-logo-1200.png?v=1f55c326",
         "width": 1200,
         "height": 543
       },
-      "image": "https://twostooges.com/assets/img/og/home.jpg",
+      "image": "https://twostooges.com/assets/img/og/home.jpg?v=f853b1a1",
       "telephone": "+17635741399",
       "email": "info@twostooges.com",
       "foundingDate": "1988",
@@ -258,7 +260,19 @@ EntryPoints carry only `urlTemplate` + `actionPlatform`. Form fields are managed
           "name": "Sign up for a pool or dart league",
           "target": {
             "@type": "EntryPoint",
-            "urlTemplate": "https://twostooges.com/leagues/#signup",
+            "urlTemplate": "https://twostooges.com/league-signup/#form",
+            "actionPlatform": [
+              "http://schema.org/DesktopWebPlatform",
+              "http://schema.org/MobileWebPlatform"
+            ]
+          }
+        },
+        {
+          "@type": "AskAction",
+          "name": "Send Two Stooges a message",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://twostooges.com/contact/#form",
             "actionPlatform": [
               "http://schema.org/DesktopWebPlatform",
               "http://schema.org/MobileWebPlatform"
@@ -272,14 +286,6 @@ EntryPoints carry only `urlTemplate` + `actionPlatform`. Form fields are managed
         "https://www.yelp.com/biz/two-stooges-sports-bar-and-grill-fridley",
         "https://www.tripadvisor.com/Restaurant_Review-g43087-d5259418-Reviews-Two_Stooges_Sports_Bar_Grill-Fridley_Minnesota.html",
         "https://maps.apple.com/place?place-id=I390CADDFBB3A1DE1"
-      ],
-      "founder": [
-        {
-          "@id": "https://twostooges.com/about/#ty-wilson"
-        },
-        {
-          "@id": "https://twostooges.com/about/#greg-asproth"
-        }
       ],
       "award": [
         "Top Ten Billiard Room in North America",
@@ -295,7 +301,17 @@ EntryPoints carry only `urlTemplate` + `actionPlatform`. Form fields are managed
         },
         {
           "@type": "LocationFeatureSpecification",
-          "name": "Electronic dart boards",
+          "name": "6 dart boards",
+          "value": true
+        },
+        {
+          "@type": "LocationFeatureSpecification",
+          "name": "2 patios",
+          "value": true
+        },
+        {
+          "@type": "LocationFeatureSpecification",
+          "name": "Pool leagues",
           "value": true
         },
         {
@@ -325,15 +341,16 @@ EntryPoints carry only `urlTemplate` + `actionPlatform`. Form fields are managed
         }
       ],
       "slogan": "The most fun you can have under one roof",
-      "description": "Two Stooges Sports Bar & Grill is a locally owned sports bar, restaurant and billiard room at 7178 University Ave NE in Fridley, Minnesota. Open since 1988, it has 43 pool tables, dart boards, 34 TV screens and 16 beers on tap.",
+      "keywords": "sports bar, billiards, pool tables, darts, dart leagues, pool leagues, Twin Cities, Fridley",
+      "description": "Two Stooges Sports Bar & Grill is a sports bar, billiards hall and darts room at 7178 University Ave NE in Fridley, Minnesota, in the Twin Cities north metro. Open since 1988, it has 43 pool tables, electronic dart boards, 34 TV screens and 16 beers on tap.",
       "servesCuisine": "American"
     },
     {
       "@type": "WebPage",
       "@id": "https://twostooges.com/#webpage",
       "url": "https://twostooges.com/",
-      "name": "Two Stooges Sports Bar - Fridley, MN | Pool, Darts & Grill",
-      "description": "Two Stooges Sports Bar & Grill in Fridley, MN: 43 pool tables, darts, 34 screens, 16 taps and daily specials since 1988. See events and plan your visit today.",
+      "name": "Sports Bar, Billiards & Darts - Twin Cities | Two Stooges",
+      "description": "Two Stooges is the Twin Cities sports bar for billiards and darts: 43 pool tables, electronic dart boards, 34 screens and 16 taps in Fridley. Plan your visit.",
       "isPartOf": {
         "@id": "https://twostooges.com/#website"
       },
@@ -343,12 +360,12 @@ EntryPoints carry only `urlTemplate` + `actionPlatform`. Form fields are managed
       "inLanguage": "en-US",
       "primaryImageOfPage": {
         "@type": "ImageObject",
-        "url": "https://twostooges.com/assets/img/og/home.jpg",
+        "url": "https://twostooges.com/assets/img/og/home.jpg?v=f853b1a1",
         "width": 1200,
         "height": 630,
         "caption": "Rows of pool tables inside Two Stooges Sports Bar in Fridley, MN"
       },
-      "dateModified": "2026-10-17",
+      "dateModified": "2026-10-26",
       "mainEntity": {
         "@id": "https://twostooges.com/#business"
       }
@@ -436,81 +453,6 @@ EntryPoints carry only `urlTemplate` + `actionPlatform`. Form fields are managed
       "description": "Birthdays, office parties and banquets with custom menus and pool tables included."
     },
     {
-      "@type": "Person",
-      "@id": "https://twostooges.com/about/#ty-wilson",
-      "name": "Ty Wilson",
-      "jobTitle": "Owner",
-      "worksFor": {
-        "@id": "https://twostooges.com/#business"
-      }
-    },
-    {
-      "@type": "Person",
-      "@id": "https://twostooges.com/about/#greg-asproth",
-      "name": "Greg Asproth",
-      "jobTitle": "Owner",
-      "worksFor": {
-        "@id": "https://twostooges.com/#business"
-      }
-    },
-    {
-      "@type": "FAQPage",
-      "@id": "https://twostooges.com/#faq",
-      "isPartOf": {
-        "@id": "https://twostooges.com/#webpage"
-      },
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "Where is Two Stooges Sports Bar located?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Two Stooges Sports Bar & Grill is at 7178 University Ave NE, Fridley, MN 55432, on University Avenue (Highway 47) just north of Minneapolis."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What are the hours at Two Stooges?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Two Stooges is open every day from 11 AM to 12 AM. Happy hour runs Monday to Thursday 2–6 PM and Friday to Sunday 11 AM–7 PM."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "How many pool tables does Two Stooges have?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Two Stooges has 43 pool tables, 9 ft and 7 ft Gabriel's and Diamond tables on Simonis 860 cloth."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Does Two Stooges have pool and dart leagues?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Yes. Two Stooges runs a Straight Pool League on Tuesdays at 11 AM, a 10-Ball League on Thursdays at 11 AM, APA, UPL and in-house 8-ball leagues, and dart leagues every day."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Can I host a private party at Two Stooges?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Yes. Two Stooges hosts birthdays, office parties, draft parties, banquets and celebrations of life, with custom menus, pool tables and darts."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Can I watch NFL games at Two Stooges?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Yes. Two Stooges carries NFL Sunday Ticket and the DirecTV sports channels on 30 HD TVs and 4 monster screens."
-          }
-        }
-      ]
-    },
-    {
       "@type": "Event",
       "@id": "https://twostooges.com/events/#bar-box-shootout-2026-11-07",
       "name": "499 & Under Fargo Rated 8-Ball Bar Box Shootout",
@@ -519,7 +461,7 @@ EntryPoints carry only `urlTemplate` + `actionPlatform`. Form fields are managed
       "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
       "description": "An 8-ball bar box shootout for players rated 499 and under on FargoRate. Only the first 64 players who sign up get in, so call or text early to grab your spot.",
       "image": [
-        "https://twostooges.com/assets/img/events/2026-11-07-bar-box-shootout.webp"
+        "https://twostooges.com/assets/img/events/2026-11-07-bar-box-shootout.webp?v=1eb7f9dc"
       ],
       "url": "https://twostooges.com/events/#bar-box-shootout-2026-11-07",
       "location": {
@@ -535,7 +477,7 @@ EntryPoints carry only `urlTemplate` + `actionPlatform`. Form fields are managed
         "priceCurrency": "USD",
         "url": "https://twostooges.com/events/#bar-box-shootout-2026-11-07",
         "availability": "https://schema.org/LimitedAvailability",
-        "validFrom": "2026-10-17"
+        "validFrom": "2026-10-26"
       }
     }
   ]
@@ -572,11 +514,11 @@ EntryPoints carry only `urlTemplate` + `actionPlatform`. Form fields are managed
       "url": "https://twostooges.com/",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://twostooges.com/assets/img/brand/two-stooges-logo-1200.png",
+        "url": "https://twostooges.com/assets/img/brand/two-stooges-logo-1200.png?v=1f55c326",
         "width": 1200,
         "height": 543
       },
-      "image": "https://twostooges.com/assets/img/og/home.jpg",
+      "image": "https://twostooges.com/assets/img/og/home.jpg?v=f853b1a1",
       "telephone": "+17635741399",
       "email": "info@twostooges.com",
       "foundingDate": "1988",
@@ -742,7 +684,19 @@ EntryPoints carry only `urlTemplate` + `actionPlatform`. Form fields are managed
           "name": "Sign up for a pool or dart league",
           "target": {
             "@type": "EntryPoint",
-            "urlTemplate": "https://twostooges.com/leagues/#signup",
+            "urlTemplate": "https://twostooges.com/league-signup/#form",
+            "actionPlatform": [
+              "http://schema.org/DesktopWebPlatform",
+              "http://schema.org/MobileWebPlatform"
+            ]
+          }
+        },
+        {
+          "@type": "AskAction",
+          "name": "Send Two Stooges a message",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://twostooges.com/contact/#form",
             "actionPlatform": [
               "http://schema.org/DesktopWebPlatform",
               "http://schema.org/MobileWebPlatform"
@@ -762,8 +716,8 @@ EntryPoints carry only `urlTemplate` + `actionPlatform`. Form fields are managed
       "@type": "WebPage",
       "@id": "https://twostooges.com/billiards/#webpage",
       "url": "https://twostooges.com/billiards/",
-      "name": "Pool Tables & Billiards in Fridley, MN | Two Stooges",
-      "description": "Play pool at Two Stooges Sports Bar in Fridley, MN: 43 Gabriel's and Diamond tables, daily pool specials, leagues, tournaments and a Pro Shop. Rack up today.",
+      "name": "Billiards & Pool Hall - Twin Cities | Two Stooges",
+      "description": "Shoot pool at Two Stooges, a Twin Cities billiards hall in Fridley with 43 Gabriel's and Diamond tables, daily pool specials, leagues and a Pro Shop. Rack up.",
       "isPartOf": {
         "@id": "https://twostooges.com/#website"
       },
@@ -773,12 +727,12 @@ EntryPoints carry only `urlTemplate` + `actionPlatform`. Form fields are managed
       "inLanguage": "en-US",
       "primaryImageOfPage": {
         "@type": "ImageObject",
-        "url": "https://twostooges.com/assets/img/og/billiards.jpg",
+        "url": "https://twostooges.com/assets/img/og/billiards.jpg?v=608e7ad5",
         "width": 1200,
         "height": 630,
         "caption": "The 43-table billiard room at Two Stooges Sports Bar in Fridley"
       },
-      "dateModified": "2026-10-17",
+      "dateModified": "2026-10-26",
       "breadcrumb": {
         "@id": "https://twostooges.com/billiards/#breadcrumb"
       },
@@ -824,10 +778,14 @@ EntryPoints carry only `urlTemplate` + `actionPlatform`. Form fields are managed
           "https://www.wikidata.org/wiki/Q3341285"
         ]
       },
-      "description": "Two Stooges has been named a top ten billiard room in North America, and City Pages voted it the best place to shoot pool. There are 43 Gabriel's and Diamond tables in 9 ft and 7 ft, with room to play around every one.",
+      "description": "Two Stooges, in Fridley, has been named a top ten billiard room in North America, and City Pages voted it the best place to shoot pool in the Twin Cities. There are 43 Gabriel's and Diamond tables in 9 ft and 7 ft, with room for league players, casual groups and first-timers around every one.",
       "serviceOutput": {
         "@type": "Thing",
         "name": "Pool table time"
+      },
+      "audience": {
+        "@type": "Audience",
+        "audienceType": "League players, casual groups and first-time pool players"
       },
       "isRelatedTo": [
         {
@@ -925,11 +883,11 @@ EntryPoints carry only `urlTemplate` + `actionPlatform`. Form fields are managed
       "url": "https://twostooges.com/",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://twostooges.com/assets/img/brand/two-stooges-logo-1200.png",
+        "url": "https://twostooges.com/assets/img/brand/two-stooges-logo-1200.png?v=1f55c326",
         "width": 1200,
         "height": 543
       },
-      "image": "https://twostooges.com/assets/img/og/home.jpg",
+      "image": "https://twostooges.com/assets/img/og/home.jpg?v=f853b1a1",
       "telephone": "+17635741399",
       "email": "info@twostooges.com",
       "foundingDate": "1988",
@@ -1095,7 +1053,19 @@ EntryPoints carry only `urlTemplate` + `actionPlatform`. Form fields are managed
           "name": "Sign up for a pool or dart league",
           "target": {
             "@type": "EntryPoint",
-            "urlTemplate": "https://twostooges.com/leagues/#signup",
+            "urlTemplate": "https://twostooges.com/league-signup/#form",
+            "actionPlatform": [
+              "http://schema.org/DesktopWebPlatform",
+              "http://schema.org/MobileWebPlatform"
+            ]
+          }
+        },
+        {
+          "@type": "AskAction",
+          "name": "Send Two Stooges a message",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://twostooges.com/contact/#form",
             "actionPlatform": [
               "http://schema.org/DesktopWebPlatform",
               "http://schema.org/MobileWebPlatform"
@@ -1115,8 +1085,8 @@ EntryPoints carry only `urlTemplate` + `actionPlatform`. Form fields are managed
       "@type": "WebPage",
       "@id": "https://twostooges.com/private-parties/#webpage",
       "url": "https://twostooges.com/private-parties/",
-      "name": "Private Party Venue in Fridley, MN | Two Stooges",
-      "description": "Host a birthday, office party, banquet or draft party at Two Stooges Sports Bar in Fridley, MN, with custom menus, pool tables and darts. Request a date.",
+      "name": "Private Party Venue - Twin Cities | Two Stooges Sports Bar",
+      "description": "Host a birthday, office party or banquet at Two Stooges, a Twin Cities sports bar in Fridley with custom menus, pool tables and dart boards. Request a date.",
       "isPartOf": {
         "@id": "https://twostooges.com/#website"
       },
@@ -1126,12 +1096,12 @@ EntryPoints carry only `urlTemplate` + `actionPlatform`. Form fields are managed
       "inLanguage": "en-US",
       "primaryImageOfPage": {
         "@type": "ImageObject",
-        "url": "https://twostooges.com/assets/img/og/parties.jpg",
+        "url": "https://twostooges.com/assets/img/og/parties.jpg?v=027fbd99",
         "width": 1200,
         "height": 630,
-        "caption": "Party space at Two Stooges Sports Bar & Grill in Fridley"
+        "caption": "Friends playing pool at a party at Two Stooges Sports Bar & Grill in Fridley"
       },
-      "dateModified": "2026-10-17",
+      "dateModified": "2026-10-26",
       "breadcrumb": {
         "@id": "https://twostooges.com/private-parties/#breadcrumb"
       },
@@ -1201,10 +1171,14 @@ EntryPoints carry only `urlTemplate` + `actionPlatform`. Form fields are managed
         "name": "Party",
         "sameAs": "https://en.wikipedia.org/wiki/Party"
       },
-      "description": "Two Stooges is ready for your next birthday, holiday party, office outing or banquet in Fridley. We'll customize the menu and the space for your group.",
+      "description": "Two Stooges is ready for your next birthday, holiday party, office outing or banquet in Fridley, for groups from across the Twin Cities. We'll customize the menu and the space for your group.",
       "serviceOutput": {
         "@type": "Thing",
         "name": "Private party"
+      },
+      "audience": {
+        "@type": "Audience",
+        "audienceType": "Groups planning birthdays, office parties, banquets and holiday parties"
       },
       "isRelatedTo": [
         {

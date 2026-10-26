@@ -741,6 +741,7 @@ def biz_extras(key):
         x["amenityFeature"] = [{"@type": "LocationFeatureSpecification", "name": a, "value": True} for a in AMENITIES]
     if key == "home":
         x["slogan"] = "The most fun you can have under one roof"
+        x["keywords"] = "sports bar, billiards, pool tables, darts, dart leagues, pool leagues, Twin Cities, Fridley"
         x["description"] = ENTITY_DESC
     if key in ("home", "menu"):
         x["servesCuisine"] = "American"
