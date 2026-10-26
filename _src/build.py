@@ -21,6 +21,7 @@ from pathlib import Path
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import schema as SG
+import images as IMGS
 
 ROOT = Path(__file__).resolve().parent.parent
 IMG = ROOT / "assets" / "img"
@@ -1824,6 +1825,7 @@ PAGES = {
 
 
 def main():
+    IMGS.optimize()  # image rule: every photo web-ready before pages read their sizes
     for rel, fn in PAGES.items():
         out = ROOT / rel
         out.parent.mkdir(parents=True, exist_ok=True)
@@ -1839,6 +1841,10 @@ def main():
     robots = ("User-agent: *\nAllow: /\nDisallow: /_src/\n\nSitemap: " + SITE + "/sitemap.xml\n") if LAUNCH else "User-agent: *\nDisallow: /\n"
     (ROOT / "robots.txt").write_text(robots, encoding="utf-8")
     print("wrote sitemap.xml, robots.txt (launch=%s)" % LAUNCH)
+    bad = IMGS.check()
+    if bad:
+        raise SystemExit("Image check failed (over budget):\n  " + "\n  ".join(bad))
+    print("images: all within budget")
 
 
 if __name__ == "__main__":
