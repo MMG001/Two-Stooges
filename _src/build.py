@@ -1676,6 +1676,7 @@ def p_gallery():
               ("photos/dart-room-bullshooter-boards", "The dart room: six lit Bullshooter boards under the big screen, with high-top tables"),
               ("photos/billiard-room-diamond-apa", "Diamond tables, including an APA tournament table, with the raised bar behind"),
               ("photos/billiard-room-diamond-lounge", "Rows of Diamond tables and high-top seating in the billiard room"),
+              ("photos/gallery-claw-machines", "Prize Cube and Toy Chest claw machines by the billiard room"),
               ("photos/food-steak-bites-onion-rings", "Steak bites topped with onion rings"),
               ("photos/food-thin-crust-pizza", "Thin-crust pizza with sausage, mushrooms and red onion"),
               ("photos/food-tater-tots", "A pile of hot, crispy tater tots")]
