@@ -371,7 +371,7 @@ META = {
                 "photos/league-night-pool-players", "League night at Two Stooges Sports Bar in Fridley", "Leagues & Tournaments"),
     "signup": ("/league-signup/", "League Sign-Up in Fridley, MN | Two Stooges Sports Bar",
                "Sign up for a pool or dart league at Two Stooges Sports Bar in Fridley, MN. Straight pool, 10-ball, APA, UPL and darts for every skill level. Join today.",
-               "photos/league-player-gabriels-table", "A league player lining up a shot at Two Stooges Sports Bar", "League Sign-Up"),
+               "photos/hero-league-signup", "A league player lining up a shot at Two Stooges Sports Bar", "League Sign-Up"),
     "events": ("/events/", "Pool Tournaments & Events in Fridley | Two Stooges",
                "Upcoming pool tournaments, FargoRate 8-ball shootouts, league nights and special events at Two Stooges Sports Bar in Fridley, MN. See dates and sign up.",
                "photos/player-shooting", "A tournament player shooting at Two Stooges Sports Bar", "Events"),
@@ -479,8 +479,12 @@ def img(rel, alt, sizes="100vw", cls="", eager=False, srcset=True):
         src = f"/assets/img/{rel}.webp"
         ss = ""
         if srcset and (IMG / f"{rel}-sm.webp").exists():
-            sw, _ = dims(f"{rel}-sm.webp")
-            ss = f' srcset="/assets/img/{rel}-sm.webp {sw}w, {src} {w}w" sizes="{e(sizes)}"'
+            parts = []
+            for suf in ("-sm", "-md"):
+                if (IMG / f"{rel}{suf}.webp").exists():
+                    vw, _ = dims(f"{rel}{suf}.webp")
+                    parts.append(f"/assets/img/{rel}{suf}.webp {vw}w")
+            ss = f' srcset="{", ".join(parts + [f"{src} {w}w"])}" sizes="{e(sizes)}"'
     wh = f' width="{w}" height="{h}"' if w else ""
     load = ' fetchpriority="high"' if eager else ' loading="lazy" decoding="async"'
     c = f' class="{cls}"' if cls else ""
@@ -854,10 +858,20 @@ def page(key, body, extra_ld=None, og_type="website", main_entity=None):
 '''
 
 
+def hero_media(image, alt):
+    """Banner image; when a tall <image>-mobile.webp exists, phones get that crop instead."""
+    tag = img(image, alt, eager=True)
+    mob = f"{image}-mobile.webp"
+    if (IMG / mob).exists():
+        mw, mh = dims(mob)
+        return f'<picture><source media="(max-width: 700px)" srcset="/assets/img/{mob}" width="{mw}" height="{mh}">{tag}</picture>'
+    return tag
+
+
 def page_hero(key, eyebrow, title, lead, image, alt, actions=""):
     crumb = META[key][5]
     return f'''<section class="page-hero on-dark">
-  <div class="page-hero__media">{img(image, alt, eager=True)}</div>
+  <div class="page-hero__media">{hero_media(image, alt)}</div>
   <div class="wrap">
     <nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li aria-current="page">{e(crumb)}</li></ol></nav>
     <span class="eyebrow">{eyebrow}</span>
@@ -1486,7 +1500,7 @@ def p_signup():
     faqs = "".join(f'<details class="faq"><summary><h3>{e(q)}</h3></summary><p>{e(a)}</p></details>' for q, a in LEAGUE_FAQ)
     body = f'''{page_hero("signup", "League sign-up", "Join a league at <span class='grad-text'>Two Stooges Sports Bar</span>",
         f"Sign up for a pool or dart league in Fridley. We have handicapped leagues for every skill level on our {L('/billiards/', '43 tables')} and {L('/darts/', 'dart boards')}. Solo players are welcome.",
-        "photos/league-player-gabriels-table", "A pool league player lining up a shot on a blue-felt Gabriel's table at Two Stooges in Fridley", btn("Sign Up Now", "#form", "gold", "trophy") + btn("See All Leagues", "/leagues/", "outline"))}
+        "photos/hero-league-signup", "A pool league player lining up a shot on a blue-felt Gabriel's table at Two Stooges in Fridley", btn("Sign Up Now", "#form", "gold", "trophy") + btn("See All Leagues", "/leagues/", "outline"))}
 <section class="section"><div class="wrap">
   {section_head("Why join", "Benefits of joining a Two Stooges league", "More than just a game night. Here's what you get when you join a league in Fridley.", center=True)}
   <div class="grid grid--3">{ben}</div>
