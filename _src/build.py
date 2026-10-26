@@ -1305,8 +1305,10 @@ def p_specials():
 
 
 def p_billiards():
-    gallery = [("photos/billiard-hall-tables", "Rows of tables in the Two Stooges billiard hall"), ("photos/player-racking", "A player racking balls at a Two Stooges pool table"),
-               ("photos/tournament-table-trophies", "Tournament table with trophies above"), ("photos/pool-balls-rack", "A fresh rack of pool balls on blue felt")]
+    gallery = [("photos/billiard-room-trophy-rail", "Players at the Gabriel's tables, seen from the rail under the trophy case and flag"),
+               ("photos/billiard-room-gabriels-rows", "Rows of blue-felt Gabriel's tables under wood-trimmed lights"),
+               ("photos/billiard-room-diamond-apa", "Diamond tables, including an APA tournament table, with the dart boards behind"),
+               ("photos/billiard-room-diamond-lounge", "Diamond tables and high-top seating in the Two Stooges billiard room")]
     g = "".join(f'<figure class="gallery__item"><button type="button" data-lightbox="/assets/img/{p}.webp" data-alt="{e(a)}" data-caption="{e(a)}" aria-label="Enlarge photo: {e(a)}">{img(p, a, sizes="(max-width:640px) 100vw, 33vw")}</button></figure>' for p, a in gallery)
     body = f'''{page_hero("billiards", "43 tables · since 1988", "Billiards at Two Stooges Sports Bar in <span class='grad-text'>Fridley</span>",
         "Two Stooges has been named a top ten billiard room in North America, and City Pages voted it the best place to shoot pool. There are 43 Gabriel's and Diamond tables in 9 ft and 7 ft, with room to play around every one.",
