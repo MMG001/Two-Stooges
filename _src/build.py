@@ -386,7 +386,7 @@ META = {
                 "photos/billiard-room-rows", "Inside the Two Stooges Sports Bar billiard room", "Gallery"),
     "contact": ("/contact/", "Contact & Directions | Two Stooges Sports Bar, Fridley",
                 "Contact Two Stooges Sports Bar & Grill at 7178 University Ave NE, Fridley, MN 55432. Call (763) 574-1399. Open daily 11 AM to midnight. Get directions.",
-                "photos/building-exterior", "Two Stooges Sports Bar & Grill, 7178 University Ave NE, Fridley MN", "Contact"),
+                "photos/hero-contact-storefront", "Two Stooges Sports Bar & Grill, 7178 University Ave NE, Fridley MN", "Contact"),
     "faq": ("/faq/", "FAQ | Two Stooges Sports Bar & Grill, Fridley MN",
             "Answers about Two Stooges Sports Bar in Fridley, MN: hours, location, pool tables, darts, leagues, tournaments, food, happy hour and private parties. Read more.",
             "photos/billiard-room-gabriels", "The Two Stooges billiard room in Fridley, MN", "FAQ"),
@@ -421,7 +421,6 @@ RELATED = {
     "parties": ["/menu/", "/billiards/", "/darts/"],
     "about": ["/gallery/", "/billiards/", "/contact/"],
     "gallery": ["/about/", "/billiards/", "/darts/"],
-    "contact": ["/faq/", "/private-parties/", "/leagues/"],
     "privacy": ["/contact/", "/about/", "/events/"],
     "faq": ["/contact/", "/league-signup/", "/private-parties/"],
 }
@@ -870,7 +869,7 @@ def hero_media(image, alt):
 
 def page_hero(key, eyebrow, title, lead, image, alt, actions=""):
     crumb = META[key][5]
-    return f'''<section class="page-hero on-dark">
+    return f'''<section class="page-hero page-hero--{key} on-dark">
   <div class="page-hero__media">{hero_media(image, alt)}</div>
   <div class="wrap">
     <nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li aria-current="page">{e(crumb)}</li></ol></nav>
@@ -1695,7 +1694,7 @@ def p_gallery():
 def p_contact():
     body = f'''{page_hero("contact", "Get in touch", "Contact <span class='grad-text'>Two Stooges Sports Bar</span> in Fridley, MN",
         "Questions about leagues, tournaments, parties or the menu? Give us a call or stop in. We're open every day from 11 AM to midnight.",
-        "photos/building-exterior", "The Two Stooges building on University Ave NE", btn("Send a Message", "#form", "gold", "mail") + btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone") + btn("Get Directions", DIRECTIONS, "outline", "nav", ' target="_blank" rel="noopener"'))}
+        "photos/hero-contact-storefront", "The Two Stooges Sports Bar & Grill entrance on University Ave NE in Fridley, with the green awning and window signs", btn("Send a Message", "#form", "gold", "mail") + btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone") + btn("Get Directions", DIRECTIONS, "outline", "nav", ' target="_blank" rel="noopener"'))}
 <section class="section" id="form"><div class="wrap">
   <div class="split" style="align-items:start">
     <div>
