@@ -1637,7 +1637,10 @@ def p_about():
       <p class="lead">What began as a neighborhood {L("/billiards/", "billiard room")} became one of the best-known pool and darts destinations in Minnesota, with a full sports bar and {L("/menu/", "kitchen")} to match.</p>
       <ol class="timeline mt-2">{tl_html}</ol>
     </div>
-    <div class="split__media">{img("photos/billiard-room-trophies", "Gabriel's tournament tables in the Two Stooges billiard room, with league trophies displayed above the table lights", sizes="(max-width:860px) 100vw, 50vw")}</div>
+    <div class="split__media split__media--stack">
+      {img("photos/billiard-room-diamond-tables", "The Two Stooges billiard room today: rows of blue-felt Diamond pool tables under wood-trimmed lights", sizes="(max-width:860px) 100vw, 50vw")}
+      {img("photos/dart-room-big-screen", "The Two Stooges dart room: six lit Bullshooter electronic dart boards under a big projection screen showing the game", sizes="(max-width:860px) 100vw, 50vw")}
+    </div>
   </div>
 </div></section>
 <section class="section section--alt"><div class="wrap">
@@ -1646,7 +1649,7 @@ def p_about():
 </div></section>
 <section class="section"><div class="wrap">
   <div class="split split--rev">
-    <div class="split__media">{img("photos/sports-bar-center-bar", "The Two Stooges center bar: wood bar top and stools, TVs showing games overhead and a full back bar", sizes="(max-width:860px) 100vw, 50vw")}</div>
+    <div class="split__media">{img("photos/sports-bar-center-bar-tables", "The elevated center bar at Two Stooges: cherry wood bar and stools under neon signs and TVs, with high-top tables in front", sizes="(max-width:860px) 100vw, 50vw")}</div>
     <div>
       <span class="eyebrow">The sports bar</span>
       <h2>A Fridley sports bar with <span class="grad-text">a seat at the center</span></h2>
