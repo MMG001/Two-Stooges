@@ -81,7 +81,7 @@ SERVICES = {
     "leagues": {"@id": SITE + "/leagues/#service", "name": "Pool & dart leagues", "serviceType": "Pool and dart leagues",
                 "audience": "Pool and dart players of every skill level, including solo players",
                   "url": SITE + "/leagues/", "category": "league", "output": "League membership",
-                "home": "Straight pool, 10-ball, APA and UPL leagues, plus FargoRate tournaments."},
+                "home": "In-house leagues as well as IBA (M8), APA and UPL, plus FargoRate Tournaments."},
     "parties": {"@id": SITE + "/private-parties/#service", "name": "Private parties & events", "serviceType": "Private event hosting",
                 "audience": "Groups planning birthdays, office parties, banquets and holiday parties",
                   "url": SITE + "/private-parties/", "category": "party", "output": "Private party",

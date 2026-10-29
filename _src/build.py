@@ -143,15 +143,15 @@ LEAGUES = [
 DAY_DEALS = [
     (1, "Monday", "Mon", "Burger Night", "$2 off", "any burger", "Excludes build-your-own & the Big Stooge", "All day",
      [("2–5 PM", "$2 off appetizers (excl. wings)")], "2–6 PM"),
-    (2, "Tuesday", "Tue", "Entrée Night", "$3 off", "any entrée", "Pot roast, fish & chips, stir fry & more", "All day",
+    (2, "Tuesday", "Tue", "Taco Tuesday!", "$8", "2 tacos", "Two tacos for $8", "All day",
      [("2–5 PM", "$2 off appetizers (excl. wings)")], "2–6 PM"),
     (3, "Wednesday", "Wed", "Wing Night", "$1", "wings", "Minimum 10 · fresh, never frozen", "All day",
      [("2–5 PM", "$2 off appetizers (excl. wings)")], "2–6 PM"),
     (4, "Thursday", "Thu", "Appetizer Hour", "$2 off", "appetizers", "Excludes wings", "2–5 PM",
      [], "2–6 PM"),
-    (5, "Friday", "Fri", "Early Happy Hour", "$2 off", "appetizers", "Excludes wings", "11 AM–7 PM",
+    (5, "Friday", "Fri", "Appetizer Friday", "$2 off", "appetizers", "Excluding wings", "11 AM–7 PM",
      [], "11 AM–7 PM"),
-    (6, "Saturday", "Sat", "Pizza & Sandwiches", "$3 off", "large pizza", "$2 off small pizzas too", "11 AM–7 PM",
+    (6, "Saturday", "Sat", "Pizza & Sandwiches", "$3 off", "large pizzas", "$2 off small pizzas", "11 AM–7 PM",
      [("11 AM–7 PM", "$2 off sandwiches & wraps")], "11 AM–7 PM"),
     (0, "Sunday", "Sun", "Sunday Funday", "$1.50", "wings", "Minimum 8", "11 AM–7 PM",
      [("11 AM–7 PM", "$3 off large · $2 off small pizza"), ("11 AM–7 PM", "$2 off any entrée"), ("Happy hour", "$1 off 22 oz craft beer")], "11 AM–7 PM"),
@@ -162,7 +162,7 @@ SPECIALS = [  # weekday: 0=Sun … 6=Sat (matches JS getDay)
     (1, "Monday", [("All day", "$2 off any burger", "excludes build-your-own & the Big Stooge"),
                    ("Happy Hour 2–5 PM", "$2 off appetizers", "excludes wings"),
                    ("Happy Hour 2–6 PM", "Drink specials", "domestic bottles & pints $3.50 · rail drinks $4")]),
-    (2, "Tuesday", [("All day", "$3 off any entrée", ""),
+    (2, "Tuesday", [("All day", "Taco Tuesday! 2 tacos for $8", ""),
                     ("Happy Hour 2–5 PM", "$2 off appetizers", "excludes wings"),
                     ("Happy Hour 2–6 PM", "Drink specials", "domestic bottles & pints $3.50 · rail drinks $4")]),
     (3, "Wednesday", [("All day", "$1 wings", "minimum 10"),
@@ -173,7 +173,7 @@ SPECIALS = [  # weekday: 0=Sun … 6=Sat (matches JS getDay)
     (5, "Friday", [("Happy Hour 11 AM–7 PM", "$2 off appetizers", "excludes wings"),
                    ("Happy Hour 11 AM–7 PM", "Drink specials", "domestic bottles & pints $3.50 · rail drinks $4")]),
     (6, "Saturday", [("11 AM–7 PM", "$2 off sandwiches & wraps", ""),
-                     ("11 AM–7 PM", "$3 off large pizza · $2 off small pizza", ""),
+                     ("11 AM–7 PM", "$2 off small pizzas · $3 off large pizzas", ""),
                      ("Happy Hour 11 AM–7 PM", "Drink specials", "domestic bottles & pints $3.50 · rail drinks $4")]),
     (0, "Sunday Funday", [("11 AM–7 PM", "$1.50 wings", "minimum 8"),
                           ("11 AM–7 PM", "$3 off large pizza · $2 off small pizza · $2 off any entrée", ""),
@@ -236,7 +236,7 @@ MENU = [
          ("Smash Stuffed Curd Burger", "17", "Two 5 oz patties smashed with Wisconsin cheese curds and pepper jack, with chipotle ranch sauce.", ["raw"]),
          ("Build Your Own Burger", "12", "Start with a black Angus patty and add your favorites from the list below.", ["raw"]),
      ],
-     "byo": {"noun": "burger", "photo": ("photos/burger-and-fries", "A Two Stooges double bacon cheeseburger stacked with onion strings, served in a basket with fries and pickles")}, "notes": []},
+     "byo": {"noun": "burger", "photo": ("photos/build-your-own-double-cheeseburger", "A double cheeseburger stacked with lettuce, tomato, red onion and melted cheese on a sesame bun")}, "notes": []},
     {"id": "sandwiches", "name": "Sandwiches & Wraps", "note_top": SIDES_NOTE,
      "advisory": True,
      "items": [
@@ -251,7 +251,7 @@ MENU = [
          ("BBQ Pulled Pork", "14", "Smoked BBQ pulled pork with dill pickles and fried onion straws, served with coleslaw.", ["new"]),
          ("Build Your Own Chicken Sandwich", "12", "Your choice of grilled chicken breast or crispy chicken tenders, built your way with the add-ons below.", []),
      ],
-     "byo": {"noun": "sandwich", "photo": ("photos/build-your-own-double-cheeseburger", "A double cheeseburger stacked with lettuce, tomato, red onion and melted cheese on a sesame bun")}, "notes": []},
+     "byo": {"noun": "sandwich", "base": ("chicken", "Choose your chicken", "", ["Grilled", "Breaded"])}, "notes": []},
     {"id": "pizza", "name": "Pizza", "note_top": "Hand-tossed specialty pies or build your own, with gluten-free crust available.",
      "sizes": ("Specialty pizza", [("Small", '9"', "16"), ("Large", '16"', "24"), ("Gluten-free", '10"', "23")]),
      "feature": ("Ask your server", "About today's special"),
@@ -297,27 +297,28 @@ ADVISORY = ("Consuming raw or undercooked meat, poultry, seafood, shellfish or e
 BYO_ICONS = {
     "cheese": '<path d="M3 18 21 8v10H3Z"/><path d="M3 18 13 9.5c2 .3 5.5-1 8-1.5"/><circle cx="15" cy="14.5" r="1.3"/><circle cx="9" cy="15.5" r=".9"/><circle cx="18.5" cy="11.8" r=".8"/>',
     "toppings": '<path d="M4 20c0-9 6.5-16 16-16 0 9.5-7 16-16 16Z"/><path d="M4 20 14 10"/><path d="M9.5 14.5h4.5M12 12V8.5"/>',
+    "chicken": '<path d="M15.5 4.5a4.5 4.5 0 0 1 2.6 8.2l-4.3 4.3-3.8-3.8 4.3-4.3A4.5 4.5 0 0 1 15.5 4.5Z"/><path d="m10 13.2-3.3 3.3a2 2 0 1 1-2.2 2.2 2 2 0 1 1 2.2-2.2"/>',
     "bold": '<path d="M12 3c.8 3.6 5 5.4 5 10.5a5 5 0 0 1-10 0c0-2.2 1.2-3.6 2.3-4.5 0 2 1 3.2 2.2 3.4-.4-3.3-.7-6.1.5-9.4Z"/>',
 }
 BYO_STEPS = [("cheese", "Choose your cheese"), ("toppings", "Add your toppings"), ("bold", "Make it extra bold")]
 
 
-def byo_card(noun="burger", photo=None):
+def byo_card(noun="burger", photo=None, base=None):
     def chip(x):
         if x.endswith("*"):
             return f'<li>{e(x[:-1])}<span class="advisory-mark" aria-hidden="true">*</span></li>'
         return f'<li>{e(x)}</li>'
     steps = "".join(f'''<li class="byo__step">
           <span class="byo__icon"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">{BYO_ICONS[key]}</svg></span>
-          <div class="byo__step-body"><h4>{e(label)} <span class="byo__price">{e(price)}</span></h4>
+          <div class="byo__step-body"><h4>{e(label)}{f' <span class="byo__price">{e(price)}</span>' if price else ""}</h4>
             <ul class="byo__chips">{"".join(chip(x) for x in items)}</ul></div>
-        </li>''' for (key, label), (_, price, items) in zip(BYO_STEPS, BYO))
+        </li>''' for (key, label), (_, price, items) in ([((base[0], base[1]), (None, base[2], base[3]))] if base else []) + list(zip(BYO_STEPS, BYO)))
     media = (f'<div class="byo__media">{img(photo[0], photo[1], sizes="(max-width:860px) 100vw, 42vw")}</div>' if photo else "")
-    return f'''<div class="byo{" byo--photo" if photo else ""}">
+    return f'''<div class="byo{" byo--photo" if photo else ""}{" byo--4" if base else ""}">
       {media}
       <div class="byo__body">
         <h3 class="byo__title"><span class="byo__title-a">build it</span> <span class="byo__title-b">your way</span></h3>
-        <p class="byo__sub">Start with the base, then stack it however you like. <strong>It's your {e(noun)}.</strong></p>
+        <p class="byo__sub">Start with the base, then stack it however you like. Just tell your server when you order. <strong>It's your {e(noun)}.</strong></p>
         <ol class="byo__steps">{steps}</ol>
       </div>
     </div>'''
@@ -367,7 +368,7 @@ META = {
               "Throw darts at Two Stooges in Fridley, a Twin Cities sports bar with electronic Bullshooter dart boards, a big screen and dart leagues every day. Sign up today.",
               "photos/dart-room", "Electronic dart boards at Two Stooges Sports Bar in Fridley", "Darts"),
     "leagues": ("/leagues/", "Pool & Dart Leagues - Twin Cities | Two Stooges",
-                "Join a pool or dart league at Two Stooges in Fridley, MN: Straight Pool Tuesdays, 10-Ball Thursdays, APA, UPL and daily darts in the Twin Cities. Sign up now.",
+                "Join a pool or dart league at Two Stooges in Fridley, MN: in-house leagues, IBA (M8), APA, UPL and daily dart leagues in the Twin Cities. Sign up online today.",
                 "photos/league-night-pool-players", "League night at Two Stooges Sports Bar in Fridley", "Leagues & Tournaments"),
     "signup": ("/league-signup/", "Join a Pool or Dart League - Twin Cities | Two Stooges",
                "Sign up for a pool or dart league at Two Stooges in Fridley, the Twin Cities sports bar for billiards and darts. All skill levels and solo players welcome.",
@@ -401,7 +402,7 @@ LINK_INFO = {
     "/specials/": ("Happy hour & daily specials", "A food or drink deal every day of the week."),
     "/billiards/": ("Billiards in Fridley", "43 tournament tables, pool specials and the Pro Shop."),
     "/darts/": ("Darts at Two Stooges", "Electronic boards and dart leagues every night."),
-    "/leagues/": ("Pool & dart leagues", "Straight pool, 10-ball, APA, UPL and darts. Sign up online."),
+    "/leagues/": ("Pool & dart leagues", "In-house, IBA (M8), APA, UPL and darts. Sign up online."),
     "/league-signup/": ("League sign-up", "Join a pool or dart league online. Every skill level welcome."),
     "/events/": ("Tournaments & events", "FargoRate shootouts, league nights and special events."),
     "/private-parties/": ("Private parties", "Birthdays, office parties and banquets with custom menus."),
@@ -439,8 +440,8 @@ FAQ = [
      'Two Stooges has 43 pool tables, 9 ft and 7 ft Gabriel\'s and Diamond tables on Simonis 860 cloth. <a href="/billiards/">Learn about our billiard room</a>.',
      "Two Stooges has 43 pool tables, 9 ft and 7 ft Gabriel's and Diamond tables on Simonis 860 cloth."),
     ("Does Two Stooges have pool and dart leagues?",
-     'Yes. We run a Straight Pool League on Tuesdays at 11 AM, a 10-Ball League on Thursdays at 11 AM, APA, UPL and in-house 8-ball leagues, and dart leagues every day. <a href="/leagues/">Sign up for a league</a>.',
-     "Yes. Two Stooges runs a Straight Pool League on Tuesdays at 11 AM, a 10-Ball League on Thursdays at 11 AM, APA, UPL and in-house 8-ball leagues, and dart leagues every day."),
+     'Yes. We run a Straight Pool League on Tuesdays at 11 AM, a 10-Ball League on Thursdays at 11 AM, IBA (M8), APA, UPL and in-house 8-ball leagues, and dart leagues every day. <a href="/leagues/">Sign up for a league</a>.',
+     "Yes. Two Stooges runs a Straight Pool League on Tuesdays at 11 AM, a 10-Ball League on Thursdays at 11 AM, IBA (M8), APA, UPL and in-house 8-ball leagues, and dart leagues every day."),
     ("Can I host a private party at Two Stooges?",
      'Yes. Two Stooges hosts birthdays, office parties, draft parties, banquets and celebrations of life, with custom menus, pool tables and darts. <a href="/private-parties/">Request a party date</a>.',
      "Yes. Two Stooges hosts birthdays, office parties, draft parties, banquets and celebrations of life, with custom menus, pool tables and darts."),
@@ -771,7 +772,9 @@ def first_lead(body):
 
 
 BILLIARDS_OFFERS = [{"@type": "Offer", "name": f"Daily pool special – {n}", "price": p, "priceCurrency": "USD",
-                     "description": "Table time, 11 AM–5 PM daily, plus tax"} for n, p in (("regular", "11"), ("seniors", "10"), ("premier table", "12"))]
+                     "description": "Table time, 11 AM–5 PM daily, plus tax"} for n, p in (("regular", "12"), ("seniors", "11"))] + [
+    {"@type": "Offer", "name": "Lunch special – 1 free hour of pool", "price": "0", "priceCurrency": "USD",
+     "description": "1 free hour of pool with lunch purchase, Monday–Friday 11 AM–5 PM"}]
 
 
 def build_graph(key, body, title, desc, og_url, og_alt, extra_nodes, main_entity):
@@ -1054,8 +1057,8 @@ def p_home():
          f"Gabriel's and Diamond tables in 9 ft and 7 ft, {L('/specials/#pool', 'daily pool specials')} and a full Pro Shop.", "Explore the billiard room"),
         ("photos/home-card-darts-bullseye", "A blue-flighted dart in the bullseye of a dartboard, with warm bar lights behind", "Leagues every day", "Darts", "/darts/",
          f"Electronic dart boards, high-tops and {L('/leagues/', 'dart leagues')} for every skill level.", "See the dart area"),
-        ("photos/home-card-leagues-cues", "Two polished pool cues resting beside a rack of billiard balls", "Weekly play", "Leagues & Tournaments", "/leagues/",
-         f"Straight pool, 10-ball, APA and UPL leagues, plus {L('/events/', 'FargoRate tournaments')}.", "Join a pool league"),
+        ("photos/home-card-leagues-billiard-room", "Rows of blue-felt Diamond pool tables with players at the tables in the Two Stooges billiard room", "Weekly play", "Leagues & Tournaments", "/leagues/",
+         f"In-house leagues as well as IBA (M8), APA and UPL, plus {L('/events/', 'FargoRate Tournaments')}.", "Join a pool league"),
         ("photos/home-card-private-parties", "A group of friends cheering as one of them lines up a shot at the pool table", "Groups welcome", "Private Parties", "/private-parties/",
          f"Birthdays, office parties and banquets with {L('/menu/', 'custom menus')} and pool tables included.", "Plan a private party"),
     ]
@@ -1064,7 +1067,7 @@ def p_home():
       <div class="card__body"><span class="card__kicker">{k}</span><h3>{t}</h3><p>{d}</p><a class="text-link" href="{h}">{l}</a></div>
     </article>''' for i, a, k, t, h, d, l in pillars)
 
-    spec_html = "".join(deal_card(r) for r in DAY_DEALS if r[0] in (1, 2, 3, 0))
+    spec_html = "".join(deal_card(r) for r in DAY_DEALS if r[0] in (1, 2, 3, 5, 6, 0))
 
     picks = [("Big Stooge", "19", "Two black Angus patties, three cheeses, four strips of bacon, onion strings, A-1, honey BBQ and garlic basil aioli.", ["raw", "signature"]),
              ("Duck Bacon Wontons", "16", "Crispy wontons with spicy plum sauce.", []),
@@ -1084,11 +1087,11 @@ def p_home():
     <div class="hero__copy">
       <span class="hero__badge">{icon("pin")}Fridley, MN · Since 1988</span>
       <h1>Two Stooges Sports Bar: <span class="grad-text">billiards &amp; darts</span> in the Twin Cities</h1>
-      <p class="lead">The most fun you can have under one roof. Two Stooges Sports Bar &amp; Grill has been the Twin Cities spot for pool and darts since 1988: 43 pool tables, electronic dart boards, 34 TV screens, 16 ice-cold taps and a full bar &amp; grill in Fridley.</p>
+      <p class="lead">The most fun you can have under one roof. Two Stooges Sports Bar &amp; Grill has been the Twin Cities spot for pool and darts since 1988: 43 pool tables, electronic dart boards, 16 ice-cold taps and a full bar &amp; grill in Fridley.</p>
       <div class="btn-row">{btn("Upcoming Events", "/events/", "gold", "calendar")}{btn("See the Menu", "/menu/", "outline")}</div>
       <div class="stat-row">
         <div><span class="stat__num">43</span><span class="stat__label">Pool tables</span></div>
-        <div><span class="stat__num">34</span><span class="stat__label">Screens</span></div>
+        <div><span class="stat__num">6</span><span class="stat__label">Dart boards</span></div>
         <div><span class="stat__num">16</span><span class="stat__label">Taps</span></div>
         <div><span class="stat__num">7</span><span class="stat__label">Days a week</span></div>
       </div>
@@ -1100,7 +1103,6 @@ def p_home():
 <section class="badge-strip" aria-label="Two Stooges highlights"><div class="wrap">
   <ul class="badges">
     <li><a href="/leagues/">{icon("trophy")}<span>Pool Leagues</span></a></li>
-    <li><span class="badge-static">{icon("sun")}<span>2 Patios</span></span></li>
     <li><a href="/billiards/">{icon("ball")}<span>43 Pool Tables</span></a></li>
     <li><a href="/darts/">{icon("target")}<span>6 Dart Boards</span></a></li>
   </ul>
@@ -1124,7 +1126,7 @@ def p_home():
 <section class="section"><div class="wrap">
   <div class="split">
     <div class="split__media">
-      {img("photos/burger-and-fries", "A Two Stooges double bacon cheeseburger stacked with onion strings, served in a basket with seasoned fries and pickles", sizes="(max-width:860px) 100vw, 50vw")}
+      {img("photos/build-your-own-double-cheeseburger", "A Two Stooges double cheeseburger stacked with lettuce, tomato, red onion and melted cheese on a sesame bun", sizes="(max-width:860px) 100vw, 50vw")}
       <div class="split__badge">Bar &amp; grill<small>Open daily 11 AM – midnight</small></div>
     </div>
     <div>
@@ -1135,25 +1137,6 @@ def p_home():
       <p class="small muted" style="margin:-.75rem 0 1.5rem"><span class="advisory-mark" aria-hidden="true">*</span> Cooked to order. {ADVISORY}</p>
       <div class="btn-row">{btn("View the Full Menu", "/menu/", "green")}{btn("Today's Specials", "/specials/", "outline")}</div>
     </div>
-  </div>
-</div></section>
-
-<section class="section section--photo section--leagues on-dark">
-  <div class="section__bg">{img("photos/pool-rack-blue-felt", "A full rack of pool balls on blue felt with a player lining up the break at Two Stooges", sizes="100vw")}</div>
-  <div class="wrap">
-  <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:1rem;margin-bottom:2rem">
-    <div><span class="eyebrow">Every week</span><h2 class="mb-0">Pool &amp; dart league nights in the Twin Cities</h2></div>
-    <a class="text-link" href="/leagues/">League details &amp; sign-up</a>
-  </div>
-  <div class="grid grid--4">
-    <div class="deal-tile deal-tile--hot"><div class="schedule__day">Tuesday · 11 AM</div><h3>Straight Pool League</h3></div>
-    <div class="deal-tile"><div class="schedule__day">Thursday · 11 AM</div><h3>10-Ball League</h3></div>
-    <div class="deal-tile"><div class="schedule__day">Every day</div><h3>Dart Leagues</h3></div>
-    <div class="deal-tile"><div class="schedule__day">Daily · 11 AM–5 PM</div><h3>Pool Specials</h3></div>
-  </div>
-  <div class="league-cta">
-    <p><strong>Want in?</strong> Leagues are handicapped, so every skill level can compete. Solo players welcome.</p>
-    <div class="btn-row">{btn("Sign Up for a League", "/league-signup/", "gold", "trophy")}{btn("See All Leagues", "/leagues/", "outline")}</div>
   </div>
 </div></section>
 
@@ -1236,11 +1219,8 @@ def p_menu():
     {"".join(f'<figure class="gallery__item food-grid__item"><button type="button" data-lightbox="/assets/img/{p_}.webp" data-alt="{e(a_)}" data-caption="" aria-label="Enlarge photo: {e(a_)}">{img(p_, a_, sizes="(max-width:640px) 50vw, 33vw")}</button></figure>' for p_, a_ in [
         ("photos/food-bacon-burger-onion-straws", "A bacon burger with onion straws and greens on a toasted bun, with fries and a pickle"),
         ("photos/food-wings-two-sauces", "Bone-in wings in two sauces with celery"),
-        ("photos/food-club-sandwich", "A stacked club sandwich with kettle chips"),
         ("photos/food-tater-tots-window", "A pile of crispy tater tots"),
-        ("photos/food-onion-rings", "Golden battered onion rings"),
-        ("photos/food-thin-crust-pizza", "Thin-crust pizza with sausage, mushrooms and red onion"),
-        ("photos/food-steak-bites-onion-rings", "Seared steak bites topped with onion rings")])}
+        ("photos/food-thin-crust-pizza", "Thin-crust pizza with sausage, mushrooms and red onion")])}
   </div>
 </div></section>
 <section class="section section--alt"><div class="wrap">
@@ -1306,8 +1286,9 @@ def p_specials():
       <header class="deal-card__head"><span class="deal-card__day">Every day</span></header>
       <div class="deal-card__body">
         <p class="deal-card__theme">Pool specials</p>
-        <p class="deal-card__price">$11 <span>table time</span></p>
-        <p class="deal-card__note">Seniors $10 · Premier $12 · <strong>11 AM–5 PM</strong></p>
+        <p class="deal-card__price">$12 <span>table time</span></p>
+        <p class="deal-card__note">Seniors $11 · <strong>11 AM–5 PM</strong></p>
+        <ul class="deal-card__extras"><li><span>Mon–Fri 11 AM–5 PM</span>Lunch special: 1 free hour of pool with lunch purchase</li></ul>
       </div>
       <footer class="deal-card__hh">{icon("ball")}See pool specials →</footer>
     </a>
@@ -1324,11 +1305,10 @@ def p_specials():
         <p class="lead">Discounted table time every day from 11 AM to 5 PM on our {L("/billiards/", "43 Gabriel's and Diamond tables")}. Grab a table and balls at the billiard counter and pay when you're done.</p>
         <div class="btn-row">{btn("About Our Tables", "/billiards/", "gold", "ball")}{btn("Join a Pool League", "/league-signup/", "outline")}</div>
       </div>
-      <!-- TODO(client): confirm pool special pricing (old site listed $11/$10/$12 on Billiards but $12/$11 on Specials). -->
       <div class="pool-prices">
-        <div class="pool-price"><span class="pool-price__lbl">Regular</span><span class="pool-price__num">$11</span></div>
-        <div class="pool-price"><span class="pool-price__lbl">Seniors</span><span class="pool-price__num">$10</span></div>
-        <div class="pool-price pool-price--hot"><span class="pool-price__lbl">Premier table</span><span class="pool-price__num">$12</span></div>
+        <div class="pool-price"><span class="pool-price__lbl">Regular</span><span class="pool-price__num">$12</span></div>
+        <div class="pool-price"><span class="pool-price__lbl">Seniors</span><span class="pool-price__num">$11</span></div>
+        <div class="pool-price pool-price--hot pool-price--lunch"><span class="pool-price__lbl">Lunch special<small>Mon–Fri 11 AM–5 PM</small></span><span class="pool-price__num">1 free hour<small>of pool with lunch purchase</small></span></div>
         <p class="pool-prices__note">Plus tax · every day 11 AM–5 PM</p>
       </div>
     </div>
@@ -1351,7 +1331,7 @@ def p_billiards():
   {section_head("The billiard room", "The Twin Cities' award-winning pool hall", f"Pool has been the heart of Two Stooges since 1988, when it opened as University Billiards. {L('/about/', 'Read the full story')}.")}
   <div class="grid grid--3">
     <div class="tile"><span class="tile__icon">{icon("ball")}</span><h3>43 tournament tables</h3><p>9 ft and 7 ft Gabriel's and Diamond tables on Simonis 860 cloth, with good lighting and comfortable seating at every table.</p></div>
-    <div class="tile"><span class="tile__icon">{icon("trophy")}</span><h3>Leagues &amp; tournaments</h3><p>APA, UPL, in-house 8-ball, straight pool and 10-ball {L("/leagues/", "pool leagues")}, plus {L("/events/", "FargoRate tournaments")} throughout the year.</p></div>
+    <div class="tile"><span class="tile__icon">{icon("trophy")}</span><h3>Leagues &amp; tournaments</h3><p>{L("/leagues/", "In-house leagues")} as well as IBA (M8), APA and UPL, plus {L("/events/", "FargoRate Tournaments")}.</p></div>
     <div class="tile"><span class="tile__icon">{icon("bag")}</span><h3>Pro Shop</h3><p>Cues, cases, chalk, gloves, {L("/darts/", "darts")} and accessories, plus {L("#pro-shop", "cue repair")}.</p></div>
   </div>
 </div></section>
@@ -1366,12 +1346,11 @@ def p_billiards():
         <li>Bring the balls back to the counter and settle up.</li>
       </ol>
       <h3 class="mt-2">Daily pool specials · 11 AM–5 PM</h3>
-      <!-- TODO(client): confirm pool special pricing. -->
       <ul class="price-list">
-        <li><span>Regular</span><span class="price">$11</span></li>
-        <li><span>Seniors</span><span class="price">$10</span></li>
-        <li><span>Premier table</span><span class="price">$12</span></li>
+        <li><span>Regular</span><span class="price">$12</span></li>
+        <li><span>Seniors</span><span class="price">$11</span></li>
       </ul>
+      <p class="mt-1"><strong>Lunch Special:</strong> 1 free hour of pool with lunch purchase, Mon–Fri 11 AM–5 PM.</p>
       <p class="small muted mt-1">Plus tax. See every {L("/specials/", "food and drink special")} too.</p>
     </div>
     <div class="split__media">{img("photos/friends-playing-pool", "Friends laughing around a pool table as one lines up a shot", sizes="(max-width:860px) 100vw, 50vw")}<div class="split__badge">Top 10 Billiard Room<small>in North America</small></div></div>
@@ -1382,8 +1361,8 @@ def p_billiards():
   <div class="wrap">
   {section_head("Compete", "Pool leagues &amp; tournaments in Fridley", "Handicapped leagues for every skill level, and tournaments that are open to the public. You don't need to be in a league to play.")}
   <div class="grid grid--2 on-light">
-    <div class="tile"><h3>Weekly pool leagues</h3><div class="tile__meta"><span class="chip chip--gold">Straight Pool · Tue 11 AM</span><span class="chip chip--gold">10-Ball · Thu 11 AM</span><span class="chip">APA</span><span class="chip">UPL</span><span class="chip">In-house 8-Ball</span></div><p class="mt-1">All leagues are handicapped, so beginners and sharks can play together.</p><a class="text-link" href="/leagues/">Pool league details &amp; sign-up</a></div>
-    <div class="tile"><h3>FargoRate tournaments</h3><p>FargoRate 8-ball tournaments and bar box shootouts with money added. Spots fill fast, so sign up early.</p><a class="text-link" href="/events/">Upcoming pool tournaments</a></div>
+    <div class="tile"><h3>Weekly pool leagues</h3><p>Call <a href="tel:{BIZ["tel"]}">{BIZ["phone"]}</a> or contact us at <a href="mailto:{BIZ["email"]}">{BIZ["email"]}</a> about our In-House leagues, or visit our partner leagues' websites:</p><ul class="check-list"><li><a href="https://www.ibapool.com/" target="_blank" rel="noopener">IBA (M8)</a></li><li><a href="https://poolplayers.com/" target="_blank" rel="noopener">APA</a></li><li><a href="https://league.ultimatepoolusa.com/ultimatepool/leagues" target="_blank" rel="noopener">UPL</a></li></ul><a class="text-link" href="/leagues/">Pool league details &amp; sign-up</a></div>
+    <div class="tile"><h3>Tournaments</h3><p>A variety of tournaments on 7ft and 9ft tables. Spots fill fast, so sign up early.</p><a class="text-link" href="/events/">Upcoming pool tournaments</a></div>
   </div>
 </div></section>
 <section class="section section--alt" id="pro-shop"><div class="wrap">
@@ -1392,8 +1371,8 @@ def p_billiards():
     <div>
       <span class="eyebrow">Pro Shop</span>
       <h2>Two Stooges Pro Shop <span class="grad-text">&amp; cue repair</span></h2>
-      <p class="lead">Our Pro Shop carries cues and accessories for pool and {L("/darts/", "darts")}, and we do cue repair on site.</p>
-      <ul class="check-list"><li>Cues &amp; cases</li><li>Chalk, gloves &amp; accessories</li><li>Darts &amp; flights</li><li>Cue repair</li></ul>
+      <p class="lead">Our Pro Shop carries cues and accessories for pool, and we do cue repair on site.</p>
+      <ul class="check-list"><li>Cues &amp; cases</li><li>Chalk, gloves &amp; accessories</li><li>Cue repair</li></ul>
       {btn("Call the Pro Shop", "tel:" + BIZ["tel"], "outline", "phone")}
     </div>
   </div>
@@ -1417,41 +1396,9 @@ def p_darts():
       <span class="eyebrow">The dart area</span>
       <h2>Electronic dart boards <span class="grad-text">in Fridley</span></h2>
       <p class="lead">Our dart area has a row of electronic boards, high-tops for your crew and a big screen showing the game. It's right next to the {L("/billiards/", "billiard room")}, so your group can switch between pool and darts all night.</p>
-      <ul class="check-list"><li>Electronic dart boards</li><li>High-top seating right by the boards</li><li>Food and drinks from the {L("/menu/", "Two Stooges menu")} delivered to your table</li><li>Darts and flights in our {L("/billiards/#pro-shop", "Pro Shop")}</li></ul>
+      <ul class="check-list"><li>Electronic dart boards</li><li>High-top seating right by the boards</li><li>Food and drinks from the {L("/menu/", "Two Stooges menu")} delivered to your table</li></ul>
     </div>
   </div>
-</div></section>
-<section class="section section--photo section--photo-strong on-dark section--dart-leagues">
-  <div class="section__bg">{img("photos/dart-bullseye-green-flight", "A green-flighted dart in the bullseye of a dartboard under warm bar lights", sizes="100vw")}</div>
-  <div class="wrap">
-  {section_head("Dart leagues", "Dart leagues every day of the week", "Meet other players, sharpen your game and win cash. There's a league for every skill level.")}
-  <div class="grid grid--3 on-light">
-    <div class="tile"><span class="tile__icon">{icon("calendar")}</span><h3>Every night</h3><p>Leagues run every day of the week, so pick the night that works for you.</p></div>
-    <div class="tile"><span class="tile__icon">{icon("users")}</span><h3>Custom leagues</h3><p>We can set up leagues for women, couples or teams. Just ask.</p></div>
-    <div class="tile"><span class="tile__icon">{icon("award")}</span><h3>Win cash</h3><p>Compete for prize money and bragging rights all season long.</p></div>
-  </div>
-  <div class="btn-row mt-2">{btn("Sign Up for a Dart League", "/league-signup/", "gold")}{btn("Ask a Team Member", "tel:" + BIZ["tel"], "outline", "phone")}</div>
-</div></section>
-<section class="section section--alt"><div class="wrap">
-  <div class="split split--rev">
-    <div class="split__media">{img("photos/dart-players-league-night", "Dart league players in team shirts throwing at the Bullshooter boards while the game plays on the big screen", sizes="(max-width:860px) 100vw, 50vw")}</div>
-    <div>
-      <span class="eyebrow">New to darts?</span>
-      <h2>Easy to start, <span class="grad-text">hard to put down</span></h2>
-      <p class="lead">Never thrown before? Ask a team member and we'll get you set up on a board. The electronic boards keep score for you, so you can focus on the fun.</p>
-      <ul class="check-list"><li>Electronic boards keep score automatically</li><li>Bring your own darts or pick up a set in the {L("/billiards/#pro-shop", "Pro Shop")}</li><li>Ready to compete? {L("/league-signup/", "Join a dart league")}</li></ul>
-    </div>
-  </div>
-</div></section>
-<section class="section" id="pro-shop"><div class="wrap">
-  {section_head("Pro Shop", "Darts, cues &amp; gear at the Two Stooges Pro Shop", f"Pick up darts, flights, cues, cases, chalk, gloves and accessories right on site, and bring your cue in for repair. More on the {L('/billiards/#pro-shop', 'Pro Shop & cue repair')}.")}
-  <div class="mosaic">
-    {"".join(f'<figure class="gallery__item mosaic__item"><button type="button" data-lightbox="/assets/img/{p_}.webp" data-alt="{e(a_)}" data-caption="{e(a_)}" aria-label="Enlarge photo: {e(a_)}">{img(p_, a_, sizes=sz)}</button></figure>' for p_, a_, sz in [
-        ("photos/pro-shop-display-case-accessories", "The Two Stooges Pro Shop display case: cue balls, chalk holders, grips, racks and accessories on glass shelves", "(max-width:860px) 100vw, 60vw"),
-        ("photos/pro-shop-counter-cue-wall", "The Pro Shop counter with a wall of pool cues and cue cases, and the billiard room beyond", "(max-width:860px) 50vw, 30vw"),
-        ("photos/pro-shop-billiards-counter", "The Pro Shop counter under a red Billiards neon sign, with cue racks, cue cases and glass cases of gear", "(max-width:860px) 50vw, 30vw")])}
-  </div>
-  <div class="btn-row mt-2">{btn("Visit the Pro Shop", "/billiards/#pro-shop", "green", "bag")}{btn("Call the Pro Shop", "tel:" + BIZ["tel"], "outline", "phone")}</div>
 </div></section>
 {cta_band("Dart night for your group?", f"Birthdays, office outings and team nights. We'll reserve boards and put together food for your group. {L('/gallery/', 'See the dart room in our gallery')}.", btn("Plan a Private Party", "/private-parties/", "gold"))}'''
     return page("darts", body)
@@ -1471,29 +1418,26 @@ def p_leagues():
   </div>
 </article>''')
     body = f'''{page_hero("leagues", "Pool &amp; dart leagues", "Pool &amp; dart leagues at <span class='grad-text'>Two Stooges Sports Bar</span>",
-        f"Leagues at Two Stooges are a great way to meet other pool and dart players in Fridley and across the Twin Cities, sharpen your skills and win cash. There's a league for every skill level on our {L('/billiards/', '43 tables')} and {L('/darts/', 'dart boards')}.",
+        f"Leagues at Two Stooges are a great way to meet other pool and dart players in Fridley and across the Twin Cities, and sharpen your skills. There's a league for every skill level on our {L('/billiards/', '43 tables')} and {L('/darts/', 'dart boards')}.",
         "photos/league-night-pool-players", "League night at Two Stooges in Fridley: pool league players in team shirts at rows of blue-felt Diamond tables", btn("Sign Up Online", "/league-signup/", "gold") + btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone"))}
-<section class="section"><div class="wrap">
-  {section_head("In-house pool leagues", "Weekday pool leagues in Fridley", "Played on our 9 ft Gabriel's tables. Click a flyer to see it full size.")}
-  {"".join(lg)}
-</div></section>
 <section class="section section--alt"><div class="wrap">
-  {section_head("More leagues", "APA, UPL &amp; dart leagues in the Twin Cities")}
-  <div class="grid grid--3">
-    <div class="tile"><span class="tile__icon">{icon("ball")}</span><h3>APA &amp; UPL</h3><p>We host APA and UPL handicapped pool leagues, open to all skill levels.</p></div>
+  {section_head("More leagues", "IBA (M8), APA, UPL &amp; dart leagues in the Twin Cities")}
+  <div class="grid grid--4">
+    <div class="tile"><span class="tile__icon">{icon("ball")}</span><h3>IBA (M8)</h3><p>We host IBA (M8) pool leagues. <a href="https://www.ibapool.com/" target="_blank" rel="noopener">Visit the IBA website</a>.</p></div>
+    <div class="tile"><span class="tile__icon">{icon("ball")}</span><h3>APA &amp; UPL</h3><p>We host APA and UPL handicapped pool leagues, open to all skill levels. Visit <a href="https://poolplayers.com/" target="_blank" rel="noopener">APA</a> or <a href="https://league.ultimatepoolusa.com/ultimatepool/leagues" target="_blank" rel="noopener">UPL</a>.</p></div>
     <div class="tile"><span class="tile__icon">{icon("ball")}</span><h3>In-house 8-Ball</h3><p>Our own handicapped 8-ball league, a great first league for newer players.</p></div>
     <div class="tile"><span class="tile__icon">{icon("target")}</span><h3>Dart leagues</h3><p>Leagues every day of the week, plus custom leagues for women, couples and teams. {L("/darts/", "See the dart area")}.</p></div>
   </div>
-  <p class="mt-2 muted">Ready to compete for money? Check the {L("/events/", "upcoming pool tournaments")} for FargoRate 8-ball shootouts.</p>
+  <p class="mt-2 muted">Looking for more competition? Check the {L("/events/", "upcoming pool tournaments")} for FargoRate 8-ball shootouts.</p>
 </div></section>
 {cta_band("Ready to join a league?", f"Sign up online in a couple of minutes. Solo players are welcome, and we'll help you find a team. Check {L('/specials/', 'league-night drink specials')}, the {L('/menu/', 'bar and grill menu')} and our {L('/faq/', 'league FAQ')}, or {L('/private-parties/', 'book your end-of-season party')}.", btn("League Sign-Up", "/league-signup/", "gold") + btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone"))}'''
-    return page("leagues", body, extra_ld=league_event_nodes())
+    return page("leagues", body)
 
 
 LEAGUE_FAQ = [
     ("Do I need a team to join a league?", "No. Solo players are welcome. Sign up and we'll help place you on a team or league night."),
-    ("What skill level do I need?", "Any. Our leagues are handicapped, so beginners and experienced players can compete on even terms."),
-    ("Which leagues can I join?", "Straight Pool on Tuesdays at 11 AM, 10-Ball on Thursdays at 11 AM, APA, UPL and in-house 8-ball pool leagues, plus dart leagues every day of the week."),
+    ("What skill level do I need?", "Any. Most of our leagues are handicapped, so beginners and experienced players can compete on even terms."),
+    ("Which leagues can I join?", "In-house pool leagues as well as IBA (M8), APA and UPL, plus dart leagues every day of the week."),
     ("Can I sign up by phone?", "Yes. Call (763) 574-1399 and a team member will sign you up."),
 ]
 
@@ -1501,11 +1445,11 @@ LEAGUE_FAQ = [
 def p_signup():
     benefits = [
         ("users", "Meet your people", "League night is the easiest way to meet other pool and dart players in Fridley and the north metro."),
-        ("trophy", "Compete for cash & bragging rights", "Play for standings, prizes and cash, and get ready for our FargoRate tournaments with money added."),
-        ("ball", "Every skill level", "Leagues are handicapped, so newer players and sharks can play together, and every match is competitive."),
-        ("target", "Get better every week", "Regular match play against new opponents sharpens your game faster than practice alone, and it builds your FargoRate."),
+        ("trophy", "Compete for Prizes & Bragging Rights", "Play for standings and prizes all season, and get ready for our FargoRate tournaments."),
+        ("ball", "Every skill level", "Most leagues are handicapped, so newer players and sharks can play together, and every match is competitive."),
+        ("target", "Get better every week", "Regular match play against new opponents sharpens your game faster than practice alone."),
         ("calendar", "A standing night out", "Same night, same crew, every week. It's a built-in reason to get out of the house."),
-        ("award", "Play on tournament tables", "Pool leagues are played on our 9 ft Gabriel's tables with new cloth and rails, in a room named a top ten billiard room in North America."),
+        ("award", "Play on tournament tables", "Pool Leagues are played on 7ft and 9ft tables in a room named a top ten billiard room in North America."),
     ]
     ben = "".join(f'<div class="tile"><span class="tile__icon">{icon(i)}</span><h3>{e(t)}</h3><p>{e(d)}</p></div>' for i, t, d in benefits)
     leagues = [("Tuesdays · 11 AM", "Straight Pool League", "BCA rules · 3 races to 50 points"),
@@ -1526,23 +1470,13 @@ def p_signup():
   {section_head("Why join", "Benefits of joining a Two Stooges league", "More than just a game night. Here's what you get when you join a league in Fridley.", center=True)}
   <div class="grid grid--3">{ben}</div>
 </div></section>
-<section class="section section--photo section--photo-strong on-dark section--pick-league">
-  <div class="section__bg">{img("photos/league-friends-pool-table", "Friends laughing around a pool table as one lines up a shot", sizes="100vw")}</div>
-  <div class="wrap">
-  {section_head("Pick your league", "Pool &amp; dart leagues you can join", f"See full rules and flyers on the {L('/leagues/', 'leagues page')}, or check {L('/events/', 'upcoming tournaments')}.")}
-  <div class="schedule schedule--5">{lg}</div>
-</div></section>
-<section class="section"><div class="wrap">
-  {section_head("How it works", "Signing up takes about two minutes", center=True)}
-  <div class="steps">{st}</div>
-</div></section>
 <section class="section section--alt" id="form"><div class="wrap">
   <div class="split" style="align-items:start">
     <div>
       <span class="eyebrow">League sign-up form</span>
       <h2>Sign up for a <span class="grad-text">pool or dart league</span></h2>
       <p class="lead">Fill out the form and we'll get you placed on a team or league night. Prefer the phone? Call us and a team member will sign you up.</p>
-      <ul class="check-list"><li>Pool or darts</li><li>Solo players welcome. We'll help find you a team.</li><li>Handicapped, so every skill level can compete</li></ul>
+      <ul class="check-list"><li>Pool or darts</li><li>Solo players welcome. We'll help find you a team.</li><li>Most leagues are handicapped, so every skill level can compete</li></ul>
       {btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone")}
       <div class="faq-list mt-2">{faqs}</div>
     </div>
@@ -1551,7 +1485,7 @@ def p_signup():
 </div></section>'''
     faq_node = {"@type": "FAQPage", "@id": SITE + "/league-signup/#faq", "isPartOf": {"@id": SITE + "/league-signup/#webpage"},
                 "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in LEAGUE_FAQ]}
-    return page("signup", body, extra_ld=league_event_nodes() + [faq_node], main_entity=SG.SERVICES["leagues"]["@id"])
+    return page("signup", body, extra_ld=[faq_node], main_entity=SG.SERVICES["leagues"]["@id"])
 
 
 
@@ -1757,12 +1691,12 @@ FAQ_GROUPS = [
         FAQ[3][:2],
         ("How do I rent a pool table?", 'Stop at the billiard counter and the attendant will set you up with a table and a set of balls. Play as long as you like, then bring the balls back and settle up. <a href="/billiards/#rates">Daily pool specials</a> run 11 AM–5 PM.'),
         ("How many dart boards are there?", 'Two Stooges has 6 electronic dart boards with high-top seating right next to them. <a href="/darts/">See the dart area</a>.'),
-        ("Is there a pro shop?", 'Yes. The Pro Shop carries cues, cases, chalk, gloves, darts and accessories, and we do cue repair on site. <a href="/billiards/#pro-shop">Visit the Pro Shop</a>.'),
+        ("Is there a pro shop?", 'Yes. The Pro Shop carries cues, cases, chalk, gloves and accessories, and we do cue repair on site. <a href="/billiards/#pro-shop">Visit the Pro Shop</a>.'),
     ]),
     ("Leagues & tournaments", [
         FAQ[4][:2],
         ("Do I need a team to join a league?", 'No. Solo players are welcome, and we will help place you on a team or league night. <a href="/league-signup/">Sign up for a league</a>.'),
-        ("What skill level do I need?", "Any. Our leagues are handicapped, so beginners and experienced players can compete on even terms."),
+        ("What skill level do I need?", "Any. Most of our leagues are handicapped, so beginners and experienced players can compete on even terms."),
         ("Does Two Stooges host pool tournaments?", 'Yes. We host FargoRate 8-ball tournaments and bar box shootouts with money added. <a href="/events/">See upcoming tournaments</a>.'),
     ]),
     ("Food & drink", [
