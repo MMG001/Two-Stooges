@@ -146,7 +146,7 @@ def business_node(biz, page_key, extras=None):
             {"@type": "State", "name": STATE, "sameAs": "https://en.wikipedia.org/wiki/Minnesota"},
             {"@type": "City", "name": ANCHOR_CITY, "sameAs": ["https://en.wikipedia.org/wiki/Fridley,_Minnesota", WIKIDATA["fridley"]]},
         ],
-        "knowsAbout": [thing(k) for k in ("cue", "darts", "pool", "straight", "eightball", "tenball", "sportsbar")],
+        "knowsAbout": [thing(k) for k in ("cue", "darts", "pool", "eightball", "sportsbar")],
         "hasOfferCatalog": {"@type": "OfferCatalog", "name": "Games, leagues & events at Two Stooges",
                             "itemListElement": [{"@id": s["@id"]} for s in SERVICES.values()]},
         "potentialAction": [

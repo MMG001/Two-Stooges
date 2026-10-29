@@ -374,7 +374,7 @@ META = {
                "Sign up for a pool or dart league at Two Stooges in Fridley, the Twin Cities sports bar for billiards and darts. All skill levels and solo players welcome.",
                "photos/hero-league-signup", "A league player lining up a shot at Two Stooges Sports Bar", "League Sign-Up"),
     "events": ("/events/", "Pool Tournaments & Events - Twin Cities | Two Stooges",
-               "Pool tournaments, FargoRate 8-ball shootouts and league nights at Two Stooges, the Twin Cities sports bar for billiards and darts in Fridley. See dates.",
+               "Pool tournaments, FargoRate 8-ball shootouts and special events at Two Stooges, the Twin Cities sports bar for billiards and darts in Fridley. See dates.",
                "photos/player-shooting", "A tournament player shooting at Two Stooges Sports Bar", "Events"),
     "parties": ("/private-parties/", "Private Party Venue - Twin Cities | Two Stooges Sports Bar",
                 "Host a birthday, office party or banquet at Two Stooges, a Twin Cities sports bar in Fridley with custom menus, pool tables and dart boards. Request a date.",
@@ -404,7 +404,7 @@ LINK_INFO = {
     "/darts/": ("Darts at Two Stooges", "Electronic boards and dart leagues every night."),
     "/leagues/": ("Pool & dart leagues", "In-house, IBA (M8), APA, UPL and darts. Sign up online."),
     "/league-signup/": ("League sign-up", "Join a pool or dart league online. Every skill level welcome."),
-    "/events/": ("Tournaments & events", "FargoRate shootouts, league nights and special events."),
+    "/events/": ("Tournaments & events", "FargoRate shootouts and special events."),
     "/private-parties/": ("Private parties", "Birthdays, office parties and banquets with custom menus."),
     "/about/": ("Our story since 1988", "From University Billiards to Two Stooges Sports Bar & Grill."),
     "/gallery/": ("Photo gallery", "Take a look inside the billiard room, dart area and bar."),
@@ -440,8 +440,8 @@ FAQ = [
      'Two Stooges has 43 pool tables, 9 ft and 7 ft Gabriel\'s and Diamond tables on Simonis 860 cloth. <a href="/billiards/">Learn about our billiard room</a>.',
      "Two Stooges has 43 pool tables, 9 ft and 7 ft Gabriel's and Diamond tables on Simonis 860 cloth."),
     ("Does Two Stooges have pool and dart leagues?",
-     'Yes. We run a Straight Pool League on Tuesdays at 11 AM, a 10-Ball League on Thursdays at 11 AM, IBA (M8), APA, UPL and in-house 8-ball leagues, and dart leagues every day. <a href="/leagues/">Sign up for a league</a>.',
-     "Yes. Two Stooges runs a Straight Pool League on Tuesdays at 11 AM, a 10-Ball League on Thursdays at 11 AM, IBA (M8), APA, UPL and in-house 8-ball leagues, and dart leagues every day."),
+     'Yes. We run in-house pool leagues as well as IBA (M8), APA and UPL, plus dart leagues every day. <a href="/leagues/">Sign up for a league</a>.',
+     "Yes. Two Stooges runs in-house pool leagues as well as IBA (M8), APA and UPL, plus dart leagues every day."),
     ("Can I host a private party at Two Stooges?",
      'Yes. Two Stooges hosts birthdays, office parties, draft parties, banquets and celebrations of life, with custom menus, pool tables and darts. <a href="/private-parties/">Request a party date</a>.',
      "Yes. Two Stooges hosts birthdays, office parties, draft parties, banquets and celebrations of life, with custom menus, pool tables and darts."),
@@ -745,7 +745,7 @@ def footer():
 
 
 AWARDS_VISIBLE = AWARDS
-AMENITIES = ["43 pool tables", "6 dart boards", "2 patios", "Pool leagues", "30 HD TVs and 4 monster screens", "NFL Sunday Ticket",
+AMENITIES = ["43 pool tables", "6 dart boards", "Pool leagues", "30 HD TVs and 4 monster screens", "NFL Sunday Ticket",
              "16 beers on tap", "Pro shop and cue repair", "Private event space"]
 PAGE_TYPES = {"contact": "ContactPage", "about": "AboutPage", "gallery": "CollectionPage"}
 SERVICE_PAGES = {"billiards": "billiards", "darts": "darts", "leagues": "leagues", "parties": "parties"}
@@ -1507,23 +1507,19 @@ def p_events():
     up_html = "".join(event_block(ev) for ev in ups)
     past_html = "".join(past_card(ev) for ev in past_events())
     body = f'''{page_hero("events", "What's happening", "Events &amp; tournaments at <span class='grad-text'>Two Stooges Sports Bar</span>",
-        f"Pool tournaments, weekly league nights and special events at Two Stooges in Fridley. Click any flyer to see it full size. Want your own event? {L('/private-parties/', 'Book a private party')}.",
-        "photos/billiard-room-hero", "The Two Stooges billiard room", btn("Upcoming Tournament", "#upcoming", "gold") + btn("Weekly Leagues", "#weekly", "outline") + btn("Recent Events", "#recent", "outline"))}
+        f"Pool tournaments and special events at Two Stooges in Fridley. Click any flyer to see it full size. Want your own event? {L('/private-parties/', 'Book a private party')}.",
+        "photos/billiard-room-hero", "The Two Stooges billiard room", btn("Upcoming Tournament", "#upcoming", "gold") + btn("Pool Leagues", "/leagues/", "outline") + btn("Recent Events", "#recent", "outline"))}
 <section class="section" id="upcoming"><div class="wrap">
   {section_head("Coming up", "Upcoming pool tournaments in the Twin Cities", f"FargoRate events on our {L('/billiards/', 'tournament tables')}. Spots are limited, so call to sign up.")}
   <div data-upcoming>{up_html}</div>
   <div class="empty-note{"" if ups else " is-visible"}" data-empty-note>New events are on the way. Call <a href="tel:{BIZ["tel"]}">{BIZ["phone"]}</a> to find out what's coming up next, or {L("/leagues/", "join a weekly league")}.</div>
-</div></section>
-<section class="section section--alt" id="weekly"><div class="wrap">
-  {section_head("Every week", "Weekly league nights at Two Stooges", f"Our in-house pool leagues on the 9 ft Gabriel's tables. Dart leagues run every day, too. See {L('/leagues/', 'all pool and dart leagues')}.")}
-  {"".join(league_block(L_) for L_ in LEAGUES)}
 </div></section>
 <section class="section" id="recent"><div class="wrap">
   {section_head("Recent events", "Recent events at Two Stooges", "Missed one? Here's what we've hosted lately. Most events come back, so watch this page.")}
   <div class="flyer-grid" data-past-grid>{past_html}</div>
 </div></section>
 {cta_band("Want to host a tournament or party?", "From birthday bashes to banquets and league parties, we'll help you plan it.", btn("Plan Your Event", "/private-parties/", "gold") + btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone"))}'''
-    return page("events", body, extra_ld=[event_ld(ev) for ev in ups] + league_event_nodes())
+    return page("events", body, extra_ld=[event_ld(ev) for ev in ups])
 
 
 def p_parties():
@@ -1635,7 +1631,6 @@ def p_gallery():
               ("photos/gallery-claw-machines", "Prize Cube and Toy Chest claw machines by the billiard room"),
               ("photos/gallery-bar-back-bar-tvs", "Behind the bar: the back bar, beer taps and TVs all around"),
               ("photos/billiard-room-trophy-rail", "Players at the Gabriel's tables under the trophy case and American flag"),
-              ("photos/food-steak-bites-onion-rings", "Steak bites topped with onion rings"),
               ("photos/food-thin-crust-pizza", "Thin-crust pizza with sausage, mushrooms and red onion"),
               ("photos/food-tater-tots", "A pile of hot, crispy tater tots")]
     g = "".join(f'<figure class="gallery__item"><button type="button" data-lightbox="/assets/img/{p}.webp" data-alt="{e(a)}" data-caption="{e(a)}" aria-label="Enlarge photo: {e(a)}">{img(p, a + " at Two Stooges Sports Bar", sizes="(max-width:640px) 100vw, (max-width:1000px) 50vw, 33vw")}</button><figcaption>{e(a)}</figcaption></figure>' for p, a in photos)
@@ -1683,7 +1678,6 @@ def p_contact():
 FAQ_GROUPS = [
     ("Visiting Two Stooges", [
         FAQ[1][:2], FAQ[0][:2], FAQ[2][:2],
-        ("Does Two Stooges have outdoor seating?", "Yes. Two Stooges has two patios."),
         ("Is there parking?", 'Yes, there is a parking lot right outside the front doors on University Ave NE. <a href="/contact/">Get directions</a>.'),
         FAQ[6][:2],
     ]),
