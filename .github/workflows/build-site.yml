@@ -44,8 +44,8 @@ jobs:
         env:
           TZ: America/Chicago
         run: |
-          python3 _src/build.py > build.log 2>&1 || { tail -25 build.log | while IFS= read -r l; do echo "::error::$l"; done; exit 1; }
-          grep -v '^wrote' build.log
+          python3 _src/build.py > "$RUNNER_TEMP/build.log" 2>&1 || { tail -25 "$RUNNER_TEMP/build.log" | while IFS= read -r l; do echo "::error::$l"; done; exit 1; }
+          grep -v '^wrote' "$RUNNER_TEMP/build.log"
       - name: Commit and push (main + preview)
         if: steps.gate.outputs.go == '1'
         run: |

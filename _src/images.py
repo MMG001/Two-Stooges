@@ -92,13 +92,13 @@ def optimize(verbose=True):
                     continue
                 if p.stem.startswith("hero-") and Image.open(p).size[0] > HERO_MD[0]:  # big banner: laptop copy too
                     md = p.with_name(p.stem + "-md.webp")
-                    if not (md.exists() and md.stat().st_mtime >= p.stat().st_mtime):
+                    if not (md.exists() and md.stat().st_mtime >= p.stat().st_mtime - 120):
                         im = _fit(_open_rgb(p), HERO_MD[0])
                         q = _encode(im, md, HERO_MD[1], HERO_MD[2], q_start=76)
                         log.append(f"made {md.name} ({md.stat().st_size // KB} KB, q{q})")
                 sm = p.with_name(p.stem + "-sm.webp")
                 with Image.open(p) as im0:
-                    if im0.size[0] < 1000 or (sm.exists() and sm.stat().st_mtime >= p.stat().st_mtime):
+                    if im0.size[0] < 1000 or (sm.exists() and sm.stat().st_mtime >= p.stat().st_mtime - 120):
                         continue
                     im = _open_rgb(p)
                 im = _fit(im, PHOTO_SM[0])
@@ -111,7 +111,7 @@ def optimize(verbose=True):
             continue
         for suf, w, q0 in (("-thumb", 180, 70), ("-sm", 480, 72)):
             out = p.with_name(p.stem + suf + ".webp")
-            if out.exists() and out.stat().st_mtime >= p.stat().st_mtime:
+            if out.exists() and out.stat().st_mtime >= p.stat().st_mtime - 120:
                 continue
             im = _open_rgb(p)
             im = im.resize((w, round(im.size[1] * w / im.size[0])), Image.LANCZOS)
