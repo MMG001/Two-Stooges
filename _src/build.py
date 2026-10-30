@@ -349,6 +349,9 @@ META = {
     "faq": ("/faq/", "FAQ: Sports Bar, Billiards & Darts | Two Stooges, Fridley",
             "Answers about Two Stooges, the Twin Cities sports bar for billiards and darts in Fridley: hours, pool tables, dart boards, leagues, food and parties. Read more.",
             "photos/billiard-room-gabriels", "The Two Stooges billiard room in Fridley, MN", "FAQ"),
+    "eoe": ("/equal-opportunity-employer/", "Equal Opportunity Employer | Two Stooges Sports Bar",
+            "Two Stooges Sports Bar & Grill in Fridley, MN is an equal opportunity employer. Read our commitment to fair hiring and a respectful workplace for all employees.",
+            "photos/billiard-room-rows", "Two Stooges Sports Bar & Grill", "Equal Opportunity Employer"),
     "privacy": ("/privacy-policy/", "Privacy Policy | Two Stooges Sports Bar",
                 "Read the Two Stooges Sports Bar & Grill privacy policy: what information our Fridley, MN website collects through forms and maps, and how we use and protect it.",
                 "photos/billiard-room-rows", "Two Stooges Sports Bar & Grill", "Privacy Policy"),
@@ -383,6 +386,7 @@ RELATED = {
     "about": ["/gallery/", "/billiards/", "/contact/"],
     "gallery": ["/about/", "/billiards/", "/darts/"],
     "privacy": ["/contact/", "/about/", "/events/"],
+    "eoe": ["/about/", "/contact/", "/faq/"],
     "faq": ["/contact/", "/league-signup/", "/private-parties/"],
 }
 
@@ -640,7 +644,6 @@ def header(path):
 
 
 def footer():
-    updated = dt.date.fromisoformat(TODAY).strftime("%B %-d, %Y")
     return f'''<footer class="site-footer on-dark">
   {rail()}
   <div class="wrap">
@@ -688,8 +691,8 @@ def footer():
     </div>
   </div>
   <div class="wrap footer-bottom">
-    <span>© <span data-year>2026</span> {e(BIZ["name"])}, Fridley, Minnesota. Information updated {updated}.</span>
-    <span><a href="/about/">About</a> · <a href="/gallery/">Gallery</a> · <a href="/contact/">Contact</a> · <a href="/faq/">FAQ</a> · <a href="/privacy-policy/">Privacy Policy</a> · Website by Multimedia Graphics · <a class="footer-admin" href="/admin/" rel="nofollow">Admin</a></span>
+    <span>© <span data-year>2026</span> {e(BIZ["name"])}</span>
+    <span><a href="/faq/">FAQ</a> · <a href="/privacy-policy/">Privacy Policy</a> · <a href="/equal-opportunity-employer/">Equal Opportunity Employer</a> · Website by Multimedia Graphics · <a class="footer-admin" href="/admin/" rel="nofollow">Admin</a></span>
   </div>
 </footer>
 <nav class="action-bar" aria-label="Quick actions">
@@ -1791,6 +1794,23 @@ def p_privacy():
     return page("privacy", body)
 
 
+def p_eoe():
+    body = f'''{page_hero("eoe", "Careers", "Two Stooges Sports Bar <span class='grad-text'>equal opportunity employer</span>",
+        f"{e(BIZ['name'])} is an equal opportunity employer. We hire, train and promote people based on their skills, experience and attitude.",
+        "photos/billiard-room-rows", "The Two Stooges billiard room")}
+<section class="section"><div class="wrap prose" style="max-width:820px">
+  <h2>Our commitment</h2>
+  <p>{e(BIZ['name'])} provides equal employment opportunities to all employees and applicants. We do not discriminate on the basis of race, color, religion, creed, sex, sexual orientation, gender identity, national origin, ancestry, age, disability, marital status, familial status, status with regard to public assistance, military or veteran status, genetic information, or any other status protected by federal, Minnesota or local law.</p>
+  <h2>Where it applies</h2>
+  <p>This applies to every part of employment, including hiring, pay, scheduling, training, promotion, discipline and termination.</p>
+  <h2>Accommodations</h2>
+  <p>We provide reasonable accommodations for applicants and employees with disabilities, and for religious beliefs and practices, as required by law. To ask for an accommodation, talk to a manager or contact us.</p>
+  <h2>Questions</h2>
+  <p>Questions about employment at Two Stooges? Call <a href="tel:{BIZ["tel"]}">{BIZ["phone"]}</a>, email <a href="mailto:{BIZ["email"]}">{BIZ["email"]}</a>, or {L("/contact/", "visit our contact page")}.</p>
+</div></section>'''
+    return page("eoe", body)
+
+
 def p_404():
     body = f'''<section class="section"><div class="wrap center" style="max-width:720px">
   <span class="eyebrow">Error 404</span>
@@ -1826,7 +1846,7 @@ PAGES = {
     "index.html": p_home, "menu/index.html": p_menu, "specials/index.html": p_specials,
     "billiards/index.html": p_billiards, "darts/index.html": p_darts, "leagues/index.html": p_leagues,
     "events/index.html": p_events, "tournaments/index.html": p_tournaments, "league-signup/index.html": p_signup, "private-parties/index.html": p_parties, "about/index.html": p_about,
-    "gallery/index.html": p_gallery, "contact/index.html": p_contact, "privacy-policy/index.html": p_privacy, "faq/index.html": p_faq,
+    "gallery/index.html": p_gallery, "contact/index.html": p_contact, "privacy-policy/index.html": p_privacy, "equal-opportunity-employer/index.html": p_eoe, "faq/index.html": p_faq,
     "404.html": p_404,
 }
 
@@ -1859,7 +1879,7 @@ def main():
         print("wrote", rel)
     # Sitemap: canonical URLs only (matches <link rel=canonical> exactly)
     prio = {"/": "1.0", "/events/": "0.8", "/tournaments/": "0.9", "/billiards/": "0.9", "/specials/": "0.8", "/menu/": "0.8", "/leagues/": "0.8",
-            "/darts/": "0.7", "/league-signup/": "0.8", "/private-parties/": "0.8", "/about/": "0.6", "/gallery/": "0.5", "/contact/": "0.7", "/faq/": "0.6", "/privacy-policy/": "0.2"}
+            "/darts/": "0.7", "/league-signup/": "0.8", "/private-parties/": "0.8", "/about/": "0.6", "/gallery/": "0.5", "/contact/": "0.7", "/faq/": "0.6", "/privacy-policy/": "0.2", "/equal-opportunity-employer/": "0.2"}
     urls = [m[0] for m in META.values()]
     sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + \
          "".join(f"  <url><loc>{SITE}{u}</loc><lastmod>{TODAY}</lastmod><priority>{prio.get(u, '0.5')}</priority></url>\n" for u in urls) + "</urlset>\n"
