@@ -136,7 +136,12 @@ def _load(kind, renames):
             ev["date_label"] = d0.strftime("%a · %b %-d, %Y")
             ev["sort"] = date
             ev["start_iso"] = _iso(date, ev["start"])
-            ev["end_iso"] = _iso(date, ev["end_time"]) if ev["end_time"] else None
+            ev["end_iso"] = None
+            if ev["end_time"]:
+                end_day = date
+                if ev["start"] and ev["end_time"] < ev["start"]:  # ends after midnight
+                    end_day = (d0 + dt.timedelta(days=1)).isoformat()
+                ev["end_iso"] = _iso(end_day, ev["end_time"])
             ev["door_iso"] = _iso(date, ev["doors"]) if ev["doors"] else None
         ev["start_label"] = _time(ev["start"])
         out.append(ev)
