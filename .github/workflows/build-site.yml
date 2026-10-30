@@ -5,7 +5,7 @@ name: Build site
 on:
   push:
     branches: [main]
-    paths: ["_content/**", "assets/img/events/**"]
+    paths: ["_content/**", "assets/img/events/**", ".github/workflows/build-site.yml"]
   schedule:
     - cron: "15 6 * * *"   # ~1:15 AM Central
   workflow_dispatch:
