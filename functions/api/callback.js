@@ -1,4 +1,4 @@
-// Admin login, step 2: GitHub sends the user back here; trade the code for a token
+// Developer login (GitHub), step 2: GitHub sends the user back here; trade the code for a token
 // and hand it to the admin window (Decap CMS) on this same site only.
 export async function onRequestGet({ request, env }) {
   const url = new URL(request.url);
