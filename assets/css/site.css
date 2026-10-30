@@ -347,6 +347,16 @@ address { font-style: normal; }
 .fact__label { display: block; font-size: .68rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: .25rem; }
 .fact__value { font: 600 1.1rem/1.15 var(--font-display); color: var(--green); }
 .event__contact { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1.25rem; margin-top: 1.25rem; }
+.event__title { font-size: clamp(1.75rem, 3.6vw, 2.6rem); line-height: 1.05; color: var(--green); margin: 0 0 .7rem; padding-bottom: .6rem; border-bottom: 3px solid var(--gold-2); }
+.event__when { display: flex; align-items: center; gap: .55rem; margin: 0 0 .9rem; font: 600 clamp(1rem, 1.6vw, 1.15rem)/1.3 var(--font-display); letter-spacing: .06em; text-transform: uppercase; color: var(--text); }
+.event__when .icon { width: 1.15em; height: 1.15em; flex: none; color: var(--gold-ink); }
+.event__desc { font-size: .95rem; color: var(--text-muted); max-width: 60ch; margin: 0; }
+.event--nophoto { grid-template-columns: minmax(0, 1fr); }
+.listing-group { display: block; margin: 2.5rem 0 1rem; }
+.event + template + .event, .event + template + .listing-group { margin-top: 1.5rem; }
+.past-card__blank { aspect-ratio: 3 / 4; background: linear-gradient(135deg, var(--green), #0b2a20); }
+.next-up__body--text { grid-template-columns: 1fr; }
+.footer-admin { opacity: .7; }
 .event__note { font-size: .88rem; color: var(--text-dim); margin-top: 1rem; }
 @media (max-width: 820px) { .event { grid-template-columns: minmax(0, 1fr); } .event__flyer { max-width: 380px; } }
 @media (max-width: 520px) { .event__facts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }

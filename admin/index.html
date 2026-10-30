@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Two Stooges Admin</title>
+<link rel="icon" type="image/png" href="/assets/img/brand/favicon-48.png">
+<script>window.CMS_MANUAL_INIT = true;</script>
+<script src="https://unpkg.com/decap-cms@^3.6.0/dist/decap-cms.js"></script>
+</head>
+<body>
+<script>
+  // Login runs through this same site (/api/auth), on two-stooges.pages.dev and on twostooges.com.
+  CMS.init({ config: { backend: { name: "github", repo: "MMG001/Two-Stooges", branch: "main",
+    base_url: location.origin, auth_endpoint: "api/auth" } } });
+</script>
+</body>
+</html>

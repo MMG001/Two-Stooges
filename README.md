@@ -11,7 +11,7 @@ python3 _src/build.py   # rebuilds every page (Pillow optional, adds image sizes
 
 Edit `_src/build.py`, run it, commit, push. The build stops with an error if a title goes over 60 characters or a description falls outside 150–160. Don't hand-edit the generated `*.html`, because the next build overwrites them.
 
-- **Add an event:** add a dict to `EVENTS` and put the flyer in `assets/img/events/`. Past events move to "Recent events" automatically.
+- **Events & tournaments:** entered by the client at **/admin/** (Decap CMS, GitHub login via `functions/api/auth.js` + `callback.js`, secrets `GITHUB_CLIENT_ID` / `GITHUB_CLIENT_SECRET` in Cloudflare). Entries are JSON in `_content/events/` and `_content/tournaments/`, flyers in `assets/img/events/`. `.github/workflows/build-site.yml` rebuilds and commits the pages after each save (and daily when an event date has passed). Past dates move to "Recent" automatically.
 - **Styles:** `assets/css/site.css` (colors are tokens at the top).
 - **Behavior:** `assets/js/site.js` (mobile menu, dropdowns, open/closed status, today's specials, event auto-archiving, lightbox).
 - **Forms:** League sign-up and event requests use the existing Cognito Forms (#99, #96).

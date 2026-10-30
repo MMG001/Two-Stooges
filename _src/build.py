@@ -8,9 +8,9 @@ here, so hours/phone/nav only ever change in one place.
     python3 _src/build.py          # writes the HTML pages into the repo root
 
 Then commit + push; Cloudflare Pages deploys `main` automatically.
-To add an event: add a dict to EVENTS (newest first), drop the flyer in
-assets/img/events/, run the build. Past events move to "Recent events"
-automatically (at build time and again in the browser via site.js).
+Events and tournaments are entered in the admin (/admin/, Decap CMS) and saved as
+JSON in _content/events/ and _content/tournaments/. A GitHub Action rebuilds the site
+whenever they change (and once a day, so past dates move to "Recent").
 """
 import datetime as dt
 import html
@@ -22,6 +22,7 @@ import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import schema as SG
 import images as IMGS
+import content as CT
 
 ROOT = Path(__file__).resolve().parent.parent
 IMG = ROOT / "assets" / "img"
@@ -60,9 +61,10 @@ NAV = [
                      ("Specials & Happy Hour", "/specials/", "Daily deals, 7 days a week")]),
     ("Play", [("Billiards", "/billiards/", "43 tables · Pro Shop"),
               ("Darts", "/darts/", "Boards & dart leagues"),
-              ("Leagues & Tournaments", "/leagues/", "Weekly pool & dart leagues"),
+              ("Leagues", "/leagues/", "Weekly pool & dart leagues"),
+              ("Tournaments", "/tournaments/", "Weekly 8-ball, 9-ball & Fargo events"),
               ("League Sign-Up", "/league-signup/", "Join a league online")]),
-    ("Events", [("Upcoming Events", "/events/", "Tournaments & special nights"),
+    ("Events", [("Upcoming Events", "/events/", "Special nights, parties & promos"),
                 ("Private Parties", "/private-parties/", "Birthdays, office parties & more")]),
     ("About", "/about/"),
     ("Gallery", "/gallery/"),
@@ -74,58 +76,11 @@ TODAY = dt.date.today().isoformat()
 GRAPHS = {}
 
 # ---------------------------------------------------------------------------
-# Events (newest first). `end` decides upcoming vs past.
+# Events & tournaments come from _content/ (entered in the admin at /admin/).
+# Filled by main() after the image step; see _src/content.py.
 # ---------------------------------------------------------------------------
-EVENTS = [
-    {
-        "id": "bar-box-shootout-2026-11-07",
-        "end": "2026-11-07",
-        "start_iso": "2026-11-07T11:30:00-06:00",
-        "door_iso": "2026-11-07T10:00:00-06:00",
-        "dow": "Sat", "date": "Nov 7, 2026", "short_date": "Sat · Nov 7",
-        "title": "499 & Under Fargo Rated 8-Ball Bar Box Shootout",
-        "flyer": "events/2026-11-07-bar-box-shootout.webp",
-        "flyer_alt": "Flyer: Nov 7th 499 and under Fargo rated 8 ball bar box shootout at Two Stooges. First 64 players, 4/3 race, alt break, double elimination, $40 entry fee, money added. Doors 10 AM, check-in closes 11 AM, starts 11:30 AM. Call or text Nick Johnson 612-449-9987.",
-        "intro": "An 8-ball bar box shootout for players rated 499 and under on FargoRate. Only the first 64 players who sign up get in, so call or text early to grab your spot.",
-        "facts": [("Entry fee", "$40 · money added"), ("Format", "Double elimination"), ("Race", "4/3 · alt break"),
-                  ("Field", "First 64 players"), ("Check-in closes", "11:00 AM"), ("Starts", "11:30 AM")],
-        "note": "Doors open at 10:00 AM. Players must have 150 robustness in FargoRate, or entry is at the tournament director's discretion.",
-        "contact": ("Call or text Nick Johnson", "612-449-9987", "+16124499987"),
-        "price": "40",
-    },
-    {
-        "id": "fargo-8-ball-2026-10-10",
-        "end": "2026-10-10",
-        "start_iso": "2026-10-10T11:30:00-05:00",
-        "door_iso": "2026-10-10T10:00:00-05:00",
-        "dow": "Sat", "date": "Oct 10, 2026", "short_date": "Sat · Oct 10",
-        "title": "499 & Under Fargo Rated 8-Ball Tournament",
-        "flyer": "events/2026-10-10-fargo-8-ball.webp",
-        "flyer_alt": "Flyer: 499 and under Fargo rated 8-ball tournament, Saturday October 10th 2026, only the first 48 players, $300 added. Doors 10 AM, check-in ends 11 AM, tournament starts 11:30 AM. 4/3 race, alt break. $30 entry fee, $5 green fee included. Call Nick Johnson 612-449-9987.",
-        "intro": "8-ball for players rated 499 and under on FargoRate, limited to the first 48 players, with $300 added to the prize fund.",
-        "facts": [("Entry fee", "$30 ($5 green fee incl.)"), ("Added", "$300"), ("Race", "4/3 · alt break"),
-                  ("Field", "First 48 players"), ("Check-in ends", "11:00 AM"), ("Starts", "11:30 AM")],
-        "note": "Doors open at 10:00 AM.",
-        "contact": ("Call Nick Johnson", "612-449-9987", "+16124499987"),
-        "price": "30",
-    },
-    {
-        "id": "rum-ribs-cigar-night-2026-08-22",
-        "end": "2026-08-22",
-        "start_iso": "2026-08-22T18:00:00-05:00",
-        "door_iso": None,
-        "dow": "Sat", "date": "Aug 22, 2026", "short_date": "Sat · Aug 22",
-        "title": "Rum, Ribs & Cigar Night",
-        "flyer": "events/2026-08-22-rum-ribs-cigar-night.webp",
-        "flyer_alt": "Flyer: Rum, Ribs & Cigar Night, Saturday August 22nd at 6 PM. $20 two rum slushies using Zacapa and Bacardi Limón served in a complimentary tiki glass. $45 three course meal: wedge salad; baby back ribs, coleslaw, baked beans, corn bread; key lime pie. $15 premium cigar. Buy all 3 and save $5. Limited seats, first come first served.",
-        "intro": "Two rum slushies (Zacapa and Bacardi Limón) in a complimentary tiki glass, a three-course rib dinner and a premium cigar.",
-        "facts": [("Rum slushies", "2 for $20"), ("3-course meal", "$45"), ("Premium cigar", "$15"),
-                  ("Bundle", "Buy all 3, save $5"), ("Starts", "6:00 PM"), ("Seating", "First come, first served")],
-        "note": "Menu: wedge salad · baby back ribs with coleslaw, baked beans & corn bread · key lime pie.",
-        "contact": ("Questions? Call Two Stooges", BIZ["phone"], BIZ["tel"]),
-        "price": None,
-    },
-]
+ENTRIES = {"events": [], "tournaments": []}
+ENTRY_PAGE = {"events": "/events/", "tournaments": "/tournaments/"}
 
 LEAGUES = [
     {"day": "Tuesdays", "time": "11 AM", "name": "Straight Pool League",
@@ -369,13 +324,16 @@ META = {
               "photos/dart-room", "Electronic dart boards at Two Stooges Sports Bar in Fridley", "Darts"),
     "leagues": ("/leagues/", "Pool & Dart Leagues - Twin Cities | Two Stooges",
                 "Join a pool or dart league at Two Stooges in Fridley, MN: in-house leagues, IBA (M8), APA, UPL and daily dart leagues in the Twin Cities. Sign up online today.",
-                "photos/league-night-pool-players", "League night at Two Stooges Sports Bar in Fridley", "Leagues & Tournaments"),
+                "photos/league-night-pool-players", "League night at Two Stooges Sports Bar in Fridley", "Leagues"),
     "signup": ("/league-signup/", "Join a Pool or Dart League - Twin Cities | Two Stooges",
                "Sign up for a pool or dart league at Two Stooges in Fridley, the Twin Cities sports bar for billiards and darts. All skill levels and solo players welcome.",
                "photos/hero-league-signup", "A league player lining up a shot at Two Stooges Sports Bar", "League Sign-Up"),
-    "events": ("/events/", "Pool Tournaments & Events - Twin Cities | Two Stooges",
-               "Pool tournaments, FargoRate 8-ball shootouts and special events at Two Stooges, the Twin Cities sports bar for billiards and darts in Fridley. See dates.",
-               "photos/player-shooting", "A tournament player shooting at Two Stooges Sports Bar", "Events"),
+    "events": ("/events/", "Bar Events & Special Nights - Twin Cities | Two Stooges",
+               "Special nights, holiday parties and food and drink events at Two Stooges, the Twin Cities sports bar for billiards and darts in Fridley. See what's next.",
+               "photos/billiard-room-hero", "Inside Two Stooges Sports Bar & Grill in Fridley", "Events"),
+    "tournaments": ("/tournaments/", "Pool Tournaments - Twin Cities | Two Stooges Sports Bar",
+                    "Weekly 8-ball and 9-ball pool tournaments plus FargoRate shootouts at Two Stooges, the Twin Cities billiards hall in Fridley. See dates and sign up today.",
+                    "photos/player-shooting", "A tournament player shooting at Two Stooges Sports Bar", "Tournaments"),
     "parties": ("/private-parties/", "Private Party Venue - Twin Cities | Two Stooges Sports Bar",
                 "Host a birthday, office party or banquet at Two Stooges, a Twin Cities sports bar in Fridley with custom menus, pool tables and dart boards. Request a date.",
                 "photos/hero-private-parties", "Friends playing pool at a party at Two Stooges Sports Bar & Grill in Fridley", "Private Parties"),
@@ -404,7 +362,8 @@ LINK_INFO = {
     "/darts/": ("Darts at Two Stooges", "Electronic boards and dart leagues every night."),
     "/leagues/": ("Pool & dart leagues", "In-house, IBA (M8), APA, UPL and darts. Sign up online."),
     "/league-signup/": ("League sign-up", "Join a pool or dart league online. Every skill level welcome."),
-    "/events/": ("Tournaments & events", "FargoRate shootouts and special events."),
+    "/events/": ("Events & special nights", "Food and drink nights, parties and promotions."),
+    "/tournaments/": ("Pool tournaments", "Weekly 8-ball and 9-ball plus FargoRate shootouts."),
     "/private-parties/": ("Private parties", "Birthdays, office parties and banquets with custom menus."),
     "/about/": ("Our story since 1988", "From University Billiards to Two Stooges Sports Bar & Grill."),
     "/gallery/": ("Photo gallery", "Take a look inside the billiard room, dart area and bar."),
@@ -414,11 +373,12 @@ LINK_INFO = {
 RELATED = {
     "menu": ["/specials/", "/private-parties/", "/events/"],
     "specials": ["/menu/", "/billiards/", "/events/"],
-    "billiards": ["/leagues/", "/events/", "/darts/"],
+    "billiards": ["/leagues/", "/tournaments/", "/darts/"],
     "darts": ["/leagues/", "/billiards/", "/private-parties/"],
-    "leagues": ["/league-signup/", "/billiards/", "/events/"],
+    "leagues": ["/league-signup/", "/billiards/", "/tournaments/"],
     "signup": ["/leagues/", "/billiards/", "/darts/"],
-    "events": ["/leagues/", "/private-parties/", "/billiards/"],
+    "events": ["/private-parties/", "/specials/", "/tournaments/"],
+    "tournaments": ["/leagues/", "/billiards/", "/events/"],
     "parties": ["/menu/", "/billiards/", "/darts/"],
     "about": ["/gallery/", "/billiards/", "/contact/"],
     "gallery": ["/about/", "/billiards/", "/darts/"],
@@ -718,7 +678,8 @@ def footer():
           <li><a href="/specials/">Specials &amp; Happy Hour</a></li>
           <li><a href="/billiards/">Billiards</a></li>
           <li><a href="/darts/">Darts</a></li>
-          <li><a href="/leagues/">Leagues &amp; Tournaments</a></li>
+          <li><a href="/leagues/">Leagues</a></li>
+          <li><a href="/tournaments/">Tournaments</a></li>
           <li><a href="/league-signup/">League Sign-Up</a></li>
           <li><a href="/events/">Events</a></li>
           <li><a href="/private-parties/">Private Parties</a></li>
@@ -728,7 +689,7 @@ def footer():
   </div>
   <div class="wrap footer-bottom">
     <span>© <span data-year>2026</span> {e(BIZ["name"])}, Fridley, Minnesota. Information updated {updated}.</span>
-    <span><a href="/about/">About</a> · <a href="/gallery/">Gallery</a> · <a href="/contact/">Contact</a> · <a href="/faq/">FAQ</a> · <a href="/privacy-policy/">Privacy Policy</a> · Website by Multimedia Graphics</span>
+    <span><a href="/about/">About</a> · <a href="/gallery/">Gallery</a> · <a href="/contact/">Contact</a> · <a href="/faq/">FAQ</a> · <a href="/privacy-policy/">Privacy Policy</a> · Website by Multimedia Graphics · <a class="footer-admin" href="/admin/" rel="nofollow">Admin</a></span>
   </div>
 </footer>
 <nav class="action-bar" aria-label="Quick actions">
@@ -931,59 +892,97 @@ def visit_section(title="Visit Two Stooges Sports Bar in Fridley, MN"):
 # ---------------------------------------------------------------------------
 # Events rendering
 # ---------------------------------------------------------------------------
-def upcoming_events():
-    return [ev for ev in EVENTS if ev["end"] >= TODAY]
+def upcoming(kind):
+    """Dated entries still to come (soonest first) and weekly entries (always shown)."""
+    dated = sorted((x for x in ENTRIES[kind] if not x["weekly"] and x["date"] >= TODAY), key=lambda x: x["sort"])
+    return dated, [x for x in ENTRIES[kind] if x["weekly"]]
 
 
-def past_events():
-    return [ev for ev in EVENTS if ev["end"] < TODAY]
+def past(kind):
+    return sorted((x for x in ENTRIES[kind] if not x["weekly"] and x["date"] < TODAY), key=lambda x: x["sort"], reverse=True)
 
 
-def event_block(ev):
-    facts = "".join(f'<div class="fact"><span class="fact__label">{e(k)}</span><span class="fact__value">{e(v)}</span></div>' for k, v in ev["facts"])
-    who, num, tel = ev["contact"]
-    big = f"/assets/img/{ev['flyer']}"
-    return f'''<article class="event event--feature" id="{ev["id"]}" data-event-end="{ev["end"]}" data-past-card="past-{ev["id"]}">
-  <button class="event__flyer" type="button" data-lightbox="{big}" data-alt="{e(ev["flyer_alt"])}" data-caption="{e(ev["title"])} · {e(ev["date"])}" aria-label="View full flyer: {e(ev["title"])}">
-    {flyer_img(ev["flyer"], ev["flyer_alt"], "(max-width:820px) min(380px, 100vw), 320px")}
-  </button>
-  <div>
-    <div class="event__date"><span>{e(ev["dow"])}</span><span>{e(ev["date"])}</span></div>
-    <h3>{e(ev["title"])}</h3>
-    <p class="muted">{e(ev["intro"])} New to FargoRate? Our {L("/leagues/", "weekly pool leagues")} are a great way to build your rating.</p>
-    <div class="event__facts">{facts}</div>
-    <p class="event__note">{e(ev["note"])}</p>
-    <div class="event__contact">
-      {btn(f"{who}: {num}", "tel:" + tel, "gold", "phone")}
-      <a class="text-link" href="/contact/">Directions to Two Stooges</a>
-    </div>
-  </div>
-</article>
-<template id="past-{ev["id"]}">{past_card(ev)}</template>'''
+def flyer_button(ev, sizes, cls="event__flyer"):
+    if not ev["photo"]:
+        return ""
+    big = f"/assets/img/{ev['photo']}"
+    return (f'<button class="{cls}" type="button" data-lightbox="{big}" data-alt="{e(ev["photo_alt"])}" '
+            f'data-caption="{e(ev["title"])} · {e(ev["when"])}" aria-label="View full flyer: {e(ev["title"])}">'
+            f'{flyer_img(ev["photo"], ev["photo_alt"], sizes)}</button>')
+
+
+def listing(ev):
+    """One event/tournament card: H2 title, date & time right under it, short description, then details."""
+    facts = "".join(f'<div class="fact"><span class="fact__label">{e(k)}</span><span class="fact__value">{e(v)}</span></div>'
+                    for k, v in ev["facts"])
+    acts = []
+    if ev["contact_phone"]:
+        tel = "+1" + re.sub(r"\D", "", ev["contact_phone"])[-10:]
+        who = f'Call or text {ev["contact_name"]}' if ev["contact_name"] else "Call or text"
+        acts.append(btn(f'{who}: {ev["contact_phone"]}', "tel:" + tel, "gold", "phone"))
+    else:
+        lead = "Call to sign up: " if ev["kind"] == "tournaments" else "Questions? Call "
+        acts.append(btn(lead + BIZ["phone"], "tel:" + BIZ["tel"], "gold", "phone"))
+    if ev["link"]:
+        lbl = ev["link_label"] or ("Bracket & registration" if ev["kind"] == "tournaments" else "More info")
+        acts.append(f'<a class="text-link" href="{e(ev["link"])}" target="_blank" rel="noopener">{e(lbl)}</a>')
+    acts.append('<a class="text-link" href="/contact/">Directions to Two Stooges</a>')
+    end_attr = "" if ev["weekly"] else f' data-event-end="{ev["date"]}" data-past-card="past-{ev["id"]}"'
+    cls = "event event--feature" + ("" if ev["photo"] else " event--nophoto")
+    desc = f'<p class="event__desc">{e(ev["description"])}</p>' if ev["description"] else ""
+    fx = f'<div class="event__facts">{facts}</div>' if facts else ""
+    note = f'<p class="event__note">{e(ev["note"])}</p>' if ev["note"] else ""
+    out = (f'<article class="{cls}" id="{ev["id"]}"{end_attr}>\n  {flyer_button(ev, "(max-width:820px) min(380px, 100vw), 320px")}\n'
+           f'  <div>\n    <h2 class="event__title">{e(ev["title"])}</h2>\n'
+           f'    <p class="event__when">{icon("calendar")}<span>{e(ev["when"])}</span></p>\n'
+           f'    {desc}\n    {fx}\n    {note}\n    <div class="event__contact">{"".join(acts)}</div>\n  </div>\n</article>')
+    if not ev["weekly"]:
+        out += f'\n<template id="past-{ev["id"]}">{past_card(ev)}</template>'
+    return out
 
 
 def past_card(ev):
-    big = f"/assets/img/{ev['flyer']}"
-    return f'''<article class="past-card">
-  <button type="button" data-lightbox="{big}" data-alt="{e(ev["flyer_alt"])}" data-caption="{e(ev["title"])} · {e(ev["date"])}" aria-label="View flyer: {e(ev["title"])}">{flyer_img(ev["flyer"], ev["flyer_alt"], "(max-width:640px) 50vw, 260px")}</button>
-  <div><span class="chip">Past event</span><h3>{e(ev["title"])}</h3><p>{e(ev["dow"])} · {e(ev["date"])}</p></div>
-</article>'''
+    media = flyer_button(ev, "(max-width:640px) 50vw, 260px", cls="past-card__flyer") or '<div class="past-card__blank" aria-hidden="true"></div>'
+    chip = "Past tournament" if ev["kind"] == "tournaments" else "Past event"
+    return (f'<article class="past-card">\n  {media}\n  <div><span class="chip">{chip}</span>'
+            f'<h3>{e(ev["title"])}</h3><p>{e(ev["date_label"])}</p></div>\n</article>')
 
 
-def event_ld(ev):
-    d = {
-        "@type": "Event", "@id": SITE + "/events/#" + ev["id"], "name": ev["title"],
-        "startDate": ev["start_iso"], "eventStatus": "https://schema.org/EventScheduled",
-        "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
-        "description": ev["intro"], "image": [SITE + "/assets/img/" + ev["flyer"]],
-        "url": SITE + "/events/#" + ev["id"],
-        "location": {"@id": SG.BID}, "organizer": {"@id": SG.BID},
-    }
+def game_thing(ev):
+    g = " ".join(v for k, v in ev["facts"] if k == "Game") + " " + ev["title"]
+    for key, pat in (("eightball", r"\b8[- ]?ball"), ("nineball", r"\b9[- ]?ball"), ("tenball", r"\b10[- ]?ball")):
+        if re.search(pat, g, re.I):
+            return SG.thing(key)
+    return SG.thing("pool")
+
+
+def entry_ld(ev):
+    page_url = SITE + ENTRY_PAGE[ev["kind"]]
+    d = {"@type": "Event", "@id": page_url + "#" + ev["id"], "name": ev["title"],
+         "eventStatus": "https://schema.org/EventScheduled",
+         "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+         "url": page_url + "#" + ev["id"], "location": {"@id": SG.BID}, "organizer": {"@id": SG.BID}}
+    if ev["description"]:
+        d["description"] = ev["description"]
+    if ev["photo"]:
+        d["image"] = [SITE + "/assets/img/" + ev["photo"]]
+    if ev["kind"] == "tournaments":
+        d["about"] = game_thing(ev)
+    if ev["weekly"]:
+        sched = {"@type": "Schedule", "byDay": "https://schema.org/" + ev["day"], "repeatFrequency": "P1W",
+                 "scheduleTimezone": "America/Chicago"}
+        if ev["start"]:
+            sched["startTime"] = ev["start"]
+        d["eventSchedule"] = sched
+        return d
+    d["startDate"] = ev["start_iso"]
+    if ev.get("end_iso"):
+        d["endDate"] = ev["end_iso"]
     if ev.get("door_iso"):
         d["doorTime"] = ev["door_iso"]
     if ev.get("price"):
-        d["offers"] = {"@type": "Offer", "price": ev["price"], "priceCurrency": "USD", "url": SITE + "/events/#" + ev["id"],
-                       "availability": "https://schema.org/LimitedAvailability", "validFrom": TODAY}
+        d["offers"] = {"@type": "Offer", "price": ev["price"], "priceCurrency": "USD", "url": d["url"],
+                       "availability": "https://schema.org/InStock", "validFrom": TODAY}
     return d
 
 
@@ -1036,18 +1035,21 @@ def menu_ld():
 
 
 def p_home():
-    ups = upcoming_events()
-    nxt = min(ups, key=lambda x: x["end"]) if ups else None
+    ups = upcoming("tournaments")[0] + upcoming("events")[0]
+    nxt = min(ups, key=lambda x: x["sort"]) if ups else None
     next_card = ""
     if nxt:
-        next_card = f'''<aside class="next-up" data-next-up="{nxt["end"]}" aria-label="Next event at Two Stooges">
+        thumb = flyer_img(nxt["photo"], nxt["photo_alt"], "84px") if nxt["photo"] else ""
+        meta_line = " · ".join(v for k, v in nxt["facts"][:2])
+        more = "Tournament details" if nxt["kind"] == "tournaments" else "Event details"
+        next_card = f'''<aside class="next-up" data-next-up="{nxt["date"]}" aria-label="Next event at Two Stooges">
         <div class="next-up__label">{icon("calendar")}Next up · {e(nxt["short_date"])}</div>
-        <div class="next-up__body">
-          {flyer_img(nxt["flyer"], nxt["flyer_alt"], "84px")}
+        <div class="next-up__body{"" if thumb else " next-up__body--text"}">
+          {thumb}
           <div>
             <p class="next-up__title">{e(nxt["title"])}</p>
-            <p>{e(nxt["facts"][0][1])} · {e(nxt["facts"][3][1])} · starts {e(nxt["facts"][5][1])}</p>
-            <a class="text-link" href="/events/#{nxt["id"]}">Tournament details</a>
+            <p>{e(nxt["when"].split(" · ", 1)[-1] if nxt["start"] else nxt["when"])}{(" · " + e(meta_line)) if meta_line else ""}</p>
+            <a class="text-link" href="{ENTRY_PAGE[nxt["kind"]]}#{nxt["id"]}">{more}</a>
           </div>
         </div>
       </aside>'''
@@ -1058,7 +1060,7 @@ def p_home():
         ("photos/home-card-darts-bullseye", "A blue-flighted dart in the bullseye of a dartboard, with warm bar lights behind", "Leagues every day", "Darts", "/darts/",
          f"Electronic dart boards, high-tops and {L('/leagues/', 'dart leagues')} for every skill level.", "See the dart area"),
         ("photos/home-card-leagues-billiard-room", "Rows of blue-felt Diamond pool tables with players at the tables in the Two Stooges billiard room", "Weekly play", "Leagues & Tournaments", "/leagues/",
-         f"In-house leagues as well as IBA (M8), APA and UPL, plus {L('/events/', 'FargoRate Tournaments')}.", "Join a pool league"),
+         f"In-house leagues as well as IBA (M8), APA and UPL, plus {L('/tournaments/', 'FargoRate Tournaments')}.", "Join a pool league"),
         ("photos/home-card-private-parties", "A group of friends cheering as one of them lines up a shot at the pool table", "Groups welcome", "Private Parties", "/private-parties/",
          f"Birthdays, office parties and banquets with {L('/menu/', 'custom menus')} and pool tables included.", "Plan a private party"),
     ]
@@ -1169,7 +1171,7 @@ def p_home():
   </div>
 </div></section>
 '''
-    return page("home", body, extra_ld=([event_ld(nxt)] if nxt else []), og_type="business.business")
+    return page("home", body, extra_ld=([entry_ld(nxt)] if nxt else []), og_type="business.business")
 
 
 def p_menu():
@@ -1331,7 +1333,7 @@ def p_billiards():
   {section_head("The billiard room", "The Twin Cities' award-winning pool hall", f"Pool has been the heart of Two Stooges since 1988, when it opened as University Billiards. {L('/about/', 'Read the full story')}.")}
   <div class="grid grid--3">
     <div class="tile"><span class="tile__icon">{icon("ball")}</span><h3>43 tournament tables</h3><p>9 ft and 7 ft Gabriel's and Diamond tables on Simonis 860 cloth, with good lighting and comfortable seating at every table.</p></div>
-    <div class="tile"><span class="tile__icon">{icon("trophy")}</span><h3>Leagues &amp; tournaments</h3><p>{L("/leagues/", "In-house leagues")} as well as IBA (M8), APA and UPL, plus {L("/events/", "FargoRate Tournaments")}.</p></div>
+    <div class="tile"><span class="tile__icon">{icon("trophy")}</span><h3>Leagues &amp; tournaments</h3><p>{L("/leagues/", "In-house leagues")} as well as IBA (M8), APA and UPL, plus {L("/tournaments/", "FargoRate Tournaments")}.</p></div>
     <div class="tile"><span class="tile__icon">{icon("bag")}</span><h3>Pro Shop</h3><p>Cues, cases, chalk, gloves, {L("/darts/", "darts")} and accessories, plus {L("#pro-shop", "cue repair")}.</p></div>
   </div>
 </div></section>
@@ -1362,7 +1364,7 @@ def p_billiards():
   {section_head("Compete", "Pool leagues &amp; tournaments in Fridley", "Handicapped leagues for every skill level, and tournaments that are open to the public. You don't need to be in a league to play.")}
   <div class="grid grid--2 on-light">
     <div class="tile"><h3>Weekly pool leagues</h3><p>Call <a href="tel:{BIZ["tel"]}">{BIZ["phone"]}</a> or contact us at <a href="mailto:{BIZ["email"]}">{BIZ["email"]}</a> about our In-House leagues, or visit our partner leagues' websites:</p><ul class="check-list"><li><a href="https://www.ibapool.com/" target="_blank" rel="noopener">IBA (M8)</a></li><li><a href="https://poolplayers.com/" target="_blank" rel="noopener">APA</a></li><li><a href="https://league.ultimatepoolusa.com/ultimatepool/leagues" target="_blank" rel="noopener">UPL</a></li></ul><a class="text-link" href="/leagues/">Pool league details &amp; sign-up</a></div>
-    <div class="tile"><h3>Tournaments</h3><p>A variety of tournaments on 7ft and 9ft tables. Spots fill fast, so sign up early.</p><a class="text-link" href="/events/">Upcoming pool tournaments</a></div>
+    <div class="tile"><h3>Tournaments</h3><p>A variety of tournaments on 7ft and 9ft tables. Spots fill fast, so sign up early.</p><a class="text-link" href="/tournaments/">Upcoming pool tournaments</a></div>
   </div>
 </div></section>
 <section class="section section--alt" id="pro-shop"><div class="wrap">
@@ -1428,7 +1430,7 @@ def p_leagues():
     <div class="tile"><span class="tile__icon">{icon("ball")}</span><h3>In-house 8-Ball</h3><p>Our own handicapped 8-ball league, a great first league for newer players.</p></div>
     <div class="tile"><span class="tile__icon">{icon("target")}</span><h3>Dart leagues</h3><p>Leagues every day of the week, plus custom leagues for women, couples and teams. {L("/darts/", "See the dart area")}.</p></div>
   </div>
-  <p class="mt-2 muted">Looking for more competition? Check the {L("/events/", "upcoming pool tournaments")} for FargoRate 8-ball shootouts.</p>
+  <p class="mt-2 muted">Looking for more competition? Check the {L("/tournaments/", "upcoming pool tournaments")}: weekly 8-ball and 9-ball plus FargoRate shootouts.</p>
 </div></section>
 {cta_band("Ready to join a league?", f"Sign up online in a couple of minutes. Solo players are welcome, and we'll help you find a team. Check {L('/specials/', 'league-night drink specials')}, the {L('/menu/', 'bar and grill menu')} and our {L('/faq/', 'league FAQ')}, or {L('/private-parties/', 'book your end-of-season party')}.", btn("League Sign-Up", "/league-signup/", "gold") + btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone"))}'''
     return page("leagues", body)
@@ -1502,24 +1504,59 @@ def league_block(L_):
 </article>'''
 
 
-def p_events():
-    ups = sorted(upcoming_events(), key=lambda x: x["end"])
-    up_html = "".join(event_block(ev) for ev in ups)
-    past_html = "".join(past_card(ev) for ev in past_events())
-    body = f'''{page_hero("events", "What's happening", "Events &amp; tournaments at <span class='grad-text'>Two Stooges Sports Bar</span>",
-        f"Pool tournaments and special events at Two Stooges in Fridley. Click any flyer to see it full size. Want your own event? {L('/private-parties/', 'Book a private party')}.",
-        "photos/billiard-room-hero", "The Two Stooges billiard room", btn("Upcoming Tournament", "#upcoming", "gold") + btn("Pool Leagues", "/leagues/", "outline") + btn("Recent Events", "#recent", "outline"))}
+def entries_page(kind, hero, intro_eyebrow, intro_text, empty_text, recent_h2, recent_p, cta):
+    dated, weekly = upcoming(kind)
+    up = "".join(listing(ev) for ev in dated)
+    wk = ""
+    if weekly:
+        wk = '<p class="eyebrow listing-group">Every week</p>' + "".join(listing(ev) for ev in weekly)
+    pasts = past(kind)
+    recent = ""
+    if pasts:
+        recent = f'''<section class="section section--alt" id="recent"><div class="wrap">
+  {section_head("Recent", recent_h2, recent_p)}
+  <div class="flyer-grid" data-past-grid>{"".join(past_card(ev) for ev in pasts)}</div>
+</div></section>'''
+    else:
+        recent = '<div hidden data-past-grid></div>'
+    body = f'''{hero}
 <section class="section" id="upcoming"><div class="wrap">
-  {section_head("Coming up", "Upcoming pool tournaments in the Twin Cities", f"FargoRate events on our {L('/billiards/', 'tournament tables')}. Spots are limited, so call to sign up.")}
-  <div data-upcoming>{up_html}</div>
-  <div class="empty-note{"" if ups else " is-visible"}" data-empty-note>New events are on the way. Call <a href="tel:{BIZ["tel"]}">{BIZ["phone"]}</a> to find out what's coming up next, or {L("/leagues/", "join a weekly league")}.</div>
+  <div class="section-head"><span class="eyebrow">{intro_eyebrow}</span><p>{intro_text}</p></div>
+  <div data-upcoming>{up}</div>
+  <div class="empty-note{"" if dated else " is-visible"}" data-empty-note>{empty_text}</div>
+  {wk}
 </div></section>
-<section class="section" id="recent"><div class="wrap">
-  {section_head("Recent events", "Recent events at Two Stooges", "Missed one? Here's what we've hosted lately. Most events come back, so watch this page.")}
-  <div class="flyer-grid" data-past-grid>{past_html}</div>
-</div></section>
-{cta_band("Want to host a tournament or party?", "From birthday bashes to banquets and league parties, we'll help you plan it.", btn("Plan Your Event", "/private-parties/", "gold") + btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone"))}'''
-    return page("events", body, extra_ld=[event_ld(ev) for ev in ups])
+{recent}
+{cta}'''
+    return body, [entry_ld(ev) for ev in dated + weekly]
+
+
+def p_events():
+    hero = page_hero("events", "What's happening", "Events at <span class='grad-text'>Two Stooges Sports Bar</span>",
+        f"Special nights, parties and promotions at Two Stooges in Fridley, for everyone in the Twin Cities, not just pool players. Click any flyer to see it full size. Looking for pool? See our {L('/tournaments/', 'pool tournaments')}.",
+        "photos/billiard-room-hero", "The Two Stooges billiard room",
+        btn("Upcoming Events", "#upcoming", "gold") + btn("Pool Tournaments", "/tournaments/", "outline") + btn("Private Parties", "/private-parties/", "outline"))
+    body, ld = entries_page("events", hero, "Coming up",
+        f"Food and drink nights, holiday parties and specials on the way. Check {L('/specials/', 'daily specials and happy hour')} for deals every day.",
+        f"New events are on the way. Call <a href=\"tel:{BIZ['tel']}\">{BIZ['phone']}</a> to find out what's next, or see our {L('/tournaments/', 'upcoming pool tournaments')}.",
+        "Recent events at Two Stooges", "Missed one? Here's what we've hosted lately. Most events come back, so watch this page.",
+        cta_band("Want to host your own event?", "From birthday bashes to banquets and league parties, we'll help you plan it.",
+                 btn("Plan Your Event", "/private-parties/", "gold") + btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone")))
+    return page("events", body, extra_ld=ld)
+
+
+def p_tournaments():
+    hero = page_hero("tournaments", "Pool tournaments", "Pool tournaments at <span class='grad-text'>Two Stooges Sports Bar</span>",
+        f"Weekly 8-ball and 9-ball tournaments plus FargoRate shootouts on our {L('/billiards/', '43 tables')} in Fridley, for players from across the Twin Cities. Click any flyer to see it full size.",
+        "photos/player-shooting", "A tournament player shooting at Two Stooges Sports Bar",
+        btn("Upcoming Tournaments", "#upcoming", "gold") + btn("Pool Leagues", "/leagues/", "outline") + btn("Events", "/events/", "outline"))
+    body, ld = entries_page("tournaments", hero, "Coming up",
+        f"Special tournaments first, then our weekly tournaments. Spots are limited, so sign up early. New to FargoRate? Our {L('/leagues/', 'weekly pool leagues')} are a great way to build your rating.",
+        f"No special tournaments posted right now. Call <a href=\"tel:{BIZ['tel']}\">{BIZ['phone']}</a> to find out what's coming up next.",
+        "Recent pool tournaments", "Missed one? Here are our latest tournaments. Most come back, so watch this page.",
+        cta_band("Want to run a tournament here?", "Directors and leagues, talk to us about tables, dates and food for your players.",
+                 btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "gold", "phone") + btn("League Sign-Up", "/league-signup/", "outline")))
+    return page("tournaments", body, extra_ld=ld)
 
 
 def p_parties():
@@ -1595,7 +1632,7 @@ def p_about():
   </div>
 </div></section>
 <section class="section section--alt"><div class="wrap">
-  {section_head("Recognition", "Awards &amp; recognition", f"Want to see why? Join a {L('/leagues/', 'pool or dart league')} or enter one of our {L('/events/', 'tournaments')}.", center=True)}
+  {section_head("Recognition", "Awards &amp; recognition", f"Want to see why? Join a {L('/leagues/', 'pool or dart league')} or enter one of our {L('/tournaments/', 'tournaments')}.", center=True)}
   <div class="grid grid--4">{aw}</div>
 </div></section>
 <section class="section"><div class="wrap">
@@ -1668,7 +1705,7 @@ def p_contact():
   <div class="grid grid--3">
     <article class="card card--link"><div class="card__body"><span class="tile__icon">{icon("users")}</span><h3><a class="stretched" href="/private-parties/#request">Plan a private party</a></h3><p>Birthdays, office parties, banquets and more. Send us your event details.</p></div></article>
     <article class="card card--link"><div class="card__body"><span class="tile__icon">{icon("trophy")}</span><h3><a class="stretched" href="/league-signup/">Join a pool or dart league</a></h3><p>Every skill level is welcome. Sign up online or by phone.</p></div></article>
-    <article class="card card--link"><div class="card__body"><span class="tile__icon">{icon("calendar")}</span><h3><a class="stretched" href="/events/">See upcoming tournaments</a></h3><p>See what's coming up and how to get on the bracket.</p></div></article>
+    <article class="card card--link"><div class="card__body"><span class="tile__icon">{icon("calendar")}</span><h3><a class="stretched" href="/tournaments/">See upcoming tournaments</a></h3><p>See what's coming up and how to get on the bracket.</p></div></article>
   </div>
   <p class="center small muted mt-2">Find Two Stooges on Google Maps: {e(BIZ["plus_code"])}</p>
 </div></section>'''
@@ -1691,7 +1728,7 @@ FAQ_GROUPS = [
         FAQ[4][:2],
         ("Do I need a team to join a league?", 'No. Solo players are welcome, and we will help place you on a team or league night. <a href="/league-signup/">Sign up for a league</a>.'),
         ("What skill level do I need?", "Any. Most of our leagues are handicapped, so beginners and experienced players can compete on even terms."),
-        ("Does Two Stooges host pool tournaments?", 'Yes. We host FargoRate 8-ball tournaments and bar box shootouts with money added. <a href="/events/">See upcoming tournaments</a>.'),
+        ("Does Two Stooges host pool tournaments?", 'Yes. We host a weekly 8-ball tournament every Saturday and a 9-ball tournament every Sunday, plus FargoRate 8-ball tournaments and bar box shootouts with money added. <a href="/tournaments/">See upcoming tournaments</a>.'),
     ]),
     ("Food & drink", [
         ("What food does Two Stooges serve?", 'Classic American bar and grill food: Stoogetizers, wings, burgers, sandwiches and wraps, pizza, entrées, soup and salad. <a href="/menu/">See the full menu</a>.'),
@@ -1783,7 +1820,7 @@ def p_404():
 PAGES = {
     "index.html": p_home, "menu/index.html": p_menu, "specials/index.html": p_specials,
     "billiards/index.html": p_billiards, "darts/index.html": p_darts, "leagues/index.html": p_leagues,
-    "events/index.html": p_events, "league-signup/index.html": p_signup, "private-parties/index.html": p_parties, "about/index.html": p_about,
+    "events/index.html": p_events, "tournaments/index.html": p_tournaments, "league-signup/index.html": p_signup, "private-parties/index.html": p_parties, "about/index.html": p_about,
     "gallery/index.html": p_gallery, "contact/index.html": p_contact, "privacy-policy/index.html": p_privacy, "faq/index.html": p_faq,
     "404.html": p_404,
 }
@@ -1806,20 +1843,23 @@ def bust_images(html_text):
 
 
 def main():
+    renames = CT.prepare_uploads()  # admin uploads: safe file names before conversion
     IMGS.optimize()  # image rule: every photo web-ready before pages read their sizes
+    ENTRIES.update(CT.load(renames))
+    print("content: %d events, %d tournaments" % (len(ENTRIES["events"]), len(ENTRIES["tournaments"])))
     for rel, fn in PAGES.items():
         out = ROOT / rel
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(bust_images(fn()), encoding="utf-8")
         print("wrote", rel)
     # Sitemap: canonical URLs only (matches <link rel=canonical> exactly)
-    prio = {"/": "1.0", "/events/": "0.9", "/billiards/": "0.9", "/specials/": "0.8", "/menu/": "0.8", "/leagues/": "0.8",
+    prio = {"/": "1.0", "/events/": "0.8", "/tournaments/": "0.9", "/billiards/": "0.9", "/specials/": "0.8", "/menu/": "0.8", "/leagues/": "0.8",
             "/darts/": "0.7", "/league-signup/": "0.8", "/private-parties/": "0.8", "/about/": "0.6", "/gallery/": "0.5", "/contact/": "0.7", "/faq/": "0.6", "/privacy-policy/": "0.2"}
     urls = [m[0] for m in META.values()]
     sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + \
          "".join(f"  <url><loc>{SITE}{u}</loc><lastmod>{TODAY}</lastmod><priority>{prio.get(u, '0.5')}</priority></url>\n" for u in urls) + "</urlset>\n"
     (ROOT / "sitemap.xml").write_text(sm, encoding="utf-8")
-    robots = ("User-agent: *\nAllow: /\nDisallow: /_src/\n\nSitemap: " + SITE + "/sitemap.xml\n") if LAUNCH else "User-agent: *\nDisallow: /\n"
+    robots = ("User-agent: *\nAllow: /\nDisallow: /_src/\nDisallow: /_content/\nDisallow: /admin/\nDisallow: /api/\n\nSitemap: " + SITE + "/sitemap.xml\n") if LAUNCH else "User-agent: *\nDisallow: /\n"
     (ROOT / "robots.txt").write_text(robots, encoding="utf-8")
     print("wrote sitemap.xml, robots.txt (launch=%s)" % LAUNCH)
     bad = IMGS.check()

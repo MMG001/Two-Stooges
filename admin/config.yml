@@ -1,0 +1,103 @@
+# Two Stooges admin (Decap CMS). Two sections only: Events and Tournaments.
+# Saving an entry commits a JSON file to _content/; a GitHub Action rebuilds the site (~2 min).
+backend:
+  name: github
+  repo: MMG001/Two-Stooges
+  branch: main
+  commit_messages:
+    create: "Admin: add {{collection}} “{{slug}}”"
+    update: "Admin: update {{collection}} “{{slug}}”"
+    delete: "Admin: delete {{collection}} “{{slug}}”"
+    uploadMedia: "Admin: upload {{path}}"
+    deleteMedia: "Admin: delete {{path}}"
+
+site_url: https://two-stooges.pages.dev
+display_url: https://two-stooges.pages.dev
+logo_url: /assets/img/brand/two-stooges-logo.webp
+locale: en
+
+media_folder: assets/img/events
+public_folder: /assets/img/events
+
+slug:
+  encoding: ascii
+  clean_accents: true
+  sanitize_replacement: "-"
+
+collections:
+  - name: events
+    label: Events
+    label_singular: Event
+    description: "Special nights, parties and promotions for everyone (not pool-specific). Shown on the Events page. Past dates move to “Recent events” automatically."
+    folder: _content/events
+    extension: json
+    format: json
+    create: true
+    delete: true
+    slug: "{{fields.date}}-{{slug}}"
+    summary: "{{date}} · {{title}}"
+    sortable_fields: [date, title]
+    view_filters:
+      - {label: "Shown on site", field: published, pattern: true}
+    fields:
+      - {label: "Title", name: title, widget: string, hint: "Shown as the big heading on the card."}
+      - {label: "Show on website", name: published, widget: boolean, default: true}
+      - {label: "Date", name: date, widget: datetime, date_format: "MMM D, YYYY", time_format: false, format: "YYYY-MM-DD", picker_utc: true}
+      - {label: "Start time", name: start_time, widget: datetime, date_format: false, time_format: "h:mm A", format: "HH:mm", required: false}
+      - {label: "End time", name: end_time, widget: datetime, date_format: false, time_format: "h:mm A", format: "HH:mm", required: false}
+      - {label: "Flyer / photo (JPEG or PNG)", name: photo, widget: image, required: false, choose_url: false, hint: "Any size. It is resized and compressed automatically."}
+      - {label: "Flyer description (for screen readers)", name: photo_alt, widget: text, required: false, hint: "Type out what the flyer says. Leave blank to use the title."}
+      - {label: "Short description", name: description, widget: text, pattern: ['^[\s\S]{0,300}$', "Keep it under 300 characters."], hint: "1–2 sentences, shown under the date and time."}
+      - {label: "Price", name: price, widget: string, required: false, hint: "Example: $25 or Free"}
+      - label: "Details"
+        name: details
+        widget: list
+        required: false
+        summary: "{{fields.label}}: {{fields.value}}"
+        hint: "Optional boxes like “3-course meal: $45”."
+        fields:
+          - {label: "Label", name: label, widget: string}
+          - {label: "Value", name: value, widget: string}
+      - {label: "Extra note", name: notes, widget: text, required: false}
+      - {label: "Link (RSVP, tickets, Facebook event)", name: link, widget: string, required: false}
+      - {label: "Link text", name: link_label, widget: string, required: false, hint: "Example: RSVP on Facebook"}
+      - {label: "Contact name", name: contact_name, widget: string, required: false}
+      - {label: "Contact phone", name: contact_phone, widget: string, required: false, hint: "Leave blank to show the bar's number."}
+
+  - name: tournaments
+    label: Tournaments
+    label_singular: Tournament
+    description: "Pool tournaments. Pick “One date” for special tournaments or “Weekly” for ones that run every week (like Saturday 8-Ball). Shown on the Tournaments page."
+    folder: _content/tournaments
+    extension: json
+    format: json
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    summary: "{{title}} · {{date}}{{day}}"
+    sortable_fields: [date, title]
+    fields:
+      - {label: "Title", name: title, widget: string, hint: "Shown as the big heading on the card."}
+      - {label: "Show on website", name: published, widget: boolean, default: true}
+      - {label: "How often", name: repeat, widget: select, default: once, options: [{label: "One date", value: once}, {label: "Weekly", value: weekly}]}
+      - {label: "Date (one-date tournaments)", name: date, widget: datetime, date_format: "MMM D, YYYY", time_format: false, format: "YYYY-MM-DD", picker_utc: true, required: false}
+      - {label: "Day of the week (weekly tournaments)", name: day, widget: select, required: false, options: [Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday]}
+      - {label: "Doors open", name: doors_time, widget: datetime, date_format: false, time_format: "h:mm A", format: "HH:mm", required: false}
+      - {label: "Sign-up / check-in closes", name: signup_time, widget: datetime, date_format: false, time_format: "h:mm A", format: "HH:mm", required: false}
+      - {label: "Start time", name: start_time, widget: datetime, date_format: false, time_format: "h:mm A", format: "HH:mm", required: false}
+      - {label: "End time", name: end_time, widget: datetime, date_format: false, time_format: "h:mm A", format: "HH:mm", required: false}
+      - {label: "Flyer / photo (JPEG or PNG)", name: photo, widget: image, required: false, choose_url: false, hint: "Any size. It is resized and compressed automatically."}
+      - {label: "Flyer description (for screen readers)", name: photo_alt, widget: text, required: false, hint: "Type out what the flyer says. Leave blank to use the title."}
+      - {label: "Short description", name: description, widget: text, pattern: ['^[\s\S]{0,300}$', "Keep it under 300 characters."], hint: "1–2 sentences, shown under the date and time."}
+      - {label: "Game", name: game, widget: string, required: false, hint: "Example: 8-Ball, 9-Ball, 10-Ball"}
+      - {label: "Entry fee", name: entry_fee, widget: string, required: false, hint: "Example: $15"}
+      - {label: "Added money", name: added_money, widget: string, required: false, hint: "Example: $300 added"}
+      - {label: "Format", name: format, widget: string, required: false, hint: "Example: Double elimination"}
+      - {label: "Race", name: race, widget: string, required: false, hint: "Example: Race to 5 · alt break"}
+      - {label: "Rating limit", name: rating_cap, widget: string, required: false, hint: "Example: Fargo 499 & under"}
+      - {label: "Player limit", name: player_limit, widget: string, required: false, hint: "Example: First 64 players"}
+      - {label: "Extra note", name: notes, widget: text, required: false}
+      - {label: "Contact name", name: contact_name, widget: string, required: false, hint: "Tournament director"}
+      - {label: "Contact phone", name: contact_phone, widget: string, required: false, hint: "Leave blank to show the bar's number."}
+      - {label: "Bracket / registration link", name: link, widget: string, required: false, hint: "CueScore, DigitalPool, etc."}
+      - {label: "Link text", name: link_label, widget: string, required: false}

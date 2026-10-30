@@ -1,5 +1,8 @@
 User-agent: *
 Allow: /
 Disallow: /_src/
+Disallow: /_content/
+Disallow: /admin/
+Disallow: /api/
 
 Sitemap: https://twostooges.com/sitemap.xml

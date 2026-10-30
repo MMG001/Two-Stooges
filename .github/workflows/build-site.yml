@@ -1,0 +1,56 @@
+# Rebuilds the site when events/tournaments are saved in the admin (/admin/),
+# and once a day so past events move to "Recent" automatically.
+name: Build site
+
+on:
+  push:
+    branches: [main]
+    paths: ["_content/**", "assets/img/events/**"]
+  schedule:
+    - cron: "15 6 * * *"   # ~1:15 AM Central
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-site
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - name: Daily run - only when an event date just passed
+        id: gate
+        env:
+          TZ: America/Chicago
+        run: |
+          if [ "${{ github.event_name }}" != "schedule" ]; then echo "go=1" >> "$GITHUB_OUTPUT"; exit 0; fi
+          y=$(date -d yesterday +%F)
+          if grep -l "\"date\": \"$y" _content/*/*.json >/dev/null 2>&1; then echo "go=1" >> "$GITHUB_OUTPUT"; else echo "Nothing ended yesterday ($y)"; fi
+      - uses: actions/setup-python@v5
+        if: steps.gate.outputs.go == '1'
+        with:
+          python-version: "3.12"
+      - if: steps.gate.outputs.go == '1'
+        run: pip install "Pillow>=10"
+      - name: Build pages
+        if: steps.gate.outputs.go == '1'
+        env:
+          TZ: America/Chicago
+        run: python3 _src/build.py
+      - name: Commit and push (main + preview)
+        if: steps.gate.outputs.go == '1'
+        run: |
+          git config user.name "two-stooges-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then echo "Nothing changed"; exit 0; fi
+          git commit -m "Rebuild site from admin content [bot]"
+          git push origin HEAD:main
+          git push origin HEAD:preview --force

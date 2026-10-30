@@ -1,0 +1,38 @@
+{
+  "title": "Rum, Ribs & Cigar Night",
+  "published": true,
+  "date": "2026-08-22",
+  "start_time": "18:00",
+  "end_time": "",
+  "photo": "/assets/img/events/2026-08-22-rum-ribs-cigar-night.webp",
+  "photo_alt": "Flyer: Rum, Ribs & Cigar Night, Saturday August 22nd at 6 PM. $20 two rum slushies using Zacapa and Bacardi Limón served in a complimentary tiki glass. $45 three course meal: wedge salad; baby back ribs, coleslaw, baked beans, corn bread; key lime pie. $15 premium cigar. Buy all 3 and save $5. Limited seats, first come first served.",
+  "description": "Two rum slushies (Zacapa and Bacardi Limón) in a complimentary tiki glass, a three-course rib dinner and a premium cigar.",
+  "price": "",
+  "details": [
+    {
+      "label": "Rum slushies",
+      "value": "2 for $20"
+    },
+    {
+      "label": "3-course meal",
+      "value": "$45"
+    },
+    {
+      "label": "Premium cigar",
+      "value": "$15"
+    },
+    {
+      "label": "Bundle",
+      "value": "Buy all 3, save $5"
+    },
+    {
+      "label": "Seating",
+      "value": "First come, first served"
+    }
+  ],
+  "notes": "Menu: wedge salad · baby back ribs with coleslaw, baked beans & corn bread · key lime pie.",
+  "link": "",
+  "link_label": "",
+  "contact_name": "",
+  "contact_phone": ""
+}

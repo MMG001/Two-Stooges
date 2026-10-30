@@ -51,6 +51,7 @@ WIKI = {
     "darts": ("Darts", "https://en.wikipedia.org/wiki/Darts"),
     "straight": ("Straight pool", "https://en.wikipedia.org/wiki/Straight_pool"),
     "eightball": ("Eight-ball", "https://en.wikipedia.org/wiki/Eight-ball"),
+    "nineball": ("Nine-ball", "https://en.wikipedia.org/wiki/Nine-ball"),
     "tenball": ("Ten-ball", "https://en.wikipedia.org/wiki/Ten-ball"),
     "sportsbar": ("Sports bar", "https://en.wikipedia.org/wiki/Sports_bar"),
     "league": ("Sports league", "https://en.wikipedia.org/wiki/Sports_league"),
