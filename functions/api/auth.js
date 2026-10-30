@@ -69,7 +69,8 @@ export async function onRequestPost({ request, env }) {
   const data = await request.formData().catch(() => null);
   const pw = (data && data.get("password")) || "";
   if (!env.ADMIN_PASSWORD || !env.ADMIN_GITHUB_TOKEN) return form("Admin login isn't set up yet. Call your web designer.");
-  if (!(await sameText(String(pw), env.ADMIN_PASSWORD))) {
+  const clean = (v) => String(v).trim().replace(/^[`'"]+|[`'"]+$/g, "").trim();
+  if (!(await sameText(clean(pw), clean(env.ADMIN_PASSWORD)))) {
     await new Promise((r) => setTimeout(r, 1500)); // slow down guessing
     return form("Wrong password. Try again.");
   }
