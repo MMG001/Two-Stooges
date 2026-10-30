@@ -350,7 +350,8 @@ address { font-style: normal; }
 .event__title { font-size: clamp(1.75rem, 3.6vw, 2.6rem); line-height: 1.05; color: var(--green); margin: 0 0 .7rem; padding-bottom: .6rem; border-bottom: 3px solid var(--gold-2); }
 .event__when { display: flex; align-items: center; gap: .55rem; margin: 0 0 .9rem; font: 600 clamp(1rem, 1.6vw, 1.15rem)/1.3 var(--font-display); letter-spacing: .06em; text-transform: uppercase; color: var(--text); }
 .event__when .icon { width: 1.15em; height: 1.15em; flex: none; color: var(--gold-ink); }
-.event__desc { font-size: .95rem; color: var(--text-muted); max-width: 60ch; margin: 0; }
+.event__subtitle { font-size: clamp(1.1rem, 1.8vw, 1.3rem); color: var(--green); margin: 0 0 .4rem; }
+.event__desc { font-size: .95rem; color: var(--text-muted); max-width: 60ch; margin: 0 0 .6rem; }
 .event--nophoto { grid-template-columns: minmax(0, 1fr); }
 .listing-group { display: block; margin: 2.5rem 0 1rem; }
 .event + template + .event, .event + template + .listing-group { margin-top: 1.5rem; }

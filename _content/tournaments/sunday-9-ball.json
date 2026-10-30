@@ -10,7 +10,10 @@
   "end_time": "",
   "photo": "",
   "photo_alt": "",
-  "description": "Our weekly 9-ball tournament, every Sunday. Open to the public and all skill levels. Call for sign-up time and entry fee.",
+  "about": {
+    "title": "",
+    "body": "Our weekly 9-ball tournament, every Sunday. Open to the public and all skill levels. Call for sign-up time and entry fee."
+  },
   "game": "9-Ball",
   "entry_fee": "",
   "added_money": "",

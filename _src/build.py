@@ -929,7 +929,12 @@ def listing(ev):
     acts.append('<a class="text-link" href="/contact/">Directions to Two Stooges</a>')
     end_attr = "" if ev["weekly"] else f' data-event-end="{ev["date"]}" data-past-card="past-{ev["id"]}"'
     cls = "event event--feature" + ("" if ev["photo"] else " event--nophoto")
-    desc = f'<p class="event__desc">{e(ev["description"])}</p>' if ev["description"] else ""
+    desc = ""
+    if ev["desc_title"]:
+        desc += f'<h3 class="event__subtitle">{e(ev["desc_title"])}</h3>'
+    if ev["body"]:
+        paras = [p_ for p_ in re.split(r"\n\s*\n", ev["body"]) if p_.strip()]
+        desc += "".join(f'<p class="event__desc">{"<br>".join(e(x.strip()) for x in p_.splitlines() if x.strip())}</p>' for p_ in paras)
     fx = f'<div class="event__facts">{facts}</div>' if facts else ""
     note = f'<p class="event__note">{e(ev["note"])}</p>' if ev["note"] else ""
     out = (f'<article class="{cls}" id="{ev["id"]}"{end_attr}>\n  {flyer_button(ev, "(max-width:820px) min(380px, 100vw), 320px")}\n'

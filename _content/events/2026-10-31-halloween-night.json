@@ -1,16 +1,12 @@
 {
-  "details": [
-    {
-      "label": "HALLOWEEN PARTY AT TWO STOOGES",
-      "value": "BEST PARTY OF THE YEAR"
-    }
-  ],
   "start_time": "22:00",
   "published": true,
   "date": "2026-10-31",
   "end_time": "01:00",
   "photo": "/assets/img/events/halloween-party.webp",
   "title": "Halloween Night",
-  "photo_alt": "\n",
-  "description": "Come Early "
+  "about": {
+    "title": "HALLOWEEN PARTY AT TWO STOOGES",
+    "body": "BEST PARTY OF THE YEAR\nCome Early"
+  }
 }

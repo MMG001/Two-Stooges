@@ -93,9 +93,13 @@ def _load(kind, renames):
         date = None if weekly else (str(d.get("date") or "")[:10] or None)
         if not weekly and not date:
             continue
+        about = d.get("about") or {}
+        body = (about.get("body") or d.get("description") or "").strip()
         ev = {
             "kind": kind, "id": f.stem, "title": d["title"].strip(),
-            "description": (d.get("description") or "").strip(),
+            "desc_title": (about.get("title") or "").strip(),
+            "body": body,
+            "description": " ".join(x for x in ((about.get("title") or "").strip(), " ".join(body.split())) if x),
             "photo": photo, "photo_alt": (d.get("photo_alt") or "").strip() or f'Flyer: {d["title"].strip()} at Two Stooges',
             "weekly": weekly, "day": d.get("day") if weekly else None,
             "date": date, "start": d.get("start_time") or "", "end_time": d.get("end_time") or "",
