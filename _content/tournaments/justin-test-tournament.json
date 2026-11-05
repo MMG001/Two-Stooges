@@ -1,0 +1,21 @@
+{
+  "notes": "test extra note",
+  "doors_time": "10:00",
+  "start_time": "11:00",
+  "contact_name": "Nick",
+  "about": {
+    "title": "Test1",
+    "body": "Test tournament 10ball and big tables"
+  },
+  "published": true,
+  "date": "2026-11-21",
+  "contact_phone": "111",
+  "race": "6/5",
+  "game": "10-Ball",
+  "signup_time": "10:30",
+  "format": "Double Elimination",
+  "title": "Justin Test Tournament",
+  "entry_fee": "$60",
+  "repeat": "once",
+  "player_limit": "32"
+}
