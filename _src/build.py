@@ -1401,7 +1401,7 @@ def p_darts():
         "photos/dart-bullseye-neon", "A dart hitting the bullseye under colorful bar lights", btn("Join a Dart League", "/league-signup/", "gold") + btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone"))}
 <section class="section"><div class="wrap">
   <div class="split">
-    <div class="split__media">{img("photos/dart-room-bullshooter-boards", "The Two Stooges dart room in Fridley: six lit Bullshooter electronic dart boards under a big projection screen, with high-top tables", sizes="(max-width:860px) 100vw, 50vw")}</div>
+    <div class="split__media">{img("photos/two-stooges-electronic-dart-boards", "Two Stooges Electronic Dart Boards", sizes="(max-width:860px) 100vw, 50vw")}</div>
     <div>
       <span class="eyebrow">The dart area</span>
       <h2>Electronic dart boards <span class="grad-text">in Fridley</span></h2>
