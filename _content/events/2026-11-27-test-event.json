@@ -1,0 +1,11 @@
+{
+  "published": true,
+  "title": "Test EVent",
+  "date": "2026-11-27",
+  "start_time": "11:00",
+  "end_time": "17:00",
+  "about": {
+    "title": "free pool",
+    "body": "free pool during the day"
+  }
+}
