@@ -245,6 +245,24 @@ MENU = [
      "items": [],
      "notes": []},
 ]
+# Photos shown next to menu items: item name → (image, alt text)
+ITEM_PHOTOS = {
+    "Nachos": ("photos/food-nachos", "Nachos piled with queso, jalapeños, black olives, lettuce and pico de gallo"),
+    "9 oz Boneless Wings": ("photos/food-boneless-wings", "Boneless wings tossed in garlic parmesan sauce with celery sticks"),
+    "Big Stooge": ("photos/food-big-stooge-burger", "The Big Stooge: a double burger stacked with bacon, melted cheese and crispy onion strings, with tater tots"),
+    "Smash Burger": ("photos/food-smash-burger", "A double smash burger with American cheese, lettuce and tomato, with chips and queso"),
+    "Chicken Tender Melt": ("photos/food-chicken-tender-melt", "A chicken tender melt with bacon and cheddar on sourdough toast, with fries"),
+}
+
+
+def item_photo(name):
+    if name not in ITEM_PHOTOS:
+        return ""
+    rel, alt = ITEM_PHOTOS[name]
+    return (f'<button class="menu-item__photo" type="button" data-lightbox="/assets/img/{rel}.webp" data-alt="{e(alt)}" '
+            f'data-caption="{e(name)}" aria-label="Enlarge photo: {e(name)}">{img(rel, alt, sizes="120px")}</button>')
+
+
 ADVISORY = ("Consuming raw or undercooked meat, poultry, seafood, shellfish or eggs "
             "may increase your risk of foodborne illness.")
 
@@ -1136,7 +1154,7 @@ def p_home():
 <section class="section"><div class="wrap">
   <div class="split">
     <div class="split__media">
-      {img("photos/build-your-own-double-cheeseburger", "A Two Stooges double cheeseburger stacked with lettuce, tomato, red onion and melted cheese on a sesame bun", sizes="(max-width:860px) 100vw, 50vw")}
+      {img(*ITEM_PHOTOS["Big Stooge"], sizes="(max-width:860px) 100vw, 50vw")}
       <div class="split__badge">Bar &amp; grill<small>Open daily 11 AM – midnight</small></div>
     </div>
     <div>
@@ -1186,7 +1204,7 @@ def p_menu():
     tabs = "".join(f'<button class="menu-tab" type="button" role="tab" id="tab-{s["id"]}" aria-controls="{s["id"]}" aria-selected="{"true" if i == 0 else "false"}"{"" if i == 0 else " tabindex=\"-1\""}>{e(s["name"])}</button>' for i, s in enumerate(MENU))
     panels = []
     for i, s in enumerate(MENU):
-        items = "".join(f'''<li class="menu-item"><h3>{e(n)} {tag_chips(t)}</h3><span class="menu-item__price">${e(p)}</span><p>{d}</p></li>''' for n, p, d, t in s["items"])
+        items = "".join(f'''<li class="menu-item{" menu-item--photo" if n in ITEM_PHOTOS else ""}">{item_photo(n)}<h3>{e(n)} {tag_chips(t)}</h3><span class="menu-item__price">${e(p)}</span><p>{d}</p></li>''' for n, p, d, t in s["items"])
         notes = "".join(f'<p class="menu-note">{n}</p>' for n in s["notes"])
         feature = ""
         if s.get("feature"):
@@ -1225,12 +1243,9 @@ def p_menu():
 </div></section>
 <section class="section section--tight food-photos"><div class="wrap">
   {section_head("From the kitchen", "Fresh off the Two Stooges grill", f"A look at what's coming out of the kitchen. Find your favorites on the menu above, and check the {L('/specials/', 'daily specials')} for deals. We'll bring it to you while you shoot {L('/billiards/', 'pool')}, throw {L('/darts/', 'darts')} or play in a {L('/leagues/', 'league')}.")}
-  <div class="food-grid">
+  <div class="food-grid food-grid--5">
     {"".join(f'<figure class="gallery__item food-grid__item"><button type="button" data-lightbox="/assets/img/{p_}.webp" data-alt="{e(a_)}" data-caption="" aria-label="Enlarge photo: {e(a_)}">{img(p_, a_, sizes="(max-width:640px) 50vw, 33vw")}</button></figure>' for p_, a_ in [
-        ("photos/food-bacon-burger-onion-straws", "A bacon burger with onion straws and greens on a toasted bun, with fries and a pickle"),
-        ("photos/food-wings-two-sauces", "Bone-in wings in two sauces with celery"),
-        ("photos/food-tater-tots-window", "A pile of crispy tater tots"),
-        ("photos/food-thin-crust-pizza", "Thin-crust pizza with sausage, mushrooms and red onion")])}
+        *ITEM_PHOTOS.values()])}
   </div>
 </div></section>
 <section class="section section--alt"><div class="wrap">

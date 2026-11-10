@@ -390,6 +390,12 @@ address { font-style: normal; }
 .menu-item h3 { margin: 0; font: 600 1.05rem/1.3 var(--font-body); text-transform: none; letter-spacing: 0; color: var(--text); display: flex; flex-wrap: wrap; align-items: center; gap: .45rem; }
 .menu-item__price { font: 700 1.2rem/1.2 var(--font-display); color: var(--green); white-space: nowrap; }
 .menu-item p { grid-column: 1 / -1; margin: 0; color: var(--text-muted); font-size: .92rem; }
+.menu-item--photo { grid-template-columns: 104px 1fr auto; grid-template-rows: auto 1fr; }
+.menu-item--photo p { grid-column: 2 / -1; }
+.menu-item__photo { grid-row: 1 / span 2; align-self: start; display: block; width: 104px; aspect-ratio: 1; padding: 0; border: 0; background: none; cursor: zoom-in; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-1); }
+.menu-item__photo img { width: 100%; height: 100%; object-fit: cover; transition: transform .35s ease; }
+.menu-item__photo:hover img { transform: scale(1.05); }
+@media (max-width: 480px) { .menu-item--photo { grid-template-columns: 84px 1fr auto; } .menu-item__photo { width: 84px; } }
 .menu-note { margin-top: 1.25rem; padding: 1rem 1.15rem; background: #fbf7ec; border-left: 4px solid var(--orange); border-radius: var(--radius); font-size: .9rem; color: var(--text-muted); }
 .menu-note strong { color: var(--text); }
 .menu-note + .menu-note { margin-top: .75rem; }
@@ -747,7 +753,11 @@ address { font-style: normal; }
 .food-grid__item { margin: 0; grid-column: span 3; }
 .food-grid__item button { aspect-ratio: 4 / 3; }
 .food-grid__item img { width: 100%; height: 100%; object-fit: cover; }
+.food-grid--5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.food-grid--5 .food-grid__item { grid-column: span 1; }
+.food-grid--5 .food-grid__item button { aspect-ratio: 4 / 5; }
 @media (max-width: 760px) { .food-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .food-grid__item { grid-column: span 1; } }
+@media (max-width: 760px) { .food-grid--5 { grid-template-columns: repeat(6, minmax(0, 1fr)); } .food-grid--5 .food-grid__item { grid-column: span 2; } .food-grid--5 .food-grid__item:nth-child(-n+2) { grid-column: span 3; } }
 
 /* Home: daily specials band (taller, cards pop off the photo) */
 .section--specials { padding-top: clamp(5rem, 10vw, 8.5rem); padding-bottom: clamp(5.5rem, 11vw, 9rem); }
