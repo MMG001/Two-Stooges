@@ -110,8 +110,8 @@ DAY_DEALS = [
      [], "11 AM–7 PM"),
     (6, "Saturday", "Sat", "Pizza & Sandwiches", "$3 off", "large pizzas", "$2 off small pizzas", "11 AM–7 PM",
      [("11 AM–7 PM", "$2 off sandwiches & wraps")], "11 AM–7 PM"),
-    (0, "Sunday", "Sun", "Sunday Funday", "$1.50", "wings", "Minimum 8", "11 AM–7 PM",
-     [("11 AM–7 PM", "$3 off large · $2 off small pizza"), ("11 AM–7 PM", "$2 off any entrée"), ("Happy hour", "$1 off 22 oz craft beer")], "11 AM–7 PM"),
+    (0, "Sunday", "Sun", "Sunday Funday", "$1.50", "wings", "Minimum 10", "11 AM–7 PM",
+     [("11 AM–7 PM", "$3 off large · $2 off small pizza"), ("11 AM–7 PM", "$2 off burgers (excl. build-your-own & the Big Stooge)"), ("Happy hour", "$1 off 22 oz craft beer")], "11 AM–7 PM"),
 ]
 HH_DRINKS = [("$3.50", "Domestic bottles"), ("$3.50", "Domestic pints"), ("$4.25", "Domestic 22 oz"), ("$4", "Rail drinks")]
 
@@ -132,8 +132,9 @@ SPECIALS = [  # weekday: 0=Sun … 6=Sat (matches JS getDay)
     (6, "Saturday", [("11 AM–7 PM", "$2 off sandwiches & wraps", ""),
                      ("11 AM–7 PM", "$2 off small pizzas · $3 off large pizzas", ""),
                      ("Happy Hour 11 AM–7 PM", "Drink specials", "domestic bottles & pints $3.50 · rail drinks $4")]),
-    (0, "Sunday Funday", [("11 AM–7 PM", "$1.50 wings", "minimum 8"),
-                          ("11 AM–7 PM", "$3 off large pizza · $2 off small pizza · $2 off any entrée", ""),
+    (0, "Sunday Funday", [("11 AM–7 PM", "$1.50 wings", "minimum 10"),
+                          ("11 AM–7 PM", "$3 off large pizza · $2 off small pizza", ""),
+                          ("11 AM–7 PM", "$2 off burgers", "excludes build-your-own & the Big Stooge"),
                           ("Happy Hour 11 AM–7 PM", "Drink specials + $1 off 22 oz craft beer", "domestic bottles & pints $3.50 · rail drinks $4")]),
 ]
 
@@ -733,6 +734,7 @@ def footer():
         </address>
         <p class="footer-title" style="margin-top:1.5rem">Find us online</p>
         <ul class="footer-social">
+          <li><a href="{SG.FACEBOOK_URL}" target="_blank" rel="noopener">Facebook</a></li>
           <li><a href="{SG.SAME_AS[1]}" target="_blank" rel="noopener">Instagram</a></li>
           <li><a href="{SG.GBP_URL}" target="_blank" rel="noopener">Google</a></li>
           <li><a href="{SG.SAME_AS[2]}" target="_blank" rel="noopener">Yelp</a></li>
@@ -1663,7 +1665,7 @@ def p_tournaments():
         term_table("Tournament terms at Two Stooges", "How to read a tournament flyer.", [
             ("8-ball, 9-ball, 10-ball", "The three pool games our tournaments are played in.", "Weekly 8-ball on Saturday and 9-ball on Sunday, plus special events."),
             ("Bar box", "A 7 ft pool table.", "Bar box shootouts are played on our 7 ft tables."),
-            ("Race", "The number of games a player must win to take the match. A 4/3 race means one player races to 4 and the other to 3.", "Listed on each tournament flyer."),
+            ("Race", "The number of games a player must win to take the match. A 4/3 race means the first player to win 4 games on the winning side of the bracket takes the match and the first player to win 3 games on the losing side of the bracket wins the match.", "Listed on each tournament flyer."),
             ("Alt break", "Players take turns breaking instead of the winner breaking.", "Listed on the flyer when it applies."),
             ("Double elimination", "A format where a player is out after losing two matches.", "Listed on the flyer when it applies."),
             ("FargoRate", "A rating system that ranks pool players from their game results.", "Some tournaments are limited to players at or under a set rating."),
@@ -1743,7 +1745,7 @@ def p_about():
     </div>
     <div class="split__media split__media--stack">
       {img("photos/billiard-room-diamond-tables", "The Two Stooges billiard room today: rows of blue-felt Diamond pool tables under wood-trimmed lights", sizes="(max-width:860px) 100vw, 50vw")}
-      {img("photos/dart-room-big-screen", "The Two Stooges dart room: six lit Bullshooter electronic dart boards under a big projection screen showing the game", sizes="(max-width:860px) 100vw, 50vw")}
+      {img("photos/two-stooges-electronic-dart-boards", "The Two Stooges dart room: six lit Bullshooter electronic dart boards under a big projection screen showing the game", sizes="(max-width:860px) 100vw, 50vw")}
     </div>
   </div>
 </div></section>
@@ -1778,7 +1780,7 @@ def p_gallery():
               ("photos/gallery-dining-room", "The dining room with wood tables and chairs, looking toward the bar"),
               ("photos/pro-shop-display-case-accessories", "The Pro Shop display case: cue balls, chalk holders, grips and racks on glass shelves"),
               ("photos/pro-shop-billiards-counter", "The Pro Shop counter under the red Billiards neon sign, with the cue wall and glass cases"),
-              ("photos/dart-room-bullshooter-boards", "The dart room: six lit Bullshooter boards under the big screen, with high-top tables"),
+              ("photos/two-stooges-electronic-dart-boards", "The dart room: six lit Bullshooter boards under the big screen, with high-top tables"),
               ("photos/billiard-room-diamond-apa", "Diamond tables, including an APA tournament table, with the raised bar behind"),
               ("photos/billiard-room-diamond-lounge", "Rows of Diamond tables and high-top seating in the billiard room"),
               ("photos/gallery-claw-machines", "Prize Cube and Toy Chest claw machines by the billiard room"),
@@ -1786,7 +1788,7 @@ def p_gallery():
               ("photos/billiard-room-trophy-rail", "Players at the Gabriel's tables under the trophy case and American flag"),
               ("photos/food-thin-crust-pizza", "Thin-crust pizza with sausage, mushrooms and red onion"),
               ("photos/food-tater-tots", "A pile of hot, crispy tater tots")]
-    g = "".join(f'<figure class="gallery__item"><button type="button" data-lightbox="/assets/img/{p}.webp" data-alt="{e(a)}" data-caption="{e(a)}" aria-label="Enlarge photo: {e(a)}">{img(p, a + " at Two Stooges Sports Bar", sizes="(max-width:640px) 100vw, (max-width:1000px) 50vw, 33vw")}</button><figcaption>{e(a)}</figcaption></figure>' for p, a in photos)
+    g = "".join(f'<figure class="gallery__item"><button type="button" data-lightbox="/assets/img/{p}.webp" data-alt="{e(a)}" data-caption="" aria-label="Enlarge photo: {e(a)}">{img(p, a + " at Two Stooges Sports Bar", sizes="(max-width:640px) 100vw, (max-width:1000px) 50vw, 33vw")}</button></figure>' for p, a in photos)
     body = f'''{page_hero("gallery", "Take a look", "Photos of <span class='grad-text'>Two Stooges Sports Bar</span> in Fridley, MN",
         f"Inside the {L('/billiards/', 'billiard room')}, the {L('/darts/', 'dart area')} and the bar in Fridley. Click any photo to see it full size.",
         "photos/pool-hall-interior", "The Two Stooges billiard room")}

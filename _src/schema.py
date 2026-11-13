@@ -11,7 +11,6 @@ Intentionally NOT marked up (see README):
     ratings; no Review/AggregateRating markup.
   * Past events — visible on /events/ but no longer actionable.
   * paymentAccepted, priceRange, smokingAllowed — not published on the site.
-  * sameAs social profiles — none verified yet (add verified URLs to SAME_AS).
 """
 import html as _html
 import re
@@ -31,12 +30,14 @@ ANCHOR_CITY, STATE = "Fridley", "Minnesota"
 # Verified profile URLs (client-supplied 2026-10-17). Never add from memory.
 # GBP CID 0x4d32f5c7fba28d0 = 347673670564063440 (matches the ludocid in the client's Google link).
 GBP_URL = "https://www.google.com/maps?cid=347673670564063440"
+FACEBOOK_URL = "https://www.facebook.com/twostoogesbar"  # client-supplied 2026-11-13
 SAME_AS = [
     GBP_URL,
     "https://www.instagram.com/twostoogesbarandgrill/",
     "https://www.yelp.com/biz/two-stooges-sports-bar-and-grill-fridley",
     "https://www.tripadvisor.com/Restaurant_Review-g43087-d5259418-Reviews-Two_Stooges_Sports_Bar_Grill-Fridley_Minnesota.html",
     "https://maps.apple.com/place?place-id=I390CADDFBB3A1DE1",
+    FACEBOOK_URL,
 ]
 # Wikidata IDs, each confirmed by two independent sources (DBpedia owl:sameAs + Wikidata/OSM/museum-digital).
 WIKIDATA = {

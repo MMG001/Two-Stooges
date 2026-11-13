@@ -21,7 +21,7 @@ Built by `_src/schema.py` (Universal Prompt v3.1). Every page carries **one** `<
 
 - Geo: plus code `3PXP+85 Fridley` → `86Q83PXP+85` → **45.098312, -93.264562** (decoded, matches the Google Maps embed).
 - `areaServed`: exactly three nodes (v3): GeoCircle **30 mi (`48280` m)** anchored on Fridley (client-confirmed) + State Minnesota + City Fridley (Wikipedia + Wikidata Q985235). **Do not add Twin Cities / Minneapolis / St. Paul or other city nodes**; the radius covers them, and the build fails if `areaServed` is anything other than GeoCircle + State + City. The Twin Cities targeting lives in visible copy (titles, H1/H2s, the Visit section, which states the 30-mile radius and names Minneapolis and St. Paul) and in the business `description`.
-- `sameAs` (client-supplied, verified): Google Business Profile `maps?cid=347673670564063440` (CID 0x4d32f5c7fba28d0, matches the client's Google `ludocid`), Instagram, Yelp, Tripadvisor, Apple Maps. Facebook omitted: the supplied link is a search page, not the business page.
+- `sameAs` (client-supplied, verified): Google Business Profile `maps?cid=347673670564063440` (CID 0x4d32f5c7fba28d0, matches the client's Google `ludocid`), Instagram, Yelp, Tripadvisor, Apple Maps, Facebook (`facebook.com/twostoogesbar`, client-supplied 2026-11-13).
 - Wikidata IDs, each confirmed by two independent sources (DBpedia owl:sameAs + Wikidata/OSM/museum-digital): Billiards/cue sports **Q3341285**, Darts **Q131471**, Fridley **Q985235**. Used in `knowsAbout`, Service `category` and `areaServed` City.
 - Hours: 11:00–23:59 daily ("11 AM – 12 AM" on the old site and in the brief).
 - Enrichment used (true + visible): alternateName, slogan (home), foundingDate 1988, publicAccess, hasMenu, tourBookingPage, servesCuisine (home/menu), keywords (home, terms visible in home copy), amenityFeature/award (home/about), knowsAbout (Wikipedia-linked concepts, mirrored onto Services as `category`). Each Service's own page adds `audience` (Audience + audienceType mirroring the page lead; valid on Service, never on the business node).
@@ -43,7 +43,6 @@ EntryPoints carry only `urlTemplate` + `actionPlatform`. Form fields are managed
 - **Google reviews** (Andrea, Christopher, Travel Genius, Jessica; first names only per client): displayed on the home page with links to Google/Yelp/Tripadvisor, but third-party reviews must NOT be marked up → no Review/AggregateRating. Don't add it.
 - **Past events** (Oct 10 tournament, Aug 22 Rum, Ribs & Cigar Night): visible but no longer actionable.
 - **paymentAccepted, priceRange, smokingAllowed, isAccessibleForFree**: not published on the site.
-- **Facebook**: add the business page URL (not a search URL) to `SAME_AS` in `_src/schema.py` when available.
 
 ## Validation
 
