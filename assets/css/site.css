@@ -357,7 +357,7 @@ address { font-style: normal; }
 .event + template + .event, .event + template + .listing-group { margin-top: 1.5rem; }
 .past-card__blank { aspect-ratio: 3 / 4; background: linear-gradient(135deg, var(--green), #0b2a20); }
 .next-up__body--text { grid-template-columns: 1fr; }
-.footer-admin { opacity: .7; }
+.footer-admin { opacity: 1; }
 .event__note { font-size: .88rem; color: var(--text-dim); margin-top: 1rem; }
 @media (max-width: 820px) { .event { grid-template-columns: minmax(0, 1fr); } .event__flyer { max-width: 380px; } }
 @media (max-width: 520px) { .event__facts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
