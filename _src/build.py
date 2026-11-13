@@ -763,7 +763,7 @@ def footer():
   </div>
   <div class="wrap footer-bottom">
     <span>© <span data-year>2026</span> {e(BIZ["name"])} · Information updated {UPDATED}</span>
-    <span><a href="/faq/">FAQ</a> · <a href="/privacy-policy/">Privacy Policy</a> · <a href="/equal-opportunity-employer/">Equal Opportunity Employer</a> · Website by Multimedia Graphics · <a class="footer-admin" href="/admin/" rel="nofollow">Admin</a></span>
+    <span><a href="/faq/">FAQ</a> · <a href="/privacy-policy/">Privacy Policy</a> · <a href="/equal-opportunity-employer/">Equal Opportunity Employer</a> · <a href="/sitemap.xml">Sitemap</a> · Website by Multimedia Graphics · <a class="footer-admin" href="/admin/" rel="nofollow">Admin</a></span>
   </div>
 </footer>
 <nav class="action-bar" aria-label="Quick actions">
