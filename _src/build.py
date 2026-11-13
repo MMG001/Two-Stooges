@@ -577,6 +577,48 @@ def cognito(form_id, title):
 </div>'''
 
 
+UPDATED = dt.date.fromisoformat(TODAY).strftime("%B %-d, %Y")
+NO_REVIEW_LINE = {"privacy", "eoe"}
+
+
+def review_line(key):
+    """E-E-A-T line (no named reviewer supplied, so the team is credited; date matches schema dateModified)."""
+    if key in NO_REVIEW_LINE:
+        return ""
+    return (f'<div class="wrap"><p class="reviewed">Reviewed by the Two Stooges team · '
+            f'Updated <time datetime="{TODAY}">{UPDATED}</time></p></div>')
+
+
+def find_q(question):
+    for _, qs in FAQ_GROUPS:
+        for q, a in qs:
+            if q == question:
+                return q, a
+    raise KeyError(question)
+
+
+def page_faq(title, questions, eyebrow="Good to know"):
+    """Visible FAQ block built from the same answers as /faq/ (FAQPage schema stays on /faq/ only)."""
+    items = "".join(f'<details class="faq"><summary><h3>{e(q)}</h3></summary><p>{a}</p></details>'
+                    for q, a in map(find_q, questions))
+    return f'''<section class="section section--alt"><div class="wrap" style="max-width:900px">
+  {section_head(eyebrow, title, f"More answers in the {L('/faq/', 'full Two Stooges FAQ')}.")}
+  <div class="faq-list">{items}</div>
+</div></section>'''
+
+
+def term_table(title, intro, rows, eyebrow="Terms to know"):
+    """Keyword and entity table: (term, what it means, at Two Stooges). Cells are trusted HTML."""
+    body = "".join(f'<tr><th scope="row">{t}</th><td>{m}</td><td>{w}</td></tr>' for t, m, w in rows)
+    return f'''<section class="section"><div class="wrap">
+  {section_head(eyebrow, title, intro)}
+  <div class="table-scroll"><table class="term-table">
+    <thead><tr><th scope="col">Term</th><th scope="col">What it means</th><th scope="col">At Two Stooges</th></tr></thead>
+    <tbody>{body}</tbody>
+  </table></div>
+</div></section>'''
+
+
 def related(key):
     hrefs = RELATED.get(key)
     if not hrefs:
@@ -709,7 +751,7 @@ def footer():
     </div>
   </div>
   <div class="wrap footer-bottom">
-    <span>© <span data-year>2026</span> {e(BIZ["name"])}</span>
+    <span>© <span data-year>2026</span> {e(BIZ["name"])} · Information updated {UPDATED}</span>
     <span><a href="/faq/">FAQ</a> · <a href="/privacy-policy/">Privacy Policy</a> · <a href="/equal-opportunity-employer/">Equal Opportunity Employer</a> · Website by Multimedia Graphics · <a class="footer-admin" href="/admin/" rel="nofollow">Admin</a></span>
   </div>
 </footer>
@@ -853,6 +895,7 @@ def page(key, body, extra_ld=None, og_type="website", main_entity=None):
 {header(path)}
 <main id="main">
 {body}
+{review_line(key)}
 {related(key)}
 </main>
 {footer()}
@@ -1233,7 +1276,7 @@ def p_menu():
     {notes}
     {legend}
   </section>''')
-    body = f'''{page_hero("menu", "Eat &amp; drink", "The Two Stooges Sports Bar <span class='grad-text'>menu</span>",
+    body = f'''{page_hero("menu", "Eat &amp; drink", "The Two Stooges Sports Bar <span class='grad-text'>menu</span> in Fridley, MN",
         f"Classic American bar and grill food with our own twist, served in Fridley every day from 11 AM. There are burgers, wings, pizza, sandwiches and entrées, plus 16 beers on tap. Check the {L('/specials/', 'daily specials')} before you order.",
         "photos/tenders-and-beer", "Crispy chicken tenders and fries next to an ice-cold pint of beer on a wood table", btn("Today's Specials", "/specials/", "gold") + btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone"))}
 <section class="section"><div class="wrap">
@@ -1287,7 +1330,7 @@ def deal_card(row):
 def p_specials():
     days = [deal_card(row) for row in DAY_DEALS]
     drinks = "".join(f'<div class="hh-price"><span class="hh-price__num">{e(p_)}</span><span class="hh-price__lbl">{e(l_)}</span></div>' for p_, l_ in HH_DRINKS)
-    body = f'''{page_hero("specials", "Daily deals", "Two Stooges Sports Bar <span class='grad-text'>specials &amp; happy hour</span>",
+    body = f'''{page_hero("specials", "Daily deals", "Two Stooges Sports Bar <span class='grad-text'>specials &amp; happy hour</span> in Fridley, MN",
         f"There's a deal every day at Two Stooges in Fridley, and today's specials are highlighted below. Browse the {L('/menu/', 'full bar and grill menu')} or grab a table with our {L('#pool', 'daily pool specials')}.",
         "photos/beers-on-bar", "Three ice-cold pints of beer lined up on the bar", btn("Today's Deal", "#week", "gold") + btn("Pool Specials", "#pool", "outline"))}
 <section class="section section--felt on-dark hh-band"><div class="wrap">
@@ -1339,6 +1382,7 @@ def p_specials():
     </div>
   </div>
 </section>
+{page_faq("Specials questions at Two Stooges in Fridley", ["When is happy hour?", "How many beers are on tap?", "What food does Two Stooges serve?", "What are the hours at Two Stooges?"])}
 {cta_band("Celebrating a birthday?", "Bring the crew. We'll set you up with tables, food and drinks for your group.", btn("Book a Party", "/private-parties/", "gold") + btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone"))}'''
     return page("specials", body)
 
@@ -1406,6 +1450,16 @@ def p_billiards():
   {section_head("The room", "Inside the Two Stooges billiard room", f"More photos in the {L('/gallery/', 'Two Stooges photo gallery')}.")}
   <div class="photo-grid">{g}</div>
 </div></section>
+{term_table("Pool hall terms at Two Stooges", "The table brands, sizes and league names you'll hear in the billiard room.", [
+    ("Gabriel's tables", "Tournament pool tables from the Belgian maker Gabriels.", "9 ft and 7 ft Gabriel's tables in the billiard room."),
+    ("Diamond tables", "Pool tables from Diamond Billiard Products, widely used for league and tournament play.", "Diamond tables, including an APA tournament table."),
+    ("Simonis 860", "A worsted wool pool cloth made by Iwan Simonis.", "The cloth on our tables."),
+    ("9 ft table", "The full-size table used for professional play.", f"Used for our {L('/tournaments/', 'pool tournaments')} along with the 7 ft tables."),
+    ("7 ft table (bar box)", "The smaller table size most bar leagues play on.", "Used for bar box shootouts."),
+    ("FargoRate", "A rating system that ranks pool players from their game results.", f"Our {L('/tournaments/', 'FargoRate tournaments')} set a rating limit for entry."),
+    ("IBA (M8), APA, UPL", "Pool league organizations with handicapped team play.", f"All three run {L('/leagues/', 'pool leagues at Two Stooges')}."),
+])}
+{page_faq("Billiards questions at Two Stooges in Fridley", ["How many pool tables does Two Stooges have?", "How do I rent a pool table?", "Is there a pro shop?", "Does Two Stooges host pool tournaments?"])}
 {cta_band("Host your event on the tables", "Birthdays, draft parties, office parties, celebrations of life and banquets. We'll customize the menu and the room for you.", btn("Plan a Private Party", "/private-parties/", "gold"))}'''
     return page("billiards", body)
 
@@ -1425,6 +1479,13 @@ def p_darts():
     </div>
   </div>
 </div></section>
+{term_table("Dart terms at Two Stooges", "What to know before your first game on our boards.", [
+    ("Electronic dart board", "A board that keeps score automatically as each dart lands.", "6 electronic boards in the dart area."),
+    ("Bullshooter", "A line of electronic dart boards made by Arachnid.", "The boards we play on."),
+    ("Dart league", "A weekly schedule of matches between teams or players.", f"{L('/leagues/', 'Dart leagues')} run every day of the week."),
+    ("Custom league", "A league set up for a particular group.", f"We set up leagues for women, couples and teams. {L('/league-signup/', 'Sign up online')}."),
+])}
+{page_faq("Darts questions at Two Stooges in Fridley", ["How many dart boards are there?", "Does Two Stooges have pool and dart leagues?", "Do I need a team to join a league?", "What skill level do I need?"])}
 {cta_band("Dart night for your group?", f"Birthdays, office outings and team nights. We'll reserve boards and put together food for your group. {L('/gallery/', 'See the dart room in our gallery')}.", btn("Plan a Private Party", "/private-parties/", "gold"))}'''
     return page("darts", body)
 
@@ -1442,7 +1503,7 @@ def p_leagues():
     <div class="event__contact">{btn("Call to sign up: " + BIZ["phone"], "tel:" + BIZ["tel"], "gold", "phone")}<a class="text-link" href="/league-signup/">Sign up for a league online</a></div>
   </div>
 </article>''')
-    body = f'''{page_hero("leagues", "Pool &amp; dart leagues", "Pool &amp; dart leagues at <span class='grad-text'>Two Stooges Sports Bar</span>",
+    body = f'''{page_hero("leagues", "Pool &amp; dart leagues", "Pool &amp; dart leagues at <span class='grad-text'>Two Stooges Sports Bar</span> in Fridley, MN",
         f"Leagues at Two Stooges are a great way to meet other pool and dart players in Fridley and across the Twin Cities, and sharpen your skills. There's a league for every skill level on our {L('/billiards/', '43 tables')} and {L('/darts/', 'dart boards')}.",
         "photos/league-night-pool-players", "League night at Two Stooges in Fridley: pool league players in team shirts at rows of blue-felt Diamond tables", btn("Sign Up Online", "/league-signup/", "gold") + btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone"))}
 <section class="section section--alt"><div class="wrap">
@@ -1455,6 +1516,15 @@ def p_leagues():
   </div>
   <p class="mt-2 muted">Looking for more competition? Check the {L("/tournaments/", "upcoming pool tournaments")}: weekly 8-ball and 9-ball plus FargoRate shootouts.</p>
 </div></section>
+{term_table("League terms at Two Stooges", "The league names and formats you'll see on the sign-up form.", [
+    ("In-house league", "A league run by the venue itself.", "Our own handicapped 8-ball league, a good first league for newer players."),
+    ("Handicapped league", "A league that adjusts scoring by skill so newer and experienced players compete on even terms.", "Most of our leagues are handicapped."),
+    ("IBA (M8)", "A pool league organization.", 'We host IBA (M8) leagues. <a href="https://www.ibapool.com/" target="_blank" rel="noopener">IBA website</a>.'),
+    ("APA", "The American Poolplayers Association, a handicapped pool league.", 'We host APA leagues. <a href="https://poolplayers.com/" target="_blank" rel="noopener">APA website</a>.'),
+    ("UPL", "Ultimate Pool's league program.", 'We host UPL leagues. <a href="https://league.ultimatepoolusa.com/ultimatepool/leagues" target="_blank" rel="noopener">UPL website</a>.'),
+    ("FargoRate", "A rating system that ranks pool players from their game results.", f"Used to set entry limits for our {L('/tournaments/', 'FargoRate tournaments')}."),
+])}
+{page_faq("League questions at Two Stooges in Fridley", ["Does Two Stooges have pool and dart leagues?", "Do I need a team to join a league?", "What skill level do I need?", "Does Two Stooges host pool tournaments?"])}
 {cta_band("Ready to join a league?", f"Sign up online in a couple of minutes. Solo players are welcome, and we'll help you find a team. Check {L('/specials/', 'league-night drink specials')}, the {L('/menu/', 'bar and grill menu')} and our {L('/faq/', 'league FAQ')}, or {L('/private-parties/', 'book your end-of-season party')}.", btn("League Sign-Up", "/league-signup/", "gold") + btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone"))}'''
     return page("leagues", body)
 
@@ -1488,7 +1558,7 @@ def p_signup():
              ("3", "Show up and play", "Grab a table, meet your team and rack 'em up.")]
     st = "".join(f'<div class="step"><span class="step__num">{n}</span><div><h3>{e(t)}</h3><p>{e(d)}</p></div></div>' for n, t, d in steps)
     faqs = "".join(f'<details class="faq"><summary><h3>{e(q)}</h3></summary><p>{e(a)}</p></details>' for q, a in LEAGUE_FAQ)
-    body = f'''{page_hero("signup", "League sign-up", "Join a league at <span class='grad-text'>Two Stooges Sports Bar</span>",
+    body = f'''{page_hero("signup", "League sign-up", "Join a league at <span class='grad-text'>Two Stooges Sports Bar</span> in Fridley, MN",
         f"Sign up for a pool or dart league in Fridley. We have handicapped leagues for every skill level on our {L('/billiards/', '43 tables')} and {L('/darts/', 'dart boards')}. Solo players are welcome.",
         "photos/hero-league-signup", "Players racking and waiting their turn at blue-felt Gabriel\'s tables in the Two Stooges billiard room in Fridley", btn("Sign Up Now", "#form", "gold", "trophy") + btn("See All Leagues", "/leagues/", "outline"))}
 <section class="section"><div class="wrap">
@@ -1555,7 +1625,7 @@ def entries_page(kind, hero, intro_eyebrow, intro_text, empty_text, recent_h2, r
 
 
 def p_events():
-    hero = page_hero("events", "What's happening", "Events at <span class='grad-text'>Two Stooges Sports Bar</span>",
+    hero = page_hero("events", "What's happening", "Events at <span class='grad-text'>Two Stooges Sports Bar</span> in Fridley, MN",
         f"Special nights, parties and promotions at Two Stooges in Fridley, for everyone in the Twin Cities, not just pool players. Click any flyer to see it full size. Looking for pool? See our {L('/tournaments/', 'pool tournaments')}.",
         "photos/billiard-room-hero", "The Two Stooges billiard room",
         btn("Upcoming Events", "#upcoming", "gold") + btn("Pool Tournaments", "/tournaments/", "outline") + btn("Private Parties", "/private-parties/", "outline"))
@@ -1563,13 +1633,14 @@ def p_events():
         f"Food and drink nights, holiday parties and specials on the way. Check {L('/specials/', 'daily specials and happy hour')} for deals every day.",
         f"New events are on the way. Call <a href=\"tel:{BIZ['tel']}\">{BIZ['phone']}</a> to find out what's next, or see our {L('/tournaments/', 'upcoming pool tournaments')}.",
         "Recent events at Two Stooges", "Missed one? Here's what we've hosted lately. Most events come back, so watch this page.",
+        page_faq("Event questions at Two Stooges in Fridley", ["What are the hours at Two Stooges?", "Is there parking?", "Can I host a private party at Two Stooges?", "How do I book a private party?"]) +
         cta_band("Want to host your own event?", "From birthday bashes to banquets and league parties, we'll help you plan it.",
                  btn("Plan Your Event", "/private-parties/", "gold") + btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone")))
     return page("events", body, extra_ld=ld)
 
 
 def p_tournaments():
-    hero = page_hero("tournaments", "Pool tournaments", "Pool tournaments at <span class='grad-text'>Two Stooges Sports Bar</span>",
+    hero = page_hero("tournaments", "Pool tournaments", "Pool tournaments at <span class='grad-text'>Two Stooges Sports Bar</span> in Fridley, MN",
         f"Weekly 8-ball and 9-ball tournaments plus FargoRate shootouts on our {L('/billiards/', '43 tables')} in Fridley, for players from across the Twin Cities. Click any flyer to see it full size.",
         "photos/player-shooting", "A tournament player shooting at Two Stooges Sports Bar",
         btn("Upcoming Tournaments", "#upcoming", "gold") + btn("Pool Leagues", "/leagues/", "outline") + btn("Events", "/events/", "outline"))
@@ -1577,6 +1648,15 @@ def p_tournaments():
         f"Special tournaments first, then our weekly tournaments. Spots are limited, so sign up early. New to FargoRate? Our {L('/leagues/', 'weekly pool leagues')} are a great way to build your rating.",
         f"No special tournaments posted right now. Call <a href=\"tel:{BIZ['tel']}\">{BIZ['phone']}</a> to find out what's coming up next.",
         "Recent pool tournaments", "Missed one? Here are our latest tournaments. Most come back, so watch this page.",
+        term_table("Tournament terms at Two Stooges", "How to read a tournament flyer.", [
+            ("8-ball, 9-ball, 10-ball", "The three pool games our tournaments are played in.", "Weekly 8-ball on Saturday and 9-ball on Sunday, plus special events."),
+            ("Bar box", "A 7 ft pool table.", "Bar box shootouts are played on our 7 ft tables."),
+            ("Race", "The number of games a player must win to take the match. A 4/3 race means one player races to 4 and the other to 3.", "Listed on each tournament flyer."),
+            ("Alt break", "Players take turns breaking instead of the winner breaking.", "Listed on the flyer when it applies."),
+            ("Double elimination", "A format where a player is out after losing two matches.", "Listed on the flyer when it applies."),
+            ("FargoRate", "A rating system that ranks pool players from their game results.", "Some tournaments are limited to players at or under a set rating."),
+            ("Money added", "Prize money put into the pot on top of the entry fees.", "Shown on the flyer when a tournament has it."),
+        ]) + page_faq("Tournament questions at Two Stooges in Fridley", ["Does Two Stooges host pool tournaments?", "How many pool tables does Two Stooges have?", "What skill level do I need?", "Where is Two Stooges Sports Bar located?", "Is there parking?"]) +
         cta_band("Want to run a tournament here?", "Directors and leagues, talk to us about tables, dates and food for your players.",
                  btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "gold", "phone") + btn("League Sign-Up", "/league-signup/", "outline")))
     return page("tournaments", body, extra_ld=ld)
@@ -1585,7 +1665,7 @@ def p_tournaments():
 def p_parties():
     occasions = ["Birthdays", "Office parties", "Draft parties", "Holiday parties", "Celebrations of life", "Banquets & league parties", "Business meetings", "Reunions & receptions"]
     occ = "".join(f"<li>{e(o)}</li>" for o in occasions)
-    body = f'''{page_hero("parties", "Private parties &amp; events", "Private parties at <span class='grad-text'>Two Stooges Sports Bar</span>",
+    body = f'''{page_hero("parties", "Private parties &amp; events", "Private parties at <span class='grad-text'>Two Stooges Sports Bar</span> in Fridley, MN",
         "Two Stooges is ready for your next birthday, holiday party, office outing or banquet in Fridley, for groups from across the Twin Cities. We'll customize the menu and the space for your group.",
         "photos/hero-private-parties", "Friends laughing around a pool table as one of them lines up a shot during a party at Two Stooges", btn("Request a Date", "#request", "gold") + btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone"))}
 <section class="section"><div class="wrap">
@@ -1623,7 +1703,8 @@ def p_parties():
     </div>
     {cognito(FORM_EVENT, "Private event request form")}
   </div>
-</div></section>'''
+</div></section>
+{page_faq("Private party questions at Two Stooges in Fridley", ["Can I host a private party at Two Stooges?", "How do I book a private party?", "Is there parking?", "What food does Two Stooges serve?"])}'''
     return page("parties", body)
 
 
@@ -1694,7 +1775,7 @@ def p_gallery():
               ("photos/food-thin-crust-pizza", "Thin-crust pizza with sausage, mushrooms and red onion"),
               ("photos/food-tater-tots", "A pile of hot, crispy tater tots")]
     g = "".join(f'<figure class="gallery__item"><button type="button" data-lightbox="/assets/img/{p}.webp" data-alt="{e(a)}" data-caption="{e(a)}" aria-label="Enlarge photo: {e(a)}">{img(p, a + " at Two Stooges Sports Bar", sizes="(max-width:640px) 100vw, (max-width:1000px) 50vw, 33vw")}</button><figcaption>{e(a)}</figcaption></figure>' for p, a in photos)
-    body = f'''{page_hero("gallery", "Take a look", "Photos of <span class='grad-text'>Two Stooges Sports Bar</span>",
+    body = f'''{page_hero("gallery", "Take a look", "Photos of <span class='grad-text'>Two Stooges Sports Bar</span> in Fridley, MN",
         f"Inside the {L('/billiards/', 'billiard room')}, the {L('/darts/', 'dart area')} and the bar in Fridley. Click any photo to see it full size.",
         "photos/pool-hall-interior", "The Two Stooges billiard room")}
 <section class="section"><div class="wrap">
@@ -1773,7 +1854,7 @@ def p_faq():
         groups.append(f'<section class="faq-group"><h2>{e(title)}</h2><div class="faq-list">{items}</div></section>')
     jump = "".join(f'<a class="chip chip--green" href="#faq-{i}">{e(t)}</a>' for i, (t, _) in enumerate(FAQ_GROUPS))
     groups_html = "".join(g.replace('<section class="faq-group">', f'<section class="faq-group" id="faq-{i}">', 1) for i, g in enumerate(groups))
-    body = f'''{page_hero("faq", "Good to know", "Two Stooges Sports Bar <span class='grad-text'>FAQ</span>",
+    body = f'''{page_hero("faq", "Good to know", "Two Stooges Sports Bar in Fridley, MN: <span class='grad-text'>FAQ</span>",
         f"Quick answers about visiting Two Stooges in Fridley: hours, pool tables, darts, leagues, food and private parties. Can't find what you need? {L('/contact/#form', 'Send us a message')}.",
         "photos/billiard-room-gabriels", "The Two Stooges billiard room", btn("Contact Us", "/contact/", "gold") + btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone"))}
 <section class="section"><div class="wrap" style="max-width:900px">
