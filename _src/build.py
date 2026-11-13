@@ -24,6 +24,7 @@ import schema as SG
 import images as IMGS
 import content as CT
 import places as PL
+import cities as CD
 
 ROOT = Path(__file__).resolve().parent.parent
 IMG = ROOT / "assets" / "img"
@@ -378,6 +379,19 @@ META = {
                 "Read the Two Stooges Sports Bar & Grill privacy policy: what information our Fridley, MN website collects through forms and maps, and how we use and protect it.",
                 "photos/billiard-room-rows", "Two Stooges Sports Bar & Grill", "Privacy Policy"),
 }
+
+PARENT = {}  # page key -> (breadcrumb name, path) of its parent page
+CITY_KEY = {n: "city-" + d["slug"] for n, d in CD.CITIES.items()}
+COUNTY_KEY = {n: "county-" + d["slug"] for n, d in CD.COUNTIES.items()}
+CITY_PATH = {n: f"/service-area/{d['slug']}/" for n, d in CD.CITIES.items()}
+COUNTY_PATH = {n: f"/service-area/{d['slug']}/" for n, d in CD.COUNTIES.items()}
+_STORE = ("photos/storefront-two-stooges", "The Two Stooges Sports Bar & Grill storefront on University Ave NE, Fridley")
+for _n, _d in CD.CITIES.items():
+    META[CITY_KEY[_n]] = (CITY_PATH[_n], f"{_n} MN Sports Bar & Pool Hall | Two Stooges", _d["desc"], _STORE[0], _STORE[1], _n)
+    PARENT[CITY_KEY[_n]] = ("Service Area", "/service-area/")
+for _n, _d in CD.COUNTIES.items():
+    META[COUNTY_KEY[_n]] = (COUNTY_PATH[_n], f"{_n} County MN Sports Bar & Pool Hall | Two Stooges", _d["desc"], _STORE[0], _STORE[1], f"{_n} County")
+    PARENT[COUNTY_KEY[_n]] = ("Service Area", "/service-area/")
 
 # Related-page cards (descriptive anchors). Silos: Play · Eat & Drink · Plan your visit.
 LINK_INFO = {
@@ -810,7 +824,7 @@ def build_graph(key, body, title, desc, og_url, og_alt, extra_nodes, main_entity
              SG.business_node(biz, key, biz_extras(key)),
              SG.webpage_node(path, title, desc, og_url, og_alt, PAGE_TYPES.get(key, "WebPage"), crumb, main_entity, TODAY)]
     if crumb:
-        nodes.append(SG.breadcrumb_node(path, crumb))
+        nodes.append(SG.breadcrumb_node(path, crumb, PARENT.get(key)))
     for k in SG.SERVICES:
         if k == svc_key:
             nodes.append(SG.service_node(k, "full", first_lead(body), RELATED.get(key, []),
@@ -913,10 +927,12 @@ def hero_media(image, alt):
 
 def page_hero(key, eyebrow, title, lead, image, alt, actions=""):
     crumb = META[key][5]
+    par = PARENT.get(key)
+    mid = f'<li><a href="{par[1]}">{e(par[0])}</a></li>' if par else ""
     return f'''<section class="page-hero page-hero--{key} on-dark">
   <div class="page-hero__media">{hero_media(image, alt)}</div>
   <div class="wrap">
-    <nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li aria-current="page">{e(crumb)}</li></ol></nav>
+    <nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li>{mid}<li aria-current="page">{e(crumb)}</li></ol></nav>
     <span class="eyebrow">{eyebrow}</span>
     <h1>{title}</h1>
     <p class="lead">{lead}</p>
@@ -1928,8 +1944,13 @@ def p_area():
     counties = [c for c, _ in places]
     county_text = ", ".join(counties[:-1]) + " and " + counties[-1]
     dist = {name: d for _, rows in places for name, d, _, _ in rows}
-    groups = "".join(f'''<div class="area-county"><h3>{e(c)} County</h3>
-      <ul class="area-list">{"".join(f'<li data-place="{e(n)}" data-county="{e(c)}" data-miles="{e(mi_text(d))}">{e(n)} <span>{e(mi_text(d).replace("about ", ""))}</span></li>' for n, d, _, _ in rows)}</ul></div>'''
+    def county_h3(c):
+        return f'<a href="{COUNTY_PATH[c]}">{e(c)} County</a>' if c in COUNTY_PATH else f"{e(c)} County"
+    city_cards = "".join(f'''<div class="area-county"><h3>{county_h3(c)}</h3>
+      <div class="grid grid--4">{"".join(f'''<article class="card card--link" data-place="{e(n)}" data-county="{e(c)}" data-miles="{e(mi_text(d))}" data-href="{CITY_PATH[n]}"><div class="card__body"><span class="card__kicker">{e(mi_text(d))} away</span><h3><a class="stretched" href="{CITY_PATH[n]}">{e(n)}, MN</a></h3></div></article>''' for n, d, _, _ in rows if n in CITY_PATH)}</div></div>'''
+                         for c, rows in places if any(n in CITY_PATH for n, *_ in rows))
+    groups = "".join(f'''<div class="area-county"><h3>{county_h3(c)}</h3>
+      <ul class="area-list">{"".join(f'<li data-place="{e(n)}" data-county="{e(c)}" data-miles="{e(mi_text(d))}">{e(n)} <span>{e(mi_text(d).replace("about ", ""))}</span></li>' for n, d, _, _ in rows if n not in CITY_PATH)}</ul></div>'''
                      for c, rows in places)
     options = "".join(f'<option value="{e(n)}">' for n in sorted(dist))
     quotes = "".join(f'''<figure class="quote"><div class="quote__stars" role="img" aria-label="{r} out of 5 stars">{"★" * r}{"☆" * (5 - r)}</div><blockquote>{e(q)}</blockquote><figcaption><span class="quote__avatar">{e(n[0])}</span><span>{e(n)}<small>Google review</small></span></figcaption></figure>''' for q, n, r in REVIEWS[:3])
@@ -1966,7 +1987,7 @@ def p_area():
   </div>
 </div></section>
 <section class="section section--alt" id="check"><div class="wrap" style="max-width:900px">
-  {section_head("Check your city", "Is your city within 20 miles of Two Stooges?", "Type your city to see how far it is from the bar. The full list is just below.")}
+  {section_head("Check your city", "Is your city within 20 miles of Two Stooges?", "Type your city to see how far it is from the bar. The city pages and the full list are just below.")}
   <form class="area-check" data-area-check>
     <label for="area-city">Your city</label>
     <div class="area-check__row">
@@ -1977,23 +1998,184 @@ def p_area():
     <p class="area-check__result" role="status" aria-live="polite" data-area-result></p>
   </form>
 </div></section>
-<section class="section" id="communities"><div class="wrap">
-  {section_head("Communities we serve", f"Twin Cities communities within {PL.RADIUS_MI} miles of Two Stooges", "Grouped by county, nearest first.")}
-  <div class="area-counties">{groups}</div>
-  <p class="small muted mt-2">Distances are straight-line from each city's center to Two Stooges and are approximate. A city that crosses a county line is listed under its main county. Sources: counties from <a href="{PL.SOURCE_COUNTIES}" target="_blank" rel="noopener">Wikipedia's list of cities in Minnesota</a>, city locations from <a href="{PL.SOURCE_COORDS}" target="_blank" rel="noopener">GeoNames</a>.</p>
+<section class="section" id="cities"><div class="wrap">
+  {section_head("City pages", "Cities closest to Two Stooges", "Each city page has local facts, the distance and directions. Grouped by county.")}
+  <div class="area-counties">{city_cards}</div>
 </div></section>
-<section class="section section--alt"><div class="wrap">
+<section class="section section--alt" id="communities"><div class="wrap">
+  {section_head("We also serve", f"More Twin Cities communities within {PL.RADIUS_MI} miles", "Grouped by county, nearest first.")}
+  <div class="area-counties">{groups}</div>
+  <p class="small muted mt-2">Distances are straight-line from each city's center to Two Stooges and are approximate. A city that crosses a county line is listed under its main county. Sources: counties from <a href="{PL.SOURCE_COUNTIES}" target="_blank" rel="noopener">Wikipedia's list of cities in Minnesota</a>, city locations from <a href="{PL.SOURCE_COORDS}" target="_blank" rel="noopener">GeoNames</a> (Coon Rapids from its Wikipedia entry).</p>
+</div></section>
+<section class="section"><div class="wrap">
   {section_head("Guest reviews", "What guests say about Two Stooges in Fridley", "Real reviews from Google, shared with first names only.", center=True)}
   <div class="grid grid--3">{quotes}</div>
   <div class="btn-row mt-2" style="justify-content:center">{btn("Read More Reviews on Google", SG.GBP_URL, "green", None, ' target="_blank" rel="noopener"')}</div>
 </div></section>
-<section class="section"><div class="wrap" style="max-width:900px">
+<section class="section section--alt"><div class="wrap" style="max-width:900px">
   {section_head("Good to know", "Service area questions", f"More answers in the {L('/faq/', 'full Two Stooges FAQ')}.")}
   <div class="faq-list">{faq_html}</div>
 </div></section>
 {visit_section("Getting to Two Stooges in Fridley, MN")}
 {cta_band("Bringing a group from across the metro?", "Birthdays, office parties and league banquets. We'll set up tables, boards and food for your group.", btn("Plan a Private Party", "/private-parties/", "gold") + btn("See Upcoming Events", "/events/", "outline"))}'''
     return page("area", body)
+
+
+# ---------------------------------------------------------------------------
+# City and county pages (closest cities only; each must pass the gate in check_city_pages)
+# ---------------------------------------------------------------------------
+FACTS_CHECKED_TEXT = dt.date.fromisoformat(CD.FACTS_CHECKED).strftime("%B %-d, %Y")
+PLACE_XY = {n: (lat, lng) for rows in PL.COUNTIES.values() for n, lat, lng in rows}
+
+
+def city_miles(name):
+    return _miles(*PLACE_XY[name])[2]
+
+
+def between(a, b):
+    import math
+    (la, lo), (lb, lob) = PLACE_XY[a], PLACE_XY[b]
+    k = math.pi / 180
+    return math.hypot((lob - lo) * k * math.cos((la + lb) / 2 * k), (lb - la) * k) * 3958.8
+
+
+def nearby_cities(name, n=5):
+    """The n nearest cities that have a page (all within about 10 miles), nearest first."""
+    return sorted((c for c in CD.CITIES if c != name), key=lambda c: between(name, c))[:n]
+
+
+def facts_table(rows, src_name, src_url, extra=()):
+    """rows: (fact, value) all from one source; extra: (fact, value, source name, url). A source link sits beside every fact."""
+    link = lambda n, u: f'<a href="{u}" target="_blank" rel="noopener">{e(n)}</a>'
+    body = "".join(f'<tr><th scope="row">{e(k)}</th><td>{e(v)}</td><td>{link(src_name, src_url)}</td></tr>' for k, v in rows)
+    body += "".join(f'<tr><th scope="row">{e(k)}</th><td>{e(v)}</td><td>{link(n, u)}</td></tr>' for k, v, n, u in extra)
+    return f'''<div class="table-scroll"><table class="term-table">
+    <thead><tr><th scope="col">Fact</th><th scope="col">Detail</th><th scope="col">Source</th></tr></thead>
+    <tbody>{body}</tbody>
+  </table></div>
+  <p class="small muted mt-1">Facts were checked against the linked sources on {FACTS_CHECKED_TEXT}.</p>'''
+
+
+def play_cards():
+    cards = [("/billiards/", "Billiards &amp; pool tables", "43 Gabriel's and Diamond tables, daily pool specials and the Pro Shop."),
+             ("/darts/", "Electronic darts", "Bullshooter boards, high-tops and a big screen."),
+             ("/leagues/", "Pool &amp; dart leagues", "In-house, IBA (M8), APA, UPL and darts. Solo players welcome."),
+             ("/tournaments/", "Pool tournaments", "Weekly 8-ball and 9-ball plus FargoRate events."),
+             ("/private-parties/", "Private parties", "Birthdays, office parties and banquets with custom menus."),
+             ("/menu/", "Bar &amp; grill menu", "Burgers, wings, pizza and 16 beers on tap.")]
+    return "".join(f'''<article class="card card--link"><div class="card__body"><h3><a class="stretched" href="{h}">{t}</a></h3><p>{d}</p></div></article>''' for h, t, d in cards)
+
+
+def city_page(name):
+    d = CD.CITIES[name]
+    key, miles = CITY_KEY[name], city_miles(name)
+    dist = mi_text(miles)
+    fmt = lambda t: t.replace("{dist_plain}", dist).replace("{dist}", dist[0].upper() + dist[1:])
+    county = d["county"]
+    extra = [("Distance to Two Stooges", f"{dist[0].upper() + dist[1:]}, straight line from the city center", *(("Wikipedia: " + name, d["wiki"]) if d.get("coord_src") == "wiki" else ("GeoNames", PL.SOURCE_COORDS)))]
+    if d.get("border"):
+        extra.insert(0, ("Where it sits", d["border"], "Wikipedia: Fridley", CD.FRIDLEY_SRC))
+    near = nearby_cities(name)
+    near_links = "".join(f'<li><a href="{CITY_PATH[c]}">{e(c)}, MN</a> <span>{e(mi_text(between(name, c)).replace("about ", ""))} away</span></li>' for c in near)
+    origin = "&origin=" + (name + ", MN").replace(",", "%2C").replace(" ", "+")
+    faq_html = "".join(f'<details class="faq"><summary><h3>{e(q)}</h3></summary><p>{fmt(a)}</p></details>' for q, a in d["faq"])
+    prep = d.get("h1", "near")
+    body = f'''{page_hero(key, f"{e(county)} County", f"Sports bar, billiards &amp; darts {prep} <span class='grad-text'>{e(name)}, MN</span>",
+        d["lead"], "photos/storefront-two-stooges", "The Two Stooges Sports Bar & Grill storefront on University Ave NE in Fridley, Minnesota",
+        btn(f"Directions from {name}", DIRECTIONS + origin, "gold", "nav", ' target="_blank" rel="noopener"') + btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone"))}
+<section class="section"><div class="wrap">
+  {section_head(f"{e(name)} at a glance", f"{e(name)}, Minnesota: local facts", f'Read more about <a href="{d["wiki"]}" target="_blank" rel="noopener">{e(name)} on Wikipedia</a>.')}
+  {facts_table(d["facts"], f"Wikipedia: {name}", d["wiki"], extra)}
+</div></section>
+<section class="section section--alt"><div class="wrap prose" style="max-width:900px">
+  <span class="eyebrow">{e(name)} and Two Stooges</span>
+  <h2>{e(d["h2"])}</h2>
+  {"".join(f"<p>{fmt(t)}</p>" for t in d["local"])}
+</div></section>
+<section class="section"><div class="wrap">
+  {section_head("What's here", f"Pool, darts and dinner for {e(name)}")}
+  <div class="grid grid--3">{play_cards()}</div>
+</div></section>
+<section class="section section--alt"><div class="wrap" style="max-width:900px">
+  {section_head(f"Questions from {e(name)}", f"Two Stooges questions from {e(name)}", f"More answers in the {L('/faq/', 'full Two Stooges FAQ')}.")}
+  <div class="faq-list">{faq_html}</div>
+</div></section>
+<section class="section"><div class="wrap">
+  {section_head(f"Near {e(name)}", f"Nearby cities we also serve", f"{e(name)} is in {L(COUNTY_PATH[county], county + ' County')}. See the {L('/service-area/', 'full Two Stooges service area')}.")}
+  <ul class="area-list area-list--links">{near_links}</ul>
+</div></section>
+{cta_band(f"Coming from {e(name)}?", "We're open every day from 11 AM to midnight at 7178 University Ave NE, Fridley. Walk-ins are always welcome.", btn(f"Directions from {name}", DIRECTIONS + origin, "gold", "nav", ' target="_blank" rel="noopener"') + btn("See Upcoming Events", "/events/", "outline"))}'''
+    return page(key, body)
+
+
+def county_page(name):
+    d = CD.COUNTIES[name]
+    key = COUNTY_KEY[name]
+    with_pages = sorted((c for c, cd in CD.CITIES.items() if cd["county"] == name), key=city_miles)
+    cards = "".join(f'''<article class="card card--link"><div class="card__body"><span class="card__kicker">{e(mi_text(city_miles(c)))} away</span><h3><a class="stretched" href="{CITY_PATH[c]}">{e(c)}, MN</a></h3></div></article>''' for c in with_pages)
+    others = [(n, _miles(lat, lng)[2]) for n, lat, lng in PL.COUNTIES[name] if n not in CD.CITIES]
+    other_txt = ", ".join(f"{e(n)} ({round(m)} mi)" for n, m in sorted(others, key=lambda r: r[1]))
+    sib = " and ".join(L(COUNTY_PATH[c], c + " County") for c in CD.COUNTIES if c != name)
+    faq_html = "".join(f'<details class="faq"><summary><h3>{e(q)}</h3></summary><p>{a}</p></details>' for q, a in d["faq"])
+    body = f'''{page_hero(key, "Service area", f"Sports bar, billiards &amp; darts serving <span class='grad-text'>{e(name)} County, MN</span>",
+        d["lead"], "photos/storefront-two-stooges", "The Two Stooges Sports Bar & Grill storefront on University Ave NE in Fridley, Minnesota",
+        btn("Get Directions", DIRECTIONS, "gold", "nav", ' target="_blank" rel="noopener"') + btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone"))}
+<section class="section"><div class="wrap">
+  {section_head(f"{e(name)} County at a glance", f"{e(name)} County, Minnesota: local facts", f'Read more about <a href="{d["wiki"]}" target="_blank" rel="noopener">{e(name)} County on Wikipedia</a>.')}
+  {facts_table(d["facts"], f"Wikipedia: {name} County", d["wiki"])}
+</div></section>
+<section class="section section--alt"><div class="wrap prose" style="max-width:900px">
+  <span class="eyebrow">{e(name)} County and Two Stooges</span>
+  <h2>{e(d["h2"])}</h2>
+  {"".join(f"<p>{t}</p>" for t in d["local"])}
+</div></section>
+<section class="section"><div class="wrap">
+  {section_head("City pages", f"{e(name)} County cities closest to Two Stooges", "Each page has local facts, the distance and directions.")}
+  <div class="grid grid--3">{cards}</div>
+  <h3 class="mt-2">Also within {PL.RADIUS_MI} miles in {e(name)} County</h3>
+  <p class="muted">{other_txt}. Distances are straight-line and approximate.</p>
+  <p class="mt-1">Looking for another county? See {sib}, or the {L("/service-area/", "full Two Stooges service area")}.</p>
+</div></section>
+<section class="section section--alt"><div class="wrap">
+  {section_head("What's here", f"Pool, darts and dinner for {e(name)} County")}
+  <div class="grid grid--3">{play_cards()}</div>
+</div></section>
+<section class="section"><div class="wrap" style="max-width:900px">
+  {section_head("Good to know", f"{e(name)} County questions")}
+  <div class="faq-list">{faq_html}</div>
+</div></section>
+{cta_band(f"Coming from {e(name)} County?", "We're open every day from 11 AM to midnight at 7178 University Ave NE, Fridley. Walk-ins are always welcome.", btn("Get Directions", DIRECTIONS, "gold", "nav", ' target="_blank" rel="noopener"') + btn("Plan a Private Party", "/private-parties/", "outline"))}'''
+    return page(key, body)
+
+
+def check_city_pages():
+    """Gate (service-area prompt A+): 5+ sourced facts and 300+ words found on no other page, city names masked."""
+    names = sorted(list(CD.CITIES) + [c + " County" for c in CD.COUNTIES], key=len, reverse=True)
+    mask = re.compile("|".join(re.escape(n) for n in names))
+
+    def sentences(rel):
+        h = (ROOT / rel).read_text(encoding="utf-8")
+        m = re.search(r"<main.*?</main>", h, re.S).group(0)
+        m = re.sub(r"<(script|style|svg)\b.*?</\1>", " ", m, flags=re.S)
+        m = re.sub(r"</(p|li|h[1-6]|td|th|summary|div|figcaption)>", ". ", m)
+        t = html.unescape(re.sub(r"<[^>]+>", " ", m))
+        t = mask.sub("CITY", t)
+        return [re.sub(r"\s+", " ", x).strip().lower() for x in re.split(r"(?<=[.?!])\s+", t) if len(x.split()) > 3]
+
+    pages = {rel: sentences(rel) for rel in PAGES if rel.endswith("index.html")}
+    errs = []
+    for n, dd in list(CD.CITIES.items()) + list(CD.COUNTIES.items()):
+        rel = f"service-area/{dd['slug']}/index.html"
+        seen = set(s for r, ss in pages.items() if r != rel for s in ss)
+        uniq = sum(len(s.split()) for s in set(pages[rel]) if s not in seen)
+        need = 300 if n in CD.CITIES else 200
+        if uniq < need:
+            errs.append(f"{rel}: only {uniq} unique words (need {need})")
+        if len(dd["facts"]) < 5:
+            errs.append(f"{rel}: fewer than 5 sourced facts")
+        print(f"gate {rel}: {uniq} unique words, {len(dd['facts']) + (2 if dd.get('border') else 1 if n in CD.CITIES else 0)} sourced facts")
+    if errs:
+        raise SystemExit("City page gate failed:\n  " + "\n  ".join(errs))
 
 
 def p_privacy():
@@ -2072,6 +2254,10 @@ PAGES = {
     "gallery/index.html": p_gallery, "contact/index.html": p_contact, "privacy-policy/index.html": p_privacy, "equal-opportunity-employer/index.html": p_eoe, "faq/index.html": p_faq, "service-area/index.html": p_area,
     "404.html": p_404,
 }
+for _n in CD.CITIES:
+    PAGES[f"service-area/{CD.CITIES[_n]['slug']}/index.html"] = (lambda n=_n: city_page(n))
+for _n in CD.COUNTIES:
+    PAGES[f"service-area/{CD.COUNTIES[_n]['slug']}/index.html"] = (lambda n=_n: county_page(n))
 
 
 _IMG_REF = re.compile(r'/assets/img/([\w./-]+\.(?:webp|png|jpe?g|svg|ico))(?![?\w])')
@@ -2110,6 +2296,7 @@ def main():
     robots = ("User-agent: *\nAllow: /\nDisallow: /_src/\nDisallow: /_content/\nDisallow: /admin/\nDisallow: /api/\n\nSitemap: " + SITE + "/sitemap.xml\n") if LAUNCH else "User-agent: *\nDisallow: /\n"
     (ROOT / "robots.txt").write_text(robots, encoding="utf-8")
     print("wrote sitemap.xml, robots.txt (launch=%s)" % LAUNCH)
+    check_city_pages()
     bad = IMGS.check()
     if bad:
         raise SystemExit("Image check failed (over budget):\n  " + "\n  ".join(bad))

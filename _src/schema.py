@@ -181,10 +181,10 @@ def webpage_node(path, title, desc, og_url, og_alt, page_type="WebPage", crumb=N
     return n
 
 
-def breadcrumb_node(path, name):
+def breadcrumb_node(path, name, parent=None):
+    items = [("Home", SITE + "/")] + ([(parent[0], SITE + parent[1])] if parent else []) + [(name, SITE + path)]
     return {"@type": "BreadcrumbList", "@id": SITE + path + "#breadcrumb", "itemListElement": [
-        {"@type": "ListItem", "position": 1, "name": "Home", "item": SITE + "/"},
-        {"@type": "ListItem", "position": 2, "name": name, "item": SITE + path}]}
+        {"@type": "ListItem", "position": i, "name": n, "item": u} for i, (n, u) in enumerate(items, 1)]}
 
 
 def graph(nodes):

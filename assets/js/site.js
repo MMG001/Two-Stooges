@@ -182,6 +182,13 @@
       if (hit) {
         hit.classList.add('is-match');
         result.textContent = 'Yes. ' + hit.getAttribute('data-place') + ' (' + hit.getAttribute('data-county') + ' County) is ' + hit.getAttribute('data-miles') + ' from Two Stooges.';
+        if (hit.getAttribute('data-href')) {
+          var more = document.createElement('a');
+          more.href = hit.getAttribute('data-href');
+          more.textContent = 'See the ' + hit.getAttribute('data-place') + ' page';
+          result.appendChild(document.createTextNode(' '));
+          result.appendChild(more);
+        }
       } else {
         result.textContent = raw + " isn't on our list of communities within 20 miles, but everyone is welcome. Call (763) 574-1399 or tap Directions for your route.";
       }

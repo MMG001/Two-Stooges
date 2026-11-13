@@ -1,6 +1,8 @@
 """Service-area data: every community within about 20 miles of Two Stooges, grouped by county.
 
 Coordinates are city-centre points from GeoNames (https://www.geonames.org/, CC BY 4.0), read 2026-11-12.
+Exception: Coon Rapids uses the coordinates in its Wikipedia infobox (45.17222, -93.30417); the GeoNames
+point sat on the Fridley border and understated the distance.
 Counties are from Wikipedia's "List of cities in Minnesota" (checked 2026-11-12). A city that crosses a
 county line is listed once, under its main county. Distances are straight-line and worked out at build time.
 """
@@ -13,7 +15,7 @@ SOURCE_COORDS = "https://www.geonames.org/"
 # county -> [(city, latitude, longitude)]
 COUNTIES = {
     "Anoka": [
-        ("Fridley", 45.08608, -93.26328), ("Spring Lake Park", 45.10774, -93.238), ("Coon Rapids", 45.11997, -93.28773),
+        ("Fridley", 45.08608, -93.26328), ("Spring Lake Park", 45.10774, -93.238), ("Coon Rapids", 45.17222, -93.30417),
         ("Hilltop", 45.0533, -93.24745), ("Columbia Heights", 45.0408, -93.263), ("Blaine", 45.1608, -93.23495),
         ("Lexington", 45.14247, -93.16328), ("Circle Pines", 45.14858, -93.15161), ("Anoka", 45.19774, -93.38718),
         ("Andover", 45.2333, -93.29134), ("Lino Lakes", 45.16024, -93.08883), ("Ham Lake", 45.25024, -93.24995),

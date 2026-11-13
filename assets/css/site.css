@@ -810,3 +810,8 @@ address { font-style: normal; }
 .area-check input { flex: 1 1 240px; min-height: 48px; padding: .6rem .9rem; font: inherit; color: var(--text); background: var(--card); border: 1px solid var(--line-strong); border-radius: var(--radius-lg); }
 .area-check input:focus-visible { outline: 3px solid var(--gold-2); outline-offset: 2px; }
 .area-check__result { min-height: 1.6em; margin: 1rem 0 0; font-weight: 600; color: var(--green); }
+.area-list--links { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+.area-list--links a { color: var(--link); font-weight: 600; }
+.area-county h3 a { color: inherit; text-decoration-color: var(--gold-2); }
+.area-county .card.is-match { border-color: var(--gold-2); box-shadow: 0 0 0 3px var(--gold-2); }
+.area-check__result a { color: var(--link); }
