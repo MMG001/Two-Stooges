@@ -785,3 +785,28 @@ address { font-style: normal; }
 .term-table tbody td { color: var(--text-muted); }
 .term-table tbody tr:last-child th, .term-table tbody tr:last-child td { border-bottom: 0; }
 .term-table a { color: var(--link); font-weight: 500; }
+
+/* Service area page */
+.area-map { margin: 0; }
+.area-map svg { display: block; width: 100%; height: auto; aspect-ratio: 1; border-radius: var(--radius-lg); box-shadow: var(--shadow-1); }
+.area-map__bg { fill: var(--green); }
+.area-map__ring { fill: rgba(255,206,81,.07); stroke: var(--gold); stroke-width: 2; stroke-dasharray: 6 6; }
+.area-map__ring--half { fill: none; stroke-width: 1; opacity: .55; }
+.area-map__dot { fill: #9fc3b1; }
+.area-map__dot--big { fill: #fff; }
+.area-map__labels text { fill: #fff; font: 600 15px/1 var(--font-body); paint-order: stroke; stroke: var(--green); stroke-width: 3px; }
+.area-map__note { fill: var(--gold); font: 600 12px/1 var(--font-body); letter-spacing: .04em; }
+.area-map__bar { fill: var(--green); stroke: var(--gold); stroke-width: 4; }
+.area-map__barlabel { fill: var(--gold); font: 700 17px/1 var(--font-display); letter-spacing: .04em; text-transform: uppercase; paint-order: stroke; stroke: var(--green); stroke-width: 4px; }
+.area-map figcaption { margin-top: .6rem; font-size: .875rem; color: var(--text-muted); }
+.area-counties { display: grid; gap: 2rem; }
+.area-county h3 { margin: 0 0 .75rem; padding-bottom: .5rem; border-bottom: 2px solid var(--gold-2); }
+.area-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: .35rem 1.5rem; }
+.area-list li { display: flex; justify-content: space-between; gap: .75rem; padding: .35rem 0; border-bottom: 1px solid var(--line); }
+.area-list li span { color: var(--text-muted); font-size: .875rem; white-space: nowrap; }
+.area-list li.is-match { background: var(--green-soft); box-shadow: 0 0 0 6px var(--green-soft); border-radius: 4px; }
+.area-check label { display: block; font-weight: 600; margin-bottom: .4rem; }
+.area-check__row { display: flex; gap: .75rem; flex-wrap: wrap; }
+.area-check input { flex: 1 1 240px; min-height: 48px; padding: .6rem .9rem; font: inherit; color: var(--text); background: var(--card); border: 1px solid var(--line-strong); border-radius: var(--radius-lg); }
+.area-check input:focus-visible { outline: 3px solid var(--gold-2); outline-offset: 2px; }
+.area-check__result { min-height: 1.6em; margin: 1rem 0 0; font-weight: 600; color: var(--green); }

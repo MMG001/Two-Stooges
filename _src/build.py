@@ -23,6 +23,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import schema as SG
 import images as IMGS
 import content as CT
+import places as PL
 
 ROOT = Path(__file__).resolve().parent.parent
 IMG = ROOT / "assets" / "img"
@@ -364,6 +365,9 @@ META = {
     "contact": ("/contact/", "Contact & Directions - Fridley, MN | Two Stooges Sports Bar",
                 "Contact Two Stooges Sports Bar & Grill, 7178 University Ave NE, Fridley, MN 55432, in the Twin Cities. Call (763) 574-1399. Open daily 11 AM to midnight.",
                 "photos/hero-contact-storefront", "Two Stooges Sports Bar & Grill, 7178 University Ave NE, Fridley MN", "Contact"),
+    "area": ("/service-area/", "Twin Cities Service Area - Fridley, MN | Two Stooges",
+             "Two Stooges Sports Bar in Fridley serves the Twin Cities within about 20 miles. See every community by county, check your city and get directions to the bar.",
+             "photos/storefront-two-stooges", "The Two Stooges Sports Bar & Grill storefront on University Ave NE, Fridley", "Service Area"),
     "faq": ("/faq/", "FAQ: Sports Bar, Billiards & Darts | Two Stooges, Fridley",
             "Answers about Two Stooges, the Twin Cities sports bar for billiards and darts in Fridley: hours, pool tables, dart boards, leagues, food and parties. Read more.",
             "photos/billiard-room-gabriels", "The Two Stooges billiard room in Fridley, MN", "FAQ"),
@@ -389,6 +393,7 @@ LINK_INFO = {
     "/about/": ("Our story since 1988", "From University Billiards to Two Stooges Sports Bar & Grill."),
     "/gallery/": ("Photo gallery", "Take a look inside the billiard room, dart area and bar."),
     "/faq/": ("Two Stooges FAQ", "Hours, pool tables, leagues, food and parties, answered."),
+    "/service-area/": ("Twin Cities service area", "Every community within about 20 miles of Two Stooges, by county."),
     "/contact/": ("Contact & directions", "Address, hours, phone and a map to 7178 University Ave NE."),
 }
 RELATED = {
@@ -406,6 +411,7 @@ RELATED = {
     "privacy": ["/contact/", "/about/", "/events/"],
     "eoe": ["/about/", "/contact/", "/faq/"],
     "faq": ["/contact/", "/league-signup/", "/private-parties/"],
+    "area": ["/billiards/", "/darts/", "/private-parties/"],
 }
 
 FAQ = [
@@ -736,6 +742,7 @@ def footer():
           <li><a href="/league-signup/">League Sign-Up</a></li>
           <li><a href="/events/">Events</a></li>
           <li><a href="/private-parties/">Private Parties</a></li>
+          <li><a href="/service-area/">Service Area</a></li>
         </ul>
       </div>
     </div>
@@ -928,7 +935,7 @@ def cta_band(title, text, actions):
 
 def visit_section(title="Visit Two Stooges Sports Bar in Fridley, MN"):
     return f'''<section class="section section--alt" id="visit"><div class="wrap">
-  {section_head("Find us", title, f"We're on University Avenue NE (Highway 47) in Fridley, just north of Minneapolis, serving the Twin Cities within about 30 miles, from Minneapolis and St. Paul to Columbia Heights, Spring Lake Park, New Brighton, Coon Rapids, Blaine and the rest of the north metro. Walk-ins are always welcome. Planning ahead? {L('/private-parties/', 'Reserve space for a group')}.")}
+  {section_head("Find us", title, f"We're on University Avenue NE (Highway 47) in Fridley, just north of Minneapolis. {PL.STATEMENT} {L('/service-area/', 'See our service area')}. Walk-ins are always welcome. Planning ahead? {L('/private-parties/', 'Reserve space for a group')}.")}
   <div class="visit">
     <div class="visit__info">
       <div class="info-row"><span class="tile__icon">{icon("pin")}</span><div><h3>Address</h3><p><a href="{DIRECTIONS}" target="_blank" rel="noopener">{e(BIZ["street"])}<br>{e(BIZ["city"])}, {e(BIZ["region"])} {e(BIZ["zip"])}</a></p></div></div>
@@ -1858,6 +1865,137 @@ def p_faq():
 
 
 
+# ---------------------------------------------------------------------------
+# Service area (venue hub: no city pages, every community listed once as plain text)
+# ---------------------------------------------------------------------------
+def _miles(lat, lng):
+    import math
+    k = math.pi / 180
+    dx = (lng - SG.LNG) * k * math.cos((lat + SG.LAT) / 2 * k) * 3958.8
+    dy = (lat - SG.LAT) * k * 3958.8
+    return dx, dy, math.hypot(dx, dy)
+
+
+def area_places():
+    """[(county, [(city, miles, dx, dy)])] sorted nearest first; the build fails if a place is outside the circle."""
+    out = []
+    for county, rows in PL.COUNTIES.items():
+        lst = []
+        for name, lat, lng in rows:
+            dx, dy, d = _miles(lat, lng)
+            assert d <= PL.RADIUS_MI, f"{name} is {d:.1f} mi away, outside the {PL.RADIUS_MI}-mile circle"
+            lst.append((name, d, dx, dy))
+        out.append((county, sorted(lst, key=lambda r: r[1])))
+    return out
+
+
+def mi_text(d):
+    return "under 1 mile" if d < 1 else ("about 1 mile" if round(d) == 1 else f"about {round(d)} miles")
+
+
+def area_map(places):
+    S, C = 12.5, 300  # px per mile, centre
+    dots, labels = [], []
+    for county, rows in places:
+        for name, d, dx, dy in rows:
+            x, y = C + dx * S, C - dy * S
+            big = name in PL.MAP_LABELS
+            dots.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{4 if big else 2.5}" class="area-map__dot{" area-map__dot--big" if big else ""}"/>')
+            if big:
+                ox, oy, anchor = PL.MAP_LABELS[name]
+                labels.append(f'<text x="{x + ox:.1f}" y="{y + oy:.1f}" text-anchor="{anchor}">{e(name)}</text>')
+    r = PL.RADIUS_MI * S
+    return f'''<figure class="area-map">
+  <svg viewBox="0 0 600 600" role="img" aria-label="Map of the {PL.RADIUS_MI}-mile circle around Two Stooges in Fridley, Minnesota, with the communities inside it marked">
+    <rect width="600" height="600" rx="8" class="area-map__bg"/>
+    <circle cx="{C}" cy="{C}" r="{r}" class="area-map__ring"/>
+    <circle cx="{C}" cy="{C}" r="{r / 2}" class="area-map__ring area-map__ring--half"/>
+    <text x="{C}" y="{C + r / 2 + 16}" text-anchor="middle" class="area-map__note">10 miles</text>
+    <text x="{C}" y="{C - r + 18}" text-anchor="middle" class="area-map__note">20 miles</text>
+    {"".join(dots)}
+    <g class="area-map__labels">{"".join(labels)}</g>
+    <circle cx="{C}" cy="{C}" r="9" class="area-map__bar"/>
+    <text x="{C}" y="{C + 28}" text-anchor="middle" class="area-map__barlabel">Two Stooges</text>
+    <text x="572" y="34" text-anchor="middle" class="area-map__note">N ↑</text>
+  </svg>
+  <figcaption>Gold ring: Two Stooges, Fridley. Outer circle: {PL.RADIUS_MI} miles. North is up; positions are approximate.</figcaption>
+</figure>'''
+
+
+def p_area():
+    places = area_places()
+    total = sum(len(r) for _, r in places)
+    counties = [c for c, _ in places]
+    county_text = ", ".join(counties[:-1]) + " and " + counties[-1]
+    dist = {name: d for _, rows in places for name, d, _, _ in rows}
+    groups = "".join(f'''<div class="area-county"><h3>{e(c)} County</h3>
+      <ul class="area-list">{"".join(f'<li data-place="{e(n)}" data-county="{e(c)}" data-miles="{e(mi_text(d))}">{e(n)} <span>{e(mi_text(d).replace("about ", ""))}</span></li>' for n, d, _, _ in rows)}</ul></div>'''
+                     for c, rows in places)
+    options = "".join(f'<option value="{e(n)}">' for n in sorted(dist))
+    quotes = "".join(f'''<figure class="quote"><div class="quote__stars" role="img" aria-label="{r} out of 5 stars">{"★" * r}{"☆" * (5 - r)}</div><blockquote>{e(q)}</blockquote><figcaption><span class="quote__avatar">{e(n[0])}</span><span>{e(n)}<small>Google review</small></span></figcaption></figure>''' for q, n, r in REVIEWS[:3])
+    faq = [
+        ("How far is Two Stooges from Minneapolis and St. Paul?",
+         f"Two Stooges is in Fridley, {mi_text(dist['Minneapolis'])} from the center of Minneapolis and {mi_text(dist['St. Paul'])} from the center of St. Paul, measured in a straight line. We're on University Avenue NE (Highway 47). {L('/contact/', 'Get the address, hours and a map')}."),
+        (f"Which counties are within {PL.RADIUS_MI} miles of Two Stooges?",
+         f"Communities in {county_text} counties sit within about {PL.RADIUS_MI} miles of the bar. Every one is listed above, grouped by county."),
+        ("My city isn't on the list. Can I still come?",
+         f"Yes. Everyone is welcome at Two Stooges. The list only shows the communities within about {PL.RADIUS_MI} miles of Fridley."),
+        find_q("Is there parking?"),
+        ("Do I need a reservation?",
+         f"No. Walk-ins are always welcome. For a group, {L('/private-parties/', 'reserve space for a private party')}."),
+    ]
+    faq_html = "".join(f'<details class="faq"><summary><h3>{e(q)}</h3></summary><p>{a}</p></details>' for q, a in faq)
+    body = f'''{page_hero("area", "Service area", "Sports bar, billiards &amp; darts serving the <span class='grad-text'>Twin Cities</span>",
+        f"{PL.STATEMENT} That circle takes in {total} communities in {county_text} counties.",
+        "photos/storefront-two-stooges", "The Two Stooges Sports Bar & Grill storefront on University Ave NE in Fridley, Minnesota",
+        btn("Get Directions", DIRECTIONS, "gold", "nav", ' target="_blank" rel="noopener"') + btn("Call " + BIZ["phone"], "tel:" + BIZ["tel"], "outline", "phone"))}
+<section class="section"><div class="wrap">
+  <div class="split">
+    <div>
+      <span class="eyebrow">The {PL.RADIUS_MI}-mile circle</span>
+      <h2>One sports bar for the <span class="grad-text">whole metro</span></h2>
+      <p class="lead">Two Stooges has one location, at {e(BIZ["street"])} in Fridley, just north of Minneapolis on Highway 47. Come in from anywhere in the metro for {L("/billiards/", "43 pool tables")}, {L("/darts/", "electronic dart boards")} and a full {L("/menu/", "bar and grill menu")}.</p>
+      <ul class="check-list">
+        <li>{total} communities in {len(counties)} counties within about {PL.RADIUS_MI} miles</li>
+        <li>Open every day, 11 AM to midnight</li>
+        <li>Parking lot right outside the front doors</li>
+        <li>{L("/leagues/", "Pool and dart leagues")} and {L("/tournaments/", "pool tournaments")} open to players from any city</li>
+      </ul>
+    </div>
+    {area_map(places)}
+  </div>
+</div></section>
+<section class="section section--alt" id="check"><div class="wrap" style="max-width:900px">
+  {section_head("Check your city", "Is your city within 20 miles of Two Stooges?", "Type your city to see how far it is from the bar. The full list is just below.")}
+  <form class="area-check" data-area-check>
+    <label for="area-city">Your city</label>
+    <div class="area-check__row">
+      <input id="area-city" name="city" type="text" list="area-cities" autocomplete="address-level2" placeholder="e.g. Blaine" required>
+      <datalist id="area-cities">{options}</datalist>
+      <button class="btn btn--gold" type="submit">Check</button>
+    </div>
+    <p class="area-check__result" role="status" aria-live="polite" data-area-result></p>
+  </form>
+</div></section>
+<section class="section" id="communities"><div class="wrap">
+  {section_head("Communities we serve", f"Twin Cities communities within {PL.RADIUS_MI} miles of Two Stooges", "Grouped by county, nearest first.")}
+  <div class="area-counties">{groups}</div>
+  <p class="small muted mt-2">Distances are straight-line from each city's center to Two Stooges and are approximate. A city that crosses a county line is listed under its main county. Sources: counties from <a href="{PL.SOURCE_COUNTIES}" target="_blank" rel="noopener">Wikipedia's list of cities in Minnesota</a>, city locations from <a href="{PL.SOURCE_COORDS}" target="_blank" rel="noopener">GeoNames</a>.</p>
+</div></section>
+<section class="section section--alt"><div class="wrap">
+  {section_head("Guest reviews", "What guests say about Two Stooges in Fridley", "Real reviews from Google, shared with first names only.", center=True)}
+  <div class="grid grid--3">{quotes}</div>
+  <div class="btn-row mt-2" style="justify-content:center">{btn("Read More Reviews on Google", SG.GBP_URL, "green", None, ' target="_blank" rel="noopener"')}</div>
+</div></section>
+<section class="section"><div class="wrap" style="max-width:900px">
+  {section_head("Good to know", "Service area questions", f"More answers in the {L('/faq/', 'full Two Stooges FAQ')}.")}
+  <div class="faq-list">{faq_html}</div>
+</div></section>
+{visit_section("Getting to Two Stooges in Fridley, MN")}
+{cta_band("Bringing a group from across the metro?", "Birthdays, office parties and league banquets. We'll set up tables, boards and food for your group.", btn("Plan a Private Party", "/private-parties/", "gold") + btn("See Upcoming Events", "/events/", "outline"))}'''
+    return page("area", body)
+
+
 def p_privacy():
     upd = dt.date.fromisoformat(TODAY).strftime("%B %-d, %Y")
     # TODO(client): have the owners review this policy.
@@ -1931,7 +2069,7 @@ PAGES = {
     "index.html": p_home, "menu/index.html": p_menu, "specials/index.html": p_specials,
     "billiards/index.html": p_billiards, "darts/index.html": p_darts, "leagues/index.html": p_leagues,
     "events/index.html": p_events, "tournaments/index.html": p_tournaments, "league-signup/index.html": p_signup, "private-parties/index.html": p_parties, "about/index.html": p_about,
-    "gallery/index.html": p_gallery, "contact/index.html": p_contact, "privacy-policy/index.html": p_privacy, "equal-opportunity-employer/index.html": p_eoe, "faq/index.html": p_faq,
+    "gallery/index.html": p_gallery, "contact/index.html": p_contact, "privacy-policy/index.html": p_privacy, "equal-opportunity-employer/index.html": p_eoe, "faq/index.html": p_faq, "service-area/index.html": p_area,
     "404.html": p_404,
 }
 
@@ -1964,7 +2102,7 @@ def main():
         print("wrote", rel)
     # Sitemap: canonical URLs only (matches <link rel=canonical> exactly)
     prio = {"/": "1.0", "/events/": "0.8", "/tournaments/": "0.9", "/billiards/": "0.9", "/specials/": "0.8", "/menu/": "0.8", "/leagues/": "0.8",
-            "/darts/": "0.7", "/league-signup/": "0.8", "/private-parties/": "0.8", "/about/": "0.6", "/gallery/": "0.5", "/contact/": "0.7", "/faq/": "0.6", "/privacy-policy/": "0.2", "/equal-opportunity-employer/": "0.2"}
+            "/darts/": "0.7", "/league-signup/": "0.8", "/private-parties/": "0.8", "/about/": "0.6", "/gallery/": "0.5", "/contact/": "0.7", "/faq/": "0.6", "/service-area/": "0.6", "/privacy-policy/": "0.2", "/equal-opportunity-employer/": "0.2"}
     urls = [m[0] for m in META.values()]
     sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + \
          "".join(f"  <url><loc>{SITE}{u}</loc><lastmod>{TODAY}</lastmod><priority>{prio.get(u, '0.5')}</priority></url>\n" for u in urls) + "</urlset>\n"

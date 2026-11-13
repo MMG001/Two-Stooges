@@ -167,6 +167,27 @@
     if (fromHash) tablist.scrollIntoView();
   }
 
+  /* ---------- Service area: check your city ---------- */
+  var areaForm = document.querySelector('[data-area-check]');
+  if (areaForm) {
+    var norm = function (v) { return v.toLowerCase().replace(/\bsaint\b/g, 'st').replace(/[^a-z ]/g, '').replace(/\s+/g, ' ').trim(); };
+    var items = Array.prototype.slice.call(document.querySelectorAll('[data-place]'));
+    var result = areaForm.querySelector('[data-area-result]');
+    areaForm.addEventListener('submit', function (ev) {
+      ev.preventDefault();
+      var raw = areaForm.elements.city.value.trim(), q = norm(raw);
+      items.forEach(function (li) { li.classList.remove('is-match'); });
+      if (!q) { result.textContent = ''; return; }
+      var hit = items.filter(function (li) { return norm(li.getAttribute('data-place')) === q; })[0];
+      if (hit) {
+        hit.classList.add('is-match');
+        result.textContent = 'Yes. ' + hit.getAttribute('data-place') + ' (' + hit.getAttribute('data-county') + ' County) is ' + hit.getAttribute('data-miles') + ' from Two Stooges.';
+      } else {
+        result.textContent = raw + " isn't on our list of communities within 20 miles, but everyone is welcome. Call (763) 574-1399 or tap Directions for your route.";
+      }
+    });
+  }
+
   /* ---------- Footer year ---------- */
   document.querySelectorAll('[data-year]').forEach(function (el) { el.textContent = now.ymd.slice(0, 4); });
 })();

@@ -24,7 +24,7 @@ PLATFORMS = ["http://schema.org/DesktopWebPlatform", "http://schema.org/MobileWe
 
 # Decoded from plus code 3PXP+85 Fridley → 86Q83PXP+85 (matches the Google Maps embed)
 LAT, LNG = 45.098312, -93.264562
-SERVICE_RADIUS_MI = 30
+SERVICE_RADIUS_MI = 20
 SERVICE_RADIUS_M = str(round(SERVICE_RADIUS_MI * 1609.34))
 ANCHOR_CITY, STATE = "Fridley", "Minnesota"
 
