@@ -578,16 +578,6 @@ def cognito(form_id, title):
 
 
 UPDATED = dt.date.fromisoformat(TODAY).strftime("%B %-d, %Y")
-NO_REVIEW_LINE = {"privacy", "eoe"}
-
-
-def review_line(key):
-    """E-E-A-T line (no named reviewer supplied, so the team is credited; date matches schema dateModified)."""
-    if key in NO_REVIEW_LINE:
-        return ""
-    return (f'<div class="wrap"><p class="reviewed">Reviewed by the Two Stooges team · '
-            f'Updated <time datetime="{TODAY}">{UPDATED}</time></p></div>')
-
 
 def find_q(question):
     for _, qs in FAQ_GROUPS:
@@ -895,7 +885,6 @@ def page(key, body, extra_ld=None, og_type="website", main_entity=None):
 {header(path)}
 <main id="main">
 {body}
-{review_line(key)}
 {related(key)}
 </main>
 {footer()}

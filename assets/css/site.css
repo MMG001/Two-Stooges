@@ -776,7 +776,7 @@ address { font-style: normal; }
 .section--leagues .deal-tile:not(.deal-tile--hot) { background: rgba(8,20,16,.72); border-color: rgba(255,206,81,.35); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
 .section--leagues .deal-tile { box-shadow: 0 14px 34px rgba(0,0,0,.45); }
 
-/* Keyword / entity tables and the reviewed-updated line */
+/* Keyword / entity tables */
 .table-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--card); box-shadow: var(--shadow-1); }
 .term-table { width: 100%; min-width: 560px; border-collapse: collapse; font-size: .95rem; }
 .term-table th, .term-table td { padding: .9rem 1.1rem; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
@@ -785,4 +785,3 @@ address { font-style: normal; }
 .term-table tbody td { color: var(--text-muted); }
 .term-table tbody tr:last-child th, .term-table tbody tr:last-child td { border-bottom: 0; }
 .term-table a { color: var(--link); font-weight: 500; }
-.reviewed { margin: 0; padding: 1.25rem 0; font-size: .875rem; color: var(--text-muted); }
