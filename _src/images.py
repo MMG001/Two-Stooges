@@ -6,13 +6,14 @@ Runs automatically at the start of every build (build.py calls optimize() then c
 - Anything too large in pixels or bytes is resized / re-encoded to fit its budget.
 - Every wide photo gets an 800px "-sm" copy so phones download the small one (srcset).
 - Banner photos named hero-* are kept up to 2560px for big screens, plus a 1600px "-md" copy.
+- Phone photos are turned upright (EXIF rotation applied) before converting.
 - Files already within budget are never touched (no repeated re-compression).
 The build fails if any image is still over budget.
 """
 import re
 from pathlib import Path
 
-from PIL import Image
+from PIL import Image, ImageOps
 
 IMG = Path(__file__).resolve().parent.parent / "assets" / "img"
 KB = 1024
@@ -58,6 +59,9 @@ def _fit(im, long_side):
 
 def _open_rgb(p):
     im = Image.open(p)
+    # Phone photos store the pixels sideways plus an EXIF "rotate me" tag; apply it so
+    # the WebP (which drops the tag) comes out upright.
+    im = ImageOps.exif_transpose(im)
     return im.convert("RGBA" if im.mode in ("RGBA", "LA") or "transparency" in im.info else "RGB")
 
 
